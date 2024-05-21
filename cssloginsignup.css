@@ -1,0 +1,93 @@
+                .background{
+                    background-image: linear-gradient(to right, #DC74B1, #976FDF);
+                    align-items:center;
+                    justify-content:center;
+                    display:flex;
+                }
+                .position{
+                    display:flex;
+                    flex-direction: column;
+                    align-items:center;
+                    justify-content:center;
+                    padding-top:200px;
+                }
+                .container{
+                    border-radius:25px;
+                    background:#FFFFFF;
+                    height:550px;
+                    width:450px;
+                    justify-content:center;
+                    align-items:center;
+                    text-align:center;
+                    display:flex;
+                    flex-direction: column;
+                }
+                .header{
+                    font-family: "Montserrat", sans-serif;
+                    font-weight:1000;
+                    font-size:36px;
+                    align-items:center;
+                    justify-content:center;
+                    
+                }
+                .subtitle{
+                    font-size:16px;
+                }
+                .contents{
+                    display:flex;
+                    justify-content:space-between;
+                    padding-top:20px;
+                    row-gap:30px;
+                    flex-direction: column;
+                }
+                .textform{
+                    width:350px;
+                    height:50px;
+                    background:#E7DBE7;
+                    border-radius:10px;
+                    border-width:0px;
+                    padding-left:20px;
+                    font-family: "Inter", sans-serif;       
+                }
+                .submitbutton[type=submit]{
+                    width:370px;
+                    height:50px;
+                    border-radius:10px;
+                    border-width:0px;
+                    padding-left:20px;
+                    background:#709176;
+                    color:white;
+                    font-size:20px;
+                    font-weight:700;
+                    font-family: "Inter", sans-serif;  
+                    letter-spacing:4px;
+                    box-shadow: 1px 1px 3px 0.5px black;
+                }
+                .submitbutton[type=submit]:hover{
+                    transition:0.75s;
+                    background:white;
+                    color:black;
+                }
+                .contents-bottom{
+                    font-family: "Inter", sans-serif;  
+                    padding-top:20px;
+                    font-size:20px;
+                }
+                .checkboxCCS{
+                    width:40px;
+                    height:20px;
+                    border-radius:10px;
+                    border-width:4px;
+                    border-color:black;
+                    background-color: #eee;
+                }
+                .bottom{
+                    padding-top:10px;
+                    font-size:20px;
+                    display:flex;
+                    font-family: "Inter", sans-serif;     
+                }
+                a:link{
+                    padding-left:5px;
+                    color:white;
+                }
