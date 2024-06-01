@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Tinkerlab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css-main/CT-Reservation.css">
+</head>
+<body>
+    <div class="header">
+        <img class="imglogo" src="../images/tinkerlablogo.png" alt="Tinkerlab Logo">
+    </div>
+    <div class="taskbar">
+        <div class="btndivider">
+            <a href="CT-homepage.html">
+            <button class="btndesign" id="homebtn">Home</button>
+        </a>
+        </div>
+        <div class="btndivider">
+            <button class="btndesign" id="reservationbtn">Reservation</button>
+        </div>
+        <div class="btndivider">
+            <button class="btndesign" id="vieweditbtn">View/Edit</button>
+        </div>
+        <div class="btndivider">
+            <button class="btndesign" id="profilebtn">Profile</button>
+        </div>
+        <div class="searchdivider">
+            <div class="searchfield">
+                <button class="searchbutton"><img src="../images/searchglass.png" class="imgbtn" alt="Search"></button>
+                <input class="searchinput" type="text" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="content">
+            <div class="left-column">
+                <!-- Merged Column 1, Row 1 to 3 -->
+                <div id="left" class="full-height">
+
+                    <h1 class="left-text">TIME</h1>
+                    <div class="dropdown">
+                        <button id="time-drop" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="time-text">7:30AM - 8:00AM</span>
+                        </button>
+                        <ul id="time-menu" class="dropdown-menu">
+                          <li><a id="time-content" class="dropdown-item" href="#">7:30AM - 8:00AM</a></li>
+                          <li><a id="time-content" class="dropdown-item" href="#">8:00AM - 8:30AM</a></li>
+                          <li><a id="time-content" class="dropdown-item" href="#">8:30AM - 9:00AM</a></li>
+                        </ul>
+                      </div>
+
+                      <br>
+
+                    <h1 class="left-text">DATE</h1>
+                    <div class="dropdown">
+                        <button id="date-drop" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="date-text">5/25/2024</span>
+                        </button>
+                        <ul id="date-menu" class="dropdown-menu">
+                          <li><a id="date-content" class="dropdown-item" href="#">5/25/2024</a></li>
+                          <li><a id="date-content" class="dropdown-item" href="#">5/26/2024</a></li>
+                          <li><a id="date-content" class="dropdown-item" href="#">5/25/2024</a></li>
+                        </ul>
+                      </div>
+                </div>
+
+            </div>
+            <div class="right-column">
+
+                <div id="top-right" >
+                    <h1 id="comp-lab-text">COMPUTER LAB:</h1>
+                    <div class="dropdown">
+                        <button id="lab-button" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                           <span id="lab-menu">GK101</span><!-- Add custom caret -->
+                        </button>
+                        <ul id="lab-menu" class="dropdown-menu">
+                            <li><a id="lab-content" class="dropdown-item" href="#">VL101</a></li>
+                            <li><a id="lab-content" class="dropdown-item" href="#">AG101</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="mid-right" class="d-flex ">
+                    <div class="container-mid">
+                        <div id="top">
+                            <div id="teach-table">
+                                <span id="teach-text">Teacher's table</span>
+                            </div>
+                        </div>
+                        
+                        <div class="colside col-md-1">
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A01"   class="seat-name">A01</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A02"   class="seat-name">A02</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A03"   class="seat-name">A03</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A05"   class="seat-name">A04</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A05"   class="seat-name">A05</div>
+                        </div>
+
+                        <div class="colmid col-md-1 border p-3"></div>
+
+                        <div class="colside col-md-1">
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A06"   class="seat-name">A06</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A07"   class="seat-name">A07</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A08"   class="seat-name">A08</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A09"   class="seat-name">A09</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A10"   class="seat-name">A10</div>
+                        </div>
+
+                        <div class="colside col-md-1">
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A11"   class="seat-name">A11</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A12"   class="seat-name">A12</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A13"   class="seat-name">A13</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A14"   class="seat-name">A14</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A15"   class="seat-name">A15</div>
+                        </div>
+
+                        <div class="colmid col-md-1 border p-3"></div>
+
+                        <div class="colside col-md-1">
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A16"   class="seat-name">A16</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A17"   class="seat-name">A17</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A18"   class="seat-name">A18</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A19"   class="seat-name">A19</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A20"   class="seat-name">A20</div>
+                        </div>
+
+                        <div class="colside col-md-1">
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A21"   class="seat-name">A21</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A22"   class="seat-name">A22</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A23"   class="seat-name">A23</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A24"   class="seat-name">A24</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A25"   class="seat-name">A25</div>
+                        </div>
+
+                        <div class="colmid col-md-1 border p-3"></div>
+
+                        <div class="colside col-md-1">
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A26"   class="seat-name">A26</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A27"   class="seat-name">A27</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A28"   class="seat-name">A28</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A29"   class="seat-name">A29</div><br>
+                            <img            class="lab-student-icon" src="../images/lab-student.png">
+                            <div id="A30"   class="seat-name">A30</div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div id="bot-right" >
+                    <button class="reserve-btn" type="submit">RESERVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.js"></script>
+</body>
+</html>
