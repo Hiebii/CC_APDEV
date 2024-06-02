@@ -1,12 +1,12 @@
 .header{
     background: #FCFBF1;
-    height:100px;
+    height:190px;
     justify-content:center;
     align-items:center;
     display:flex;
 }
 .imglogo{
-    height:70px;
+    height:100px;
     width:auto;
 }
 .taskbar{
@@ -18,7 +18,7 @@
 }
 .btndivider{
     padding-top:30px;
-    padding-left:20px;
+    padding-left:40px;
     padding-right:5px;
     flex-direction:row;    
 }
@@ -71,11 +71,13 @@
 .searchinput[type=text]:focus{
     border:none;
     outline:none;
+    padding: auto;
 }
 .imgbtn{
     padding-right:120px;
-    height:90px;
+    height:70px;
     width:auto;
+    margin-left: 12px;
 }
 .searchbutton{
     background:transparent;
