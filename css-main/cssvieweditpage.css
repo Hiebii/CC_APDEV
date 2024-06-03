@@ -1,12 +1,12 @@
 .header{
     background: #FCFBF1;
-    height:190px;
+    height:100px;
     justify-content:center;
     align-items:center;
     display:flex;
 }
 .imglogo{
-    height:100px;
+    height:70px;
     width:auto;
 }
 .taskbar{
@@ -18,7 +18,7 @@
 }
 .btndivider{
     padding-top:30px;
-    padding-left:40px;
+    padding-left:20px;
     padding-right:5px;
     flex-direction:row;    
 }
@@ -71,13 +71,11 @@
 .searchinput[type=text]:focus{
     border:none;
     outline:none;
-    padding: auto;
 }
 .imgbtn{
     padding-right:120px;
-    height:70px;
+    height:90px;
     width:auto;
-    margin-left: 12px;
 }
 .searchbutton{
     background:transparent;
@@ -95,3 +93,89 @@ html, body {
     padding: 0;
     background: #FCFBF1;
 }
+
+/*  TABLE CSS  */
+
+.tablediv {
+    background-color: #ffffff;
+    max-width: fit-content;
+    height: 550px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    overflow: auto;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border: 3px solid #000;
+    
+}
+
+table {
+    font-family: "Montserrat", sans-serif;
+    border-collapse: collapse;
+    max-width: fit-content;
+}
+  
+  th, td {
+    font-size: smaller;
+    padding: 20px;
+    text-align: center;
+    
+  }
+
+  th {
+    background-color: #f4dae1;
+    font-size: 18px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    box-shadow: inset 0px 5px 0px rgba(0, 0, 0, 0.2);
+    outline: 2px solid #000;
+    top:0;
+    position: sticky;
+  }
+
+  td {
+    background-color: #fff;
+    font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+  }
+
+  th:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    
+  }
+
+  th:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  #editaction {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  #cancelaction {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  #vieweditbtn{
+    padding:35px;
+    padding-top:20px;
+    font-size:30px;
+    color:#000;
+    border-radius:45px;
+    border-color:#FFFFFF;
+    border-style:solid;
+    border-width:3px;
+    background-color: #A359A1;
+    height: 80px;
+    font-family: "Montserrat", sans-serif;
+}
+ 
