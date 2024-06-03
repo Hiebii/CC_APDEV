@@ -1,0 +1,258 @@
+/*  PROFILE PAGE CSS  */
+
+.profilediv {
+    max-width: fit-content;
+    height: 1200px;
+    margin-right: 380px;
+    margin-left: 300px;
+    margin-top: 50px;
+    overflow: auto;
+    display: flex;
+}
+
+.profilediv1 {
+    width: 670px;
+    max-height: auto;
+    margin: 5px;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.profileborder {
+    width: 400px; 
+    height: 400px;
+    border-radius: 50%;
+    border: 7px solid #000; 
+    overflow: hidden; 
+    border-color: #000;
+    margin-top: 20px;
+
+    margin-left: 50px;
+}
+
+.profilephoto {
+    width: 100%; 
+    height: auto; 
+    display: block;
+}
+
+.role {
+    font-family: "Montserrat", sans-serif;
+    font-size: 70px;
+    margin-top: 20px;
+    margin-left: 120px;
+}
+
+.editprofilebtn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 45px;
+    color: #FFFFFF;
+    padding: 20px;
+    padding-left: 35px;
+    padding-right: 35px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+    background-color: #941BBE;
+
+    margin-top: -10px;
+    margin-left: 65px;
+    margin-bottom: 30px;
+}
+
+.linktoedit {
+    color: #FFFFF0;
+    text-decoration: none;
+}
+
+.deleteaccbtn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 28px;
+    margin-left: 153px;
+}
+
+.vl {
+    border: none;
+    border-left: 3px solid #000; 
+    height:85%; 
+    margin-top: 70px; 
+    
+}
+
+.profilediv2 {
+    max-height: auto;
+    width: 1700px;
+    margin: 5px;
+    margin-left: 100px;
+}
+
+.profileheader {
+    font-family: "Montserrat", sans-serif;
+    font-size: 100px;
+    margin-top: 1px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+.profiledesc {
+    font-family: "Montserrat", sans-serif;
+    font-size: 30px;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+    
+    margin-left: 40px;
+}
+
+#reservationheader {
+    font-family: "Montserrat", sans-serif;
+    padding-left: 40px;
+    margin-bottom: -10px;
+    font-size: 50px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+ul {
+    padding-left: 50px;
+}
+
+li {
+    font-family: "Montserrat", sans-serif;
+    margin: 3px;
+}
+
+.tablediv {
+    background-color: #941BBE;
+    position: relative;
+    margin: 30px;
+    overflow: auto;
+    max-height: 400px;
+    margin-left: 40px;
+}
+
+table {
+    font-family: "Montserrat", sans-serif;
+    font-size: 25px;
+    width: 100%;
+    border-collapse: collapse;
+    border: 4px solid black;
+  }
+  
+  th, td {
+    border: 1px solid black;
+    background-color: #F4DAE1;
+    text-align: center;
+  }
+
+  th {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #000;
+  }
+  
+  td {
+    font-size: smaller;
+    padding: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* PROFILE BUTTON CSS */
+
+  .profilebtndivider {
+    padding-top:30px;
+    padding-left:20px;
+    padding-right:5px;
+    flex-direction:row;
+  }
+
+  #profilebtn {
+    padding:35px;
+    padding-top:20px;
+    font-size:30px;
+    color:#FFFFFF;
+    border-radius:45px;
+    border-color:#FFFFFF;
+    border-style:solid;
+    border-width:3px;
+    background-color: #A359A1;
+    height:80px;
+    font-family: "Montserrat", sans-serif;
+  }
+
+  #profilebtn:hover{
+    transition-duration:0.5s;
+    background-color:#292929;
+    color:white;
+}
+
+.dropdown {
+    font-family: "Montserrat", sans-serif;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 175px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    background-color: #A359A1; 
+    border-radius: 45px; 
+    
+}
+
+.dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #000000;
+}
+
+.btndivider:hover .dropdown {
+    display: block;
+}
+
+#logoutbtn {
+    height: 50px;
+    padding-left: 30px;
+    padding-top: 20px;
+}
+
+/* For editprofilepage.html */
+
+#headeredit {
+    font-family: "Montserrat", sans-serif;
+    font-size: 100px;
+    font-weight: bolder;
+    color: #000;
+
+    width: 1200px;
+    background-color: #E9DDF9;
+    border-radius: 10px;
+}
+
+#descedit {
+    font-family: "Montserrat", sans-serif;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+    position: relative;
+    background-color: #E9DDF9;
+}
+
+#lt {
+    font-size: 60px;
+    margin-top: 30px;
+    position: relative;
+    right: 80px;
+}
+
+#savebtn {
+    margin-left: 45px;
+}
