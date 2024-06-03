@@ -5,8 +5,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
         <link rel="stylesheet" href="css-main/cssmainwebsite.css">
-        <link rel="stylesheet" href="css-main/CT_LT-reservation-details_success.css">
-        <title>Welcome to tinkerlab</title>
+        <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
+        <link rel="icon" href="images/icon.png">
+        <title>tinkerlab.</title>
     </head>
 
     <body>
@@ -15,13 +16,19 @@
         </div>
         <div class="taskbar">
             <div class="btndivider">
-                <button class="btndesign" id="homebtn">Home</button>
+                <a href="CT-homepage.html">
+                    <button class="btndesign" id="homebtn">Home</button>
+                </a>
             </div>
             <div class="btndivider">
+                <a href="CT-Reservation_Goks.html">
                 <button class="btndesign" id="reservationbtn">Reservation</button>
+               </a>
             </div>
             <div class="btndivider">
+                <a href="CT-View-Edit.html">
                 <button class="btndesign" id="vieweditbtn">View/Edit</button>
+                </a>
             </div>
             <div class="btndivider">
                 <button class="btndesign" id="profilebtn">Profile</button>
@@ -57,7 +64,7 @@
         
         <!-- Hidden confirmation dialog -->
         <script src="js/prompt.js"></script>
-        <div id="confirmation-dialog" class="confirmation-dialog">
+        <div id="dialog-1" class="dialog-1">
             <div class="dialog-header"></div>
             <p class="prompt-text">DO YOU CONFIRM TO <br>RESERVE <span class ="green-text">G01</span> SEAT?</p>
             <div class="button-container">
@@ -66,4 +73,21 @@
             </div>
         </div>
     </body>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column-1">
+                <img class="imglogo" src="images/tinkerlablogo.png">
+                <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
+            </div>
+            <div class="footer-column-2">
+                <h3>About</h3>
+                <p>Insert about content here.</p>
+            </div>
+            <div class="footer-column-3">
+                <h3>Contact</h3>
+                <p>Insert contact information here.</p>
+            </div>
+        </div>
+    </footer>
 </html>
