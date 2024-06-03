@@ -1,0 +1,20 @@
+#homebtn {
+    padding:35px;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:25px;
+    color:black;
+    border-radius:45px;
+    border-color:#FFFFFF;
+    border-style:solid;
+    border-width:3px;
+    background-color: #A359A1;
+    height:60px;
+    font-family: "Montserrat", sans-serif;
+}
+
+#homebtn:hover{
+    transition-duration:0.5s;
+    background-color:#292929;
+    color:white;
+}

@@ -232,33 +232,7 @@ html, body {
     padding-top: 10px;
     }
 
-    .reserve-btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70%;
-    width: 15%;
-    background: #951ABE;
-    box-shadow: 0px 14px 15px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-
-
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 50px;
-    line-height: 15px;
-    text-align: center;
-    letter-spacing: 0.15em;
-
-    color: #FFFFFF;
-    transition: background-color 0.3s, color 0.3s
-
-    }
-
-
-
-#bot-right .reserve-btn:hover {
+#bot-right .purple-button:hover {
     background-color: #333333; /* Dark mode background color */
     color: #ffffff; /* Dark mode text color */
 }
@@ -586,9 +560,6 @@ color: #000000;
     cursor: pointer;
 }
 
-
-
-
 .tooltip {
     background-color: #E6DBE6;
     color: rgb(0, 0, 0);
@@ -719,4 +690,48 @@ color: #000000;
 
 .selected {
     background-color: #ffcc00; /* Change to the desired color */
+}
+
+#reservationbtn {
+    padding:35px;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:25px;
+    color:black;
+    border-radius:45px;
+    border-color:#FFFFFF;
+    border-style:solid;
+    border-width:3px;
+    background-color: #A359A1;
+    height:60px;
+    font-family: "Montserrat", sans-serif;
+}
+
+#reservationbtn:hover{
+    transition-duration:0.5s;
+    background-color:#292929;
+    color:white;
+}
+
+.purple-button {
+    display: block;
+    margin-left: 130px;
+    margin-bottom: 20px;
+    background-color: #951ABE; 
+    color: white;
+    padding: 20px 40px; 
+    border: none;
+    border-radius: 10px;
+    font-size: 30px; 
+    box-shadow: 3px 3px 0px 0px black; 
+    text-decoration: none;
+}
+
+.purple-button a {
+    color: inherit; 
+    text-decoration: none;
+}
+
+.purple-button:hover {
+    background-color: rgba(149, 26, 190, 0.8);
 }

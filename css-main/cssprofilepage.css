@@ -38,26 +38,32 @@
 
 .role {
     font-family: "Montserrat", sans-serif;
-    font-size: 70px;
+    font-size: 45px;
     margin-top: 20px;
-    margin-left: 120px;
+    margin-left: 160px;
+    margin-bottom: 15px;
 }
 
-.editprofilebtn {
-    font-family: "Montserrat", sans-serif;
-    font-size: 45px;
-    color: #FFFFFF;
-    padding: 20px;
-    padding-left: 35px;
-    padding-right: 35px;
+.purple-button {
+    display: block;
+    margin-left: 130px;
+    margin-bottom: 20px;
+    background-color: #951ABE; 
+    color: white;
+    padding: 20px 40px; 
     border: none;
     border-radius: 10px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
-    background-color: #941BBE;
+    font-size: 30px; 
+    box-shadow: 3px 3px 0px 0px black; 
+}
 
-    margin-top: -10px;
-    margin-left: 65px;
-    margin-bottom: 30px;
+.purple-button a {
+    color: inherit; 
+    text-decoration: none;
+}
+
+.purple-button:hover {
+    background-color: rgba(149, 26, 190, 0.8);
 }
 
 .linktoedit {
@@ -74,8 +80,8 @@
 .vl {
     border: none;
     border-left: 3px solid #000; 
-    height:85%; 
-    margin-top: 70px; 
+    height:50%; 
+    margin-top: 80px; 
     
 }
 
@@ -87,12 +93,12 @@
 }
 
 .profileheader {
-    font-family: "Montserrat", sans-serif;
-    font-size: 100px;
-    margin-top: 1px;
+    font-family: "Montserrat bold", sans-serif;
+    font-size: 65px;
+    margin-top: 30px;
     font-weight: bold;
-    color: #000;
-    margin-bottom: 40px;
+    color: #951ABE;
+    margin-bottom: 30px;
 }
 
 .profiledesc {
@@ -100,19 +106,17 @@
     font-size: 30px;
     padding: 15px;
     border: none;
-    border-radius: 15px;
+    border-radius: 25px;
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
-    
-    margin-left: 40px;
+    margin-left: 5px;
 }
 
 #reservationheader {
     font-family: "Montserrat", sans-serif;
-    padding-left: 40px;
-    margin-bottom: -10px;
-    font-size: 50px;
-    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 40px;
     padding-top: 10px;
+    letter-spacing: 3;
 }
 
 ul {
@@ -127,10 +131,8 @@ li {
 .tablediv {
     background-color: #941BBE;
     position: relative;
-    margin: 30px;
     overflow: auto;
     max-height: 400px;
-    margin-left: 40px;
 }
 
 table {
@@ -138,7 +140,7 @@ table {
     font-size: 25px;
     width: 100%;
     border-collapse: collapse;
-    border: 4px solid black;
+    border: 3px solid black;
   }
   
   th, td {
@@ -169,21 +171,22 @@ table {
     flex-direction:row;
   }
 
-  #profilebtn {
+#profilebtn {
     padding:35px;
-    padding-top:20px;
-    font-size:30px;
-    color:#FFFFFF;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:25px;
+    color:black;
     border-radius:45px;
     border-color:#FFFFFF;
     border-style:solid;
     border-width:3px;
     background-color: #A359A1;
-    height:80px;
+    height:60px;
     font-family: "Montserrat", sans-serif;
-  }
+}
 
-  #profilebtn:hover{
+#profilebtn:hover{
     transition-duration:0.5s;
     background-color:#292929;
     color:white;
@@ -218,41 +221,63 @@ table {
 }
 
 #logoutbtn {
-    height: 50px;
-    padding-left: 30px;
-    padding-top: 20px;
+    padding:35px;
+    padding-top:20px;
+    padding-bottom:10px;
+    font-size:25px;
+    color: black;
+    border-radius:45px;
+    border-color:#FFFFFF;
+    border-style:solid;
+    border-width:3px;
+    background-color: #A359A1;
+    height:40px;
+    font-family: "Montserrat", sans-serif;
 }
 
+#logoutbtn:hover{
+    transition-duration:0.5s;
+    background-color:#292929;
+    color:white;
+}
 /* For editprofilepage.html */
 
 #headeredit {
-    font-family: "Montserrat", sans-serif;
-    font-size: 100px;
-    font-weight: bolder;
-    color: #000;
-
-    width: 1200px;
+    font-family: "Montserrat bold", sans-serif;
+    font-size: 60px;
+    margin-left: 3px;
+    margin-top: 30px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 30px;
+    border-radius: 20px;
     background-color: #E9DDF9;
-    border-radius: 10px;
+    width: 1000px;
+    height: 90px;
+    padding-top: 20px;
+    padding-left: 20px;
 }
 
 #descedit {
     font-family: "Montserrat", sans-serif;
+    font-size: 30px;
     padding: 15px;
     border: none;
-    border-radius: 15px;
+    border-radius: 25px;
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+    margin-left: 5px;
     position: relative;
     background-color: #E9DDF9;
 }
 
 #lt {
-    font-size: 60px;
-    margin-top: 30px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 45px;
+    margin-top: 20px;
+    margin-left: 80px;
+    margin-bottom: 15px;
     position: relative;
-    right: 80px;
 }
-
 #savebtn {
     margin-left: 45px;
 }
