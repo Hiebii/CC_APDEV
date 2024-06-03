@@ -1,0 +1,93 @@
+<html>
+   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+    <link rel="stylesheet" href="css-main/cssmainwebsite.css">
+    <link rel="stylesheet" href="css-main/cssprofilepage.css">
+    <title>Welcome to tinkerlab</title>
+   </head> 
+   <body>
+
+    <!-- tinkerlab logo header -->
+    <div class="header">
+        <img class="imglogo" src="images/tinkerlablogo.png">
+    </div>
+
+    <!-- Taskbar div -->
+    <div class="taskbar">
+        <div class="btndivider">
+            <button class="btndesign" id="homebtn">Home</button>
+        </div>
+        <div class="btndivider">
+            <button class="btndesign" id="reservationbtn">Reservation</button>
+        </div>
+        <div class="btndivider">
+            <button class="btndesign" id="vieweditbtn">View/Edit</button>
+        </div>
+        <div class="btndivider">     
+            <a href ="CT-profilepage.html"><button class="btndesign" id="profilebtn">Profile</button></a>
+                <div class="dropdown">
+                    <a class="btndesign" id="logoutbtn" href="">Logout</a>
+                </div>
+        </div>
+        
+        <div class="searchdivider">
+            <div class="searchfield">
+                <a href="profilepageviewS.html">
+                    <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
+                </a>
+                <input class="searchinput" type="text" placeholder="Search...">
+            </div>
+        </div>
+       
+    </div>
+    <!-- profile body -->
+    <div class="profilediv">
+
+        <!-- left profile side -->
+        <div class="profilediv1">
+            <div class="profileborder">
+                <img class="profilephoto" src="images/defaultpfp.png">
+            </div>
+            <h1 class="role" id="lt">Lab Technician</h1>
+        </div>
+
+        <hr class="vl"> 
+
+        <!-- right profile side -->
+        <div class="profilediv2">
+            <h2 class="profileheader">Pietro Saldivar</h2>
+
+            <textarea readonly class="profiledesc" rows="9" cols="80">Hi, I'm handsome and smart.</textarea>
+
+            <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
+            <div class="tablediv">
+            <table>
+                <thead>
+                  <tr>
+                        <th>Seat No.</th>
+                        <th>Computer Lab</th>
+                        <th>Date of Request</th>
+                        <th>Time of Request</th>
+                        <th>Date of Reservation</th>
+                        <th>Time of Reservation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A02</td>
+                            <td>AG101</td>
+                            <td>05-18-2024</td>
+                            <td>2:36AM</td>
+                            <td>05-19-2024</td>
+                            <td>7:30AM - 8:00AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>  
+
+    </div>    
+
+   </body>
+</html>
