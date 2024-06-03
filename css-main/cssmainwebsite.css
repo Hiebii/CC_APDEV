@@ -1,30 +1,31 @@
 .header{
     background: #FCFBF1;
-    height:190px;
+    height:150px;
     justify-content:center;
     align-items:center;
     display:flex;
 }
 .imglogo{
-    height:100px;
+    height:85px;
     width:auto;
 }
 .taskbar{
     background-image: linear-gradient(to right, #DC74B1, #976FDF);
-    height:140px;
+    height:130px;
     width:auto;
     display:flex;
     justify-content:center;
 }
 .btndivider{
     padding-top:30px;
-    padding-left:40px;
+    padding-left:30px;
     padding-right:5px;
     flex-direction:row;    
 }
 .btndesign{
     padding:35px;
-    padding-top:20px;
+    padding-top:10px;
+    padding-bottom:10px;
     font-size:30px;
     color:#FFFFFF;
     border-radius:45px;
@@ -32,7 +33,7 @@
     border-style:solid;
     border-width:3px;
     background-color: transparent;
-    height:80px;
+    height:70px;
     font-family: "Montserrat", sans-serif;
 }
 .btndesign:hover{
@@ -41,18 +42,17 @@
     color:white;
 }
 .searchdivider{
-    padding-top:20px;
+    padding-top:30px;
     padding-left:100px;
     flex-direction:row;    
-
 }
 .searchfield{
     border-style:solid;
     border-color:#000000;
     background-color:#FFFFFF;
     border-width:3px;
-    height:90px;
-    width:600px;
+    height:70px;
+    width:500px;
     border-radius:40px;
     display:flex;
     flex-direction:row;
@@ -61,10 +61,10 @@
 .searchinput[type=text]{
     font-family: "Montserrat", sans-serif;
     font-size:25px;
-    padding-left:80px;
+    padding-left:40px;
     padding-top:5px;
-    height:80px;
-    width:518px;
+    height:60px;
+    width:400px;
     border-radius:40px;
     border-width:0px;
 }
@@ -85,8 +85,10 @@
     outline:none;
     background-color:#FFFFFF;
     border-radius:40px;
-    height:90px;
-    width:100px;
+    height:50px;
+    width:65px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 html, body {
@@ -94,4 +96,37 @@ html, body {
     margin: 0;
     padding: 0;
     background: #FCFBF1;
+}
+
+/* footer */
+.footer-container {
+    display: flex;
+    height: 400px;
+    justify-content: space-between;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    background-color: black;
+    opacity: 98%;
+}
+
+.footer-column-1,
+.footer-column-2,
+.footer-column-3 {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.footer-column-2 h3,
+.footer-column-3 h3 {
+    font-size:40px;
+    margin-bottom: 10px;
+    color: #DC74B1;
+    font-family: "Montserrat Bold", sans-serif;
+}
+
+.tagline{
+    font-family: "Montserrat", sans-serif;
+    font-size:30px;
+    color: #FFFFFF;
 }

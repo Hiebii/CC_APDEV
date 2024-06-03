@@ -1,0 +1,370 @@
+/* View and Edit*/
+.tablediv {
+    background-color: #ffffff;
+    max-width: fit-content;
+    height: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: auto;
+    border: 3px solid #000;
+  }
+
+.tablediv-2{
+    background-color: #ffffff;
+    max-width: fit-content;
+    height: 650px;
+    margin-left: 150px;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: auto;
+    border: 3px solid #000;
+}
+
+table {
+    font-family: "Montserrat", sans-serif;
+    border-collapse: collapse;
+    max-width: fit-content;
+}
+    
+th, td {
+    padding: 20px;
+    text-align: center; 
+}
+  
+th {
+    background-color: #f4dae1;
+    font-size: 25px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    box-shadow: inset 0px 5px 0px rgba(0, 0, 0, 0.2);
+    outline: 2px solid #000;
+    top:0;
+    position: sticky;
+}
+  
+td {
+    background-color: #fff;
+    font-size: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+  
+.edit-button,
+.cancel-button,
+.delete-button,
+.go-button{
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: inherit;
+    color: blue; 
+    text-decoration: underline; 
+    cursor: pointer; 
+    font-family: "Montserrat", sans-serif;
+}
+  
+/* Student - Reservation Details */
+.title-1{
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 60px;
+    font-family: "Montserrat Bold", sans-serif;
+    letter-spacing: 0.1em; 
+}
+
+.outer-box {
+    width: 800px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    margin: 20px auto;
+    margin-top: 30px;
+    border-radius: 60px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.details {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    line-height: 1.6;
+}
+
+.details li {
+    margin: 10px 0;
+    font-size: 35px;
+}
+
+.details li input {
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 25px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.button-container {
+    display: flex; 
+    justify-content: center; 
+    margin-top: 30px;
+}
+
+.purple-button {
+    display: block;
+    margin: 0 auto;
+    background-color: #951ABE; 
+    color: white;
+    padding: 20px 40px; 
+    border: none;
+    border-radius: 10px;
+    font-size: 30px; 
+    box-shadow: 3px 3px 0px 0px black; 
+    margin: 0 15px;
+}
+
+.purple-button a {
+    color: inherit; 
+    text-decoration: none;
+}
+
+.purple-button:hover {
+    background-color: rgba(149, 26, 190, 0.8);
+}
+
+.back-button {
+    display: block;
+    margin: 0 auto;
+    background-color: #E6DBE6; 
+    color: black;
+    padding: 20px 40px; 
+    border: none;
+    border-radius: 10px;
+    font-size: 30px; 
+    box-shadow: 3px 3px 0px 0px black; 
+    margin: 0 15px;
+}
+
+.back-button a {
+    color: inherit; 
+    text-decoration: none;
+}
+
+.back-button:hover {
+    background-color: white;
+}
+
+.green-text{
+    color: #6E9277;
+    font-family: "Montserrat Bold", sans-serif;
+}
+
+.red-text{
+    color: #CE5252;
+    font-family: "Montserrat Bold", sans-serif;
+}
+
+.yellow-text{
+    color: rgb(202, 202, 26);
+    font-family: "Montserrat Bold", sans-serif;    
+}
+
+.dialog-1, 
+.dialog-2, 
+.dialog-3 {
+    display: none;
+    position: fixed;
+    width: 40%;
+    height: 50%;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dialog-header {
+    height: 65px;
+    background-color: #B27409;
+    margin: 0;
+}
+
+.prompt-text{
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.1em;
+    padding: 10px;
+    font-family: "Montserrat", sans-serif;
+}
+
+
+/* Student - Success Page */
+.title-2{
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 60px;
+    font-family: "Montserrat Bold", sans-serif;
+    letter-spacing: 0.1em; 
+    text-shadow: 2px 2px 2px rgba(255, 255, 255, 0.8);
+}
+
+.container {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.comp-image{
+    width: 100%; 
+    height: auto;
+}
+
+/* Lab Technician - Reservation Details */
+
+.input-name {
+    width: 400px;
+    height: 40px;
+    border: 1px solid #ccc;
+    padding: 5px 20px;
+    border-radius: 5px;
+    font-family: "Montserrat", sans-serif;
+    color: black; 
+    background-color: #E6DBE6; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.input-name:focus {
+    outline: none;
+    border-color: black; 
+}
+
+/* Lab Technician - View and Edit */
+.table-w-sort{
+    display: flex; 
+    justify-content: center;  
+}
+
+.time-date-column{
+    flex-direction: column;
+    margin-left: 370px;
+}
+
+.time-button-2{
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    flex-direction: column;
+}
+
+.date-button-2{
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+    flex-direction: column;
+}
+
+.sort-text-2{
+    font-family: "Montserrat Bold", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    padding-right: 15px;
+    padding-left: 0px;
+    margin-bottom: 15px;
+}
+
+.sort-container{
+    display: flex; 
+    justify-content: center; 
+    margin-top: 20px;
+}
+
+.lab-button{
+    display: flex;
+    padding-right: 20px;
+    align-items: center;
+}
+
+.time-button{
+    display: flex;
+    padding-right: 210px;
+    align-items: center;
+}
+
+.date-button{
+    display: flex;
+    align-items: center;
+}
+
+.sort-text{
+    font-family: "Montserrat Bold", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    padding-right: 15px;
+    padding-left: 0px;
+}
+
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+}
+
+.lab-dropdown,
+.time-dropdown {
+    padding-right: 80px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-family: "Montserrat", sans-serif;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #E6DBE6 url('/images/dropdown-icon.png') no-repeat right 10px center;
+    background-size: 50px;
+}
+
+.lab-dropdown option {
+    background-color: #E6DBE6; 
+}
+
+.date-input {
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-family: "Montserrat", sans-serif;
+    background: #E6DBE6;
+}
+
+
