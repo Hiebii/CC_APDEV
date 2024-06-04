@@ -92,11 +92,84 @@
                     color:white;
                 }
 /*signup-labstudent.html CSS*/
-.headerlab{
+.headerquestion{
     font-family: "Montserrat", sans-serif;
     font-weight:1000;
     font-size:28px;
     width:80%;
     align-items:center;
     justify-content:center;
+}
+.contents-question{
+    display:flex;
+    flex-direction:row;
+}
+.box-container{
+    background:#A359A0;
+    border-radius:20px;
+    height:150px;
+    width:150px;
+    margin:20px;
+    margin-top:40px;
+    margin-bottom:-30px;
+    padding:8px;
+}
+.white-box{
+    border-radius:15px;
+    height:150px;
+    width:150px;
+    display:flex;
+    background:#FFFFFF;
+    justify-content:center;
+    align-items:center;
+   
+}
+.imgdetails{
+    padding-right:5px;
+    height:150px;
+    width:auto;
+}
+.bottomquestion{
+    display:flex;
+    flex-direction:row;
+    margin:20px;
+}
+.textbottomquestion{
+    font-family:"Montserrat", sans-serif;
+    font-weight:1000;
+    font-size:28px;
+    width:150px;
+    margin:30px;
+    align-items:center;
+}
+[type=radio]{
+    position:absolute;
+    opacity:0;
+    width:0;
+    height:0;
+    border-radius:15px;
+}
+[type=radio]:checked + img{
+    transition-duration:0.15s;
+    border-radius:15px;
+    background:#000000;
+}
+.submitbuttonquestion[type=submit]{
+    width:200px;
+    height:50px;
+    border-radius:10px;
+    border-width:0px;
+    padding-left:20px;
+    background:#709176;
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    font-family: "Inter", sans-serif;  
+    letter-spacing:4px;
+    box-shadow: 1px 1px 3px 0.5px black;
+}
+.submitbuttonquestion[type=submit]:hover{
+    transition:0.75s;
+    background:white;
+    color:black;
 }
