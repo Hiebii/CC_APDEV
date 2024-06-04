@@ -1,8 +1,12 @@
-.check-anon{
-    width:40px;
-    height:20px;
-    border-radius:10px;
-    border-width:10px;
-    border-color:black;
-    background-color: #eee;
+.anon-text {
+    color: red;
+    font-weight: bold;
+    font-size: 30px;
+    margin-left: 10px;
 }
+
+input[type="checkbox"] {
+    width: 22px;
+    height: 22px; 
+}
+

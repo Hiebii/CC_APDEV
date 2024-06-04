@@ -263,13 +263,14 @@ td {
 
 /* Lab Technician - View and Edit */
 .table-w-sort{
-    display: flex; 
-    justify-content: center;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensure it takes the full width */
 }
 
 .time-date-column{
     flex-direction: column;
-    margin-left: 30px;
 }
 
 .time-button-2{
