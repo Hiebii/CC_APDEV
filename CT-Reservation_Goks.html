@@ -54,48 +54,45 @@
                 <div id="left" class="full-height">
 
                     <h1 class="left-text">TIME</h1>
-                    <div class="dropdown">
-                        <button id="time-drop" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span id="time-text">7:30AM - 8:00AM</span>
-                        </button>
-                        <ul id="time-menu" class="dropdown-menu">
-                          <li><a id="time-content" class="dropdown-item" data-time="7:30AM - 8:00AM">7:30AM - 8:00AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="8:00AM - 8:30AM">8:00AM - 8:30AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="8:30AM - 9:00AM">8:30AM - 9:00AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="9:00AM - 9:30AM">9:00AM - 9:30AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="9:30AM - 10:00AM">9:30AM - 10:00AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="10:00AM - 10:30AM">10:00AM - 10:30AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="10:30AM - 11:00AM">10:30AM - 11:00AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="11:00AM - 11:30AM">11:00AM - 11:30AM</a></li>
-                          <li><a id="time-content" class="dropdown-item" data-time="11:30AM - 12:00PM">11:30AM - 12:00PM</a></li>
-                        </ul>
-                      </div>
-
-                      <br>
-
-                      <!--Date--><h1 class="left-text">DATE</h1>
+                   
+          <div class = "time-button">
+            <div class="custom-select-wrapper">
+                <select class="time-dropdown">
+                    <option value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
+                    <option value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
+                    <option value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
+                    <option value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
+                    <option value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
+                    <option value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
+                    <option value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
+                    <option value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
+                    <option value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
+                    <option value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class = "date-button">
+            <!--Date--><h1 class="left-text">DATE</h1>
+            <input type="date" class="date-input">
+        </div>
+    </div>
                   
-                        <div class="datepicker-container">
-                            <input type="text" id="datepicker" class="datepicker-input form-control" placeholder="Select a date">
-                       
-                    </div>
-                </div>
             </div>
 
             <!--Right-->
-            <div class="right-column">
+            <div class="right-column"  class="full-height">
 
                 <div id="top-right">
                     <h1 id="comp-lab-text">COMPUTER LAB:</h1>
-                    <div class="dropdown">
-                        <button id="lab-button" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span id="lab-menu">GK101</span><!-- Add custom caret -->
-                        </button>
-                        <ul id="lab-menu" class="dropdown-menu">
-                            <li><a id="lab-content" class="dropdown-item" data-lab="GK101">GK101</a></li>
-                            <li><a id="lab-content" class="dropdown-item" data-lab="VL101">VL101</a></li>
-                            <li><a id="lab-content" class="dropdown-item" data-lab="AG101">AG101</a></li>
-                        </ul>
+                    <div class = "lab-button">
+                        <div class="custom-select-wrapper">
+                            <select class="lab-dropdown">
+                                <option value="GK01">GK01</option>
+                                <option value="VL01">VL01</option>
+                                <option value="AG101">AG101</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             
@@ -108,102 +105,100 @@
    
                 
 
-                <div id="mid-right" class="d-flex ">
-                    <div class="container-mid">
-                        <div id="top">
-                            <div id="teach-table">
-                                <span id="teach-text">Teacher's table</span>
-                            </div>
-                        </div>
-                        
-        
-
-                    <div class="colside col-md-1">
-                        <img class="lab-student-icon" src="images/lab-student.png">
-                        <div id="S01" class="seat-name" data-value="1" data-seat="GK01" data-value-name="Eloise Bridgerton">GK01</div><br>
-                        <img class="lab-student-icon" src="images/lab-student.png">
-                        <div id="S02" class="seat-name" data-value="0" data-seat="GK02" data-value-name="N/A">GK02</div><br>
-                        <img class="lab-student-icon" src="images/lab-student.png">
-                        <div id="S03" class="seat-name" data-value="0" data-seat="GK03" data-value-name="N/A">GK03</div><br>
-                        <img class="lab-student-icon" src="images/lab-student.png">
-                        <div id="S05" class="seat-name" data-value="0" data-seat="GK04" data-value-name="N/A">GK04</div><br>
-                        <img class="lab-student-icon" src="images/lab-student.png">
-                        <div id="S05" class="seat-name" data-value="0" data-seat="GK05" data-value-name="N/A">GK05</div>
-                    </div>
-
-                        <div class="colmid col-md-1 border p-3"></div>
-
-                        <div class="colside col-md-1">
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S06"   class="seat-name" data-value="0" data-seat="GK06" data-value-name="N/A">GK06</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S07"   class="seat-name" data-value="0" data-seat="GK07" data-value-name="N/A">GK07</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S08"   class="seat-name" data-value="0" data-seat="GK08" data-value-name="N/A">GK08</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S09"   class="seat-name" data-value="0" data-seat="GK09" data-value-name="N/A">GK09</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S10"   class="seat-name" data-value="0" data-seat="GK010" data-value-name="N/A">GK10</div>
-                        </div>
-
-                        <div class="colside col-md-1">
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S11"   class="seat-name" data-value="0" data-seat="GK11" data-value-name="N/A">GK11</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S12"   class="seat-name" data-value="0" data-seat="GK12" data-value-name="N/A">GK12</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S13"   class="seat-name" data-value="0" data-seat="GK13" data-value-name="N/A">GK13</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S14"   class="seat-name" data-value="0" data-seat="GK14" data-value-name="N/A">GK14</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S15"   class="seat-name" data-value="0" data-seat="GK15" data-value-name="N/A">GK15</div>
-                        </div>
-
-                        <div class="colmid col-md-1 border p-3"></div>
-
-                        <div class="colside col-md-1">
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S16"   class="seat-name" data-value="0" data-seat="GK16" data-value-name="N/A">GK16</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S17"   class="seat-name" data-value="0" data-seat="GK17" data-value-name="N/A">GK17</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S18"   class="seat-name" data-value="0" data-seat="GK18" data-value-name="N/A">GK18</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S19"   class="seat-name" data-value="0" data-seat="GK19" data-value-name="N/A">GK19</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S20"   class="seat-name" data-value="0" data-seat="GK20" data-value-name="N/A">GK20</div>
-                        </div>
-
-                        <div class="colside col-md-1">
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S21"   class="seat-name" data-value="0" data-seat="GK21" data-value-name="N/A">GK21</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S22"   class="seat-name" data-value="0" data-seat="GK22" data-value-name="N/A">GK22</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S23"   class="seat-name" data-value="0" data-seat="GK23" data-value-name="N/A">GK23</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S24"   class="seat-name" data-value="0" data-seat="GK24" data-value-name="N/A">GK24</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S25"   class="seat-name" data-value="0" data-seat="GK25" data-value-name="N/A">GK25</div>
-                        </div>
-
-                        <div class="colmid col-md-1 border p-3"></div>
-
-                        <div class="colside col-md-1">
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S26"   class="seat-name" data-value="0" data-seat="GK26" data-value-name="N/A">GK26</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S27"   class="seat-name" data-value="0" data-seat="GK27" data-value-name="N/A">GK27</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S28"   class="seat-name" data-value="0" data-seat="GK28" data-value-name="N/A">GK28</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S29"   class="seat-name" data-value="0" data-seat="GK29" data-value-name="N/A">GK29</div><br>
-                            <img            class="lab-student-icon" src="images/lab-student.png">
-                            <div id="S30"   class="seat-name" data-value="0" data-seat="GK30" data-value-name="N/A">GK30</div>
-                        </div>
-
-                    </div>
+    <div id="mid-right">
+        <div class="container-mid">
+            <div id="top">
+                <div id="teach-table">
+                    <span id="teach-text">Teacher's table</span>
                 </div>
+            </div>
+            
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-value="1" data-seat="GK01" data-value-name="Eloise Bridgerton">GK01</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S02" class="seat-name" data-value="0" data-seat="GK02" data-value-name="N/A">GK02</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S03" class="seat-name" data-value="0" data-seat="GK03" data-value-name="N/A">GK03</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S05" class="seat-name" data-value="0" data-seat="GK04" data-value-name="N/A">GK04</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S05" class="seat-name" data-value="0" data-seat="GK05" data-value-name="N/A">GK05</div>
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S06" class="seat-name" data-value="0" data-seat="GK06" data-value-name="N/A">GK06</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S07" class="seat-name" data-value="0" data-seat="GK07" data-value-name="N/A">GK07</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S08" class="seat-name" data-value="0" data-seat="GK08" data-value-name="N/A">GK08</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S09" class="seat-name" data-value="0" data-seat="GK09" data-value-name="N/A">GK09</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S10" class="seat-name" data-value="0" data-seat="GK010" data-value-name="N/A">GK10</div>
+            </div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S11" class="seat-name" data-value="0" data-seat="GK11" data-value-name="N/A">GK11</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S12" class="seat-name" data-value="0" data-seat="GK12" data-value-name="N/A">GK12</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S13" class="seat-name" data-value="0" data-seat="GK13" data-value-name="N/A">GK13</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S14" class="seat-name" data-value="0" data-seat="GK14" data-value-name="N/A">GK14</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S15" class="seat-name" data-value="0" data-seat="GK15" data-value-name="N/A">GK15</div>
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S16" class="seat-name" data-value="0" data-seat="GK16" data-value-name="N/A">GK16</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S17" class="seat-name" data-value="0" data-seat="GK17" data-value-name="N/A">GK17</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S18" class="seat-name" data-value="0" data-seat="GK18" data-value-name="N/A">GK18</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S19" class="seat-name" data-value="0" data-seat="GK19" data-value-name="N/A">GK19</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S20" class="seat-name" data-value="0" data-seat="GK20" data-value-name="N/A">GK20</div>
+            </div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S21" class="seat-name" data-value="0" data-seat="GK21" data-value-name="N/A">GK21</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S22" class="seat-name" data-value="0" data-seat="GK22" data-value-name="N/A">GK22</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S23" class="seat-name" data-value="0" data-seat="GK23" data-value-name="N/A">GK23</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S24" class="seat-name" data-value="0" data-seat="GK24" data-value-name="N/A">GK24</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S25" class="seat-name" data-value="0" data-seat="GK25" data-value-name="N/A">GK25</div>
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S26" class="seat-name" data-value="0" data-seat="GK26" data-value-name="N/A">GK26</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S27" class="seat-name" data-value="0" data-seat="GK27" data-value-name="N/A">GK27</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S28" class="seat-name" data-value="0" data-seat="GK28" data-value-name="N/A">GK28</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S29" class="seat-name" data-value="0" data-seat="GK29" data-value-name="N/A">GK29</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S30" class="seat-name" data-value="0" data-seat="GK30" data-value-name="N/A">GK30</div>
+            </div>
+        </div>
+    </div>
+    
                               
 
                 <div id="bot-right" >

@@ -16,7 +16,7 @@ seatElements.forEach(function(element) {
                                 <span id="tip-note-green" class="tip-note">Seat is still available.</span><br>
                                 <span class="tip-name"><strong>Occupied by:</strong>‎  ${valueName}</span>`;
         } else {
-            element.style.backgroundColor = "red";
+            element.style.backgroundColor = "#FF2929";
             var valueName = element.getAttribute("data-value-name");
             var seatName = element.getAttribute("data-seat");
             tooltip.innerHTML = `<span class="tip-seat">${seatName}</span><br>
