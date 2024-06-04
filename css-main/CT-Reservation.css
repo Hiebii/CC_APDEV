@@ -692,6 +692,7 @@ color: #000000;
     background-color: #ffcc00; /* Change to the desired color */
 }
 
+/*menu bar*/
 #reservationbtn {
     padding:35px;
     padding-top:10px;
@@ -713,6 +714,56 @@ color: #000000;
     color:white;
 }
 
+.dropdown {
+    font-family: "Montserrat", sans-serif;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 175px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    background-color: #A359A1; 
+    border-radius: 45px; 
+    
+}
+
+.dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #000000;
+}
+
+.btndivider:hover .dropdown {
+    display: block;
+}
+
+#searchbtn {
+    padding:35px;
+    padding-top:15px;
+    padding-bottom:10px;
+    font-size:25px;
+    color: black;
+    border-radius:45px;
+    border-color:#FFFFFF;
+    border-style:solid;
+    border-width:3px;
+    background-color: #A359A1;
+    height:70px;
+    font-family: "Montserrat", sans-serif;
+}
+
+#searchbtn:hover{
+    transition-duration:0.5s;
+    background-color:#292929;
+    color:white;
+}
+
+/*reserve button*/
 .purple-button {
     display: block;
     margin-left: 130px;
