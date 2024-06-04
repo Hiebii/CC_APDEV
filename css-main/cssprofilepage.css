@@ -162,7 +162,15 @@ table {
     padding-bottom: 20px;
   }
 
-/* PROFILE BUTTON CSS */
+  /* PROFILE BUTTON CSS */
+
+  .profilebtndivider {
+    padding-top:30px;
+    padding-left:20px;
+    padding-right:5px;
+    flex-direction:row;
+  }
+
 #profilebtn {
     padding:35px;
     padding-top:10px;
