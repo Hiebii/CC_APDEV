@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 
 <html>
     <head>
@@ -18,7 +17,7 @@
                         <div class="box-container">
                             <label>
                                 <div class="white-box">
-                                    <input type="radio" name="choices" value="student">
+                                    <input type="radio" name="choices" value="student" id ='student'>
                                     <img src="images/Student.png" class="imgdetails">
                                 </div>
                             </label>
@@ -26,7 +25,7 @@
                         <div class="box-container">
                             <label>
                                 <div class="white-box">   
-                                    <input type="radio" name="choices" value="labtechnician">                          
+                                    <input type="radio" name="choices" value="labtechnician" id="labtechnician">                          
                                      <img src="images/LabTechnician.png" class="imgdetails">                      
                                  </div>
                             </label>
@@ -34,16 +33,28 @@
                     </div>
                     <div class="bottomquestion">
                         <div class="textbottomquestion">
-                            Lab Technician
+                           Student
                         </div>
                         <div class="textbottomquestion">
-                            Student
+                            Lab Technician
                         </div>
                     </div>
                     <input type="submit" id="submitcredentials" class="submitbuttonquestion" value="NEXT">
-
             </div>
         </div>
+        <script>
+            document.getElementById("submitcredentials").addEventListener("click", function(event){
+            event.preventDefault();
+            if(document.getElementById("student").checked){
+                window.location.href="signup-student.html";
+            }
+            else if(document.getElementById("labtechnician").checked){
+                window.location.href="signup-labtechnician.html";
+            }
+            else{
+                alert("Please choose an option before clicking the button.");
+            }
+         });
+        </script>
     </body>
-    
 </html>
