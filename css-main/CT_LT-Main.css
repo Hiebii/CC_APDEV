@@ -1,4 +1,4 @@
-/* View and Edit*/
+/* Table design for View/Edit and Search*/
 .tablediv {
     background-color: #ffffff;
     max-width: fit-content;
@@ -51,7 +51,8 @@ td {
     padding-top: 20px;
     padding-bottom: 20px;
 }
-  
+
+/*Different buttons for table links*/
 .edit-button,
 .cancel-button,
 .delete-button,
@@ -67,7 +68,7 @@ td {
     font-family: "Montserrat", sans-serif;
 }
   
-/* Student - Reservation Details */
+/*Reservation Details*/
 .title-1{
     font-size: 60px;
     font-weight: bold;
@@ -116,6 +117,7 @@ td {
     font-weight: bold;
 }
 
+/*Purple and Back buttons*/
 .button-container {
     display: flex; 
     justify-content: center; 
@@ -166,6 +168,7 @@ td {
     background-color: white;
 }
 
+/*colored texts*/
 .green-text{
     color: #6E9277;
     font-family: "Montserrat Bold", sans-serif;
@@ -181,6 +184,7 @@ td {
     font-family: "Montserrat Bold", sans-serif;    
 }
 
+/*Prompt*/
 .dialog-1, 
 .dialog-2, 
 .dialog-3 {
@@ -213,8 +217,7 @@ td {
     font-family: "Montserrat", sans-serif;
 }
 
-
-/* Student - Success Page */
+/*Success Page*/
 .title-2{
     font-size: 60px;
     font-weight: bold;
@@ -242,8 +245,7 @@ td {
     height: auto;
 }
 
-/* Lab Technician - Reservation Details */
-
+/*Reservation Details - Input name*/
 .input-name {
     width: 400px;
     height: 40px;
@@ -261,43 +263,7 @@ td {
     border-color: black; 
 }
 
-/* Lab Technician - View and Edit */
-.table-w-sort{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Ensure it takes the full width */
-}
-
-.time-date-column{
-    flex-direction: column;
-}
-
-.time-button-2{
-    display: flex;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 30px;
-    flex-direction: column;
-}
-
-.date-button-2{
-    display: flex;
-    margin-left: 10px;
-    margin-right: 10px;
-    flex-direction: column;
-}
-
-.sort-text-2{
-    font-family: "Montserrat Bold", sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-    letter-spacing: 5px;
-    padding-right: 15px;
-    padding-left: 0px;
-    margin-bottom: 15px;
-}
-
+/*Time, Date and Computer Lab Buttons*/
 .sort-container{
     display: flex; 
     justify-content: center; 
@@ -368,23 +334,11 @@ td {
     background: #E6DBE6;
 }
 
-#vieweditbtn {
-    padding:35px;
-    padding-top:10px;
-    padding-bottom:10px;
-    font-size:25px;
-    color:black;
-    border-radius:45px;
-    border-color:#FFFFFF;
-    border-style:solid;
-    border-width:3px;
-    background-color: #A359A1;
-    height:60px;
-    font-family: "Montserrat", sans-serif;
-}
-
-#vieweditbtn:hover{
-    transition-duration:0.5s;
-    background-color:#292929;
-    color:white;
+/*clock*/
+#clock {
+    max-width: 600px;
+    font-family: "Montserrat bold", sans-serif;
+    font-size: 10px;
+    color: #B27409;
+    text-align: center;
 }
