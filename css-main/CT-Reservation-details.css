@@ -1,0 +1,12 @@
+.anon-text {
+    color: red;
+    font-weight: bold;
+    font-size: 30px;
+    margin-left: 10px;
+}
+
+input[type="checkbox"] {
+    width: 22px;
+    height: 22px; 
+}
+
