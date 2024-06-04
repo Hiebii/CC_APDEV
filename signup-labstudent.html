@@ -11,11 +11,36 @@
     <body class="background"> <!---This one was obtained from cssloginsignup.css-->
         <div class="position"> <!---This one was obtained from cssloginsignup.css-->
             <div class="container"> <!---This one was obtained from cssloginsignup.css-->
-                    <div class="headerlab">
+                    <div class="headerquestion"><!---Header for the text box-->
                         Are you a Lab Technician or a Student?                        
                     </div>
-                    <div class="contents">
+                    <div class="contents-question"><!---This one was obtained from cssloginsignup.css-->
+                        <div class="box-container">
+                            <label>
+                                <div class="white-box">
+                                    <input type="radio" name="choices" value="student">
+                                    <img src="images/Student.png" class="imgdetails">
+                                </div>
+                            </label>
+                        </div>
+                        <div class="box-container">
+                            <label>
+                                <div class="white-box">   
+                                    <input type="radio" name="choices" value="labtechnician">                          
+                                     <img src="images/LabTechnician.png" class="imgdetails">                      
+                                 </div>
+                            </label>
+                        </div>
                     </div>
+                    <div class="bottomquestion">
+                        <div class="textbottomquestion">
+                            Lab Technician
+                        </div>
+                        <div class="textbottomquestion">
+                            Student
+                        </div>
+                    </div>
+                    <input type="submit" id="submitcredentials" class="submitbuttonquestion" value="NEXT">
 
             </div>
         </div>
