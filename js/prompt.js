@@ -35,3 +35,7 @@ function cancelReservation() {
 function deleteReservation() {
     window.location.href = "LT-View-Edit_success-delete.html";
 }
+
+function toLoginpage() {
+    window.location.href = "login-page.html"
+}

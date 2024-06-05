@@ -24,7 +24,7 @@ seatElements.forEach(function(element) {
                                 <span class="tip-name"><strong>Occupied by:</strong>‎ ${valueName}</span>`;
         }
 
-    
+        
         element.appendChild(tooltip);
       
         element.style.position = "relative";

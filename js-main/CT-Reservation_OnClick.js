@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const dialog = document.getElementById("dialog-1");
     const promptText = document.querySelector(".prompt-text");
     const occupiedBy = document.querySelector(".occupied-by");
+    const reserveButton = document.getElementById("reserve-button");
+    let numSelected = 0;
+
 
     seats.forEach(seat => {
         seat.addEventListener("click", function() {
@@ -17,16 +20,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (seat.classList.contains("selected")) {
                     seat.style.backgroundColor = "#951ABE";
                     seat.style.color = "white"; 
+                    numSelected++;
                 } else {
                     seat.style.backgroundColor = "green"; 
                     seat.style.color = "black"; 
+                    numSelected--;
                 }
             }
         });
     });
+    
+    reserveButton.addEventListener("click", function() {
+        if (numSelected > 0) {
+            window.location.href = "CT-Reservation_reservation-details.html";
+        } else {
+            showPrompt2();
+        }
+    });
+
+    function showPrompt2() {
+        promptText.innerHTML = '<br><br><span class="prompt-class"> <span class="js_note">Please<span class="js_seat"> select</span> <br> atleast 1 seat!</span></span>';
+        dialog.style.display = "block";
+        dialog.style.display = "block";
+    }
 
     function showPrompt(seatName, occupant) {
-        promptText.innerHTML = `SORRY ${seatName} IS <br> TAKEN ALREADY! Occupied by: <span class="occupied-by">${occupant}</span>`;
+        const profileLink = "CT-Profile.html";
+        promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
+        dialog.style.display = "block";
         dialog.style.display = "block";
     }
 
@@ -34,3 +55,4 @@ document.addEventListener("DOMContentLoaded", function() {
         dialog.style.display = "none";
     }
 });
+
