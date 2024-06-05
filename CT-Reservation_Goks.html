@@ -7,6 +7,7 @@
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css-main/CT-Reservation.css">
+    <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssmainwebsite_reserve.css">
 
     <link rel="icon" href="images/icon.png">
@@ -89,25 +90,18 @@
 
                 <div id="top-right">
                     <h1 id="comp-lab-text">COMPUTER LAB:</h1>
-                    <div class = "lab-button">
+                    <div class="lab-button">
                         <div class="custom-select-wrapper">
-                            <select class="lab-dropdown">
-                                <option value="GK01" CT-Reservation_Goks.html>GK01</option>
-                                <option value="VL01"CT-Reservation_Goks.html>VL01</option>
-                                <option value="AG101">AG101</option>
+                            <select id="lab-dropdown" class="lab-dropdown">
+                                <option value="CT-Reservation_Goks.html">GK01</option>
+                                <option value="CT-Reservation_Velasco.html">VL101</option>
+                                <option value="CT-Reservation_Andrew.html">AG101</option>
                             </select>
                         </div>
-                    </div>
+                    </div>                    
+
                 </div>
             
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="js-main/CT-Reservation_LabDrop.js"></script>
-    <script src="js-main/CT-Reservation_TimePicker.js"></script>
-    <script src="js-main/CT-Reservation_DatePicker.js"></script>
-   
-                
 
     <div id="mid-right">
         <div class="container-mid">
@@ -227,8 +221,9 @@
     </div>
 
 
-    
+</div>
     <script src="js/bootstrap.bundle.js"></script>
+    <script src="js-main/lab_reserve.js"></script>
     <script src="js-main/CT-Reservation_OnClick.js"></script>
     <script src="js-main/CT-Reservation_hoverseats.js"></script>
     <script src="js-main/CT-Reservation_DateRestrict.js"></script>
@@ -266,6 +261,8 @@
             </div>
         </div>
     </div>
+
+    </footer>
 </footer>
 
 </html>

@@ -7,6 +7,7 @@
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css-main/CT-Reservation.css">
+    <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssmainwebsite_reserve.css">
 
     <link rel="icon" href="images/icon.png">
@@ -91,15 +92,17 @@
                     <h1 id="comp-lab-text">COMPUTER LAB:</h1>
                     <div class="lab-button">
                         <div class="custom-select-wrapper">
-                            <select class="lab-dropdown" onchange="window.location.href = this.value;">
-                                <option value="CT-Reservation_Goks.html">GK01</option>
-                                <option value="CT-Reservation_Velasco.html">VL01</option>
+                            <select id="lab-dropdown" class="lab-dropdown">
                                 <option value="CT-Reservation_Andrew.html">AG101</option>
+                                <option value="CT-Reservation_Goks.html">GK01</option>
+                                <option value="CT-Reservation_Velasco.html">VL101</option>
                             </select>
                         </div>
-                    </div>
+                    </div>          
+
                 </div>
             
+
    
                 
 
@@ -221,10 +224,48 @@
     </div>
 
 
-    
+</div>
     <script src="js/bootstrap.bundle.js"></script>
+    <script src="js-main/lab_reserve.js"></script>
     <script src="js-main/CT-Reservation_OnClick.js"></script>
     <script src="js-main/CT-Reservation_hoverseats.js"></script>
     <script src="js-main/CT-Reservation_DateRestrict.js"></script>
 </body>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-column-1">
+            <img class="footer-logo" src="images/tinkerlablogo.png">
+            <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
+        </div>
+        <div class="footer-column-2">
+            <h3>About</h3>
+            <p class = "footer-about">an intuitive platform that allows students to easily<br> 
+                reserve, check availability, and manage their computer<br> 
+                lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
+        </div>
+        <div class="footer-column-3">
+            <h3>Contact</h3>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:charlemagne_craw@dlsu.edu.ph">charlemagne_craw@dlsu.edu.ph</a>
+            </div>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:rafael_debelen@dlsu.edu.ph">rafael_debelen@dlsu.edu.ph</a>
+            </div>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:monica_santiago@dlsu.edu.ph">monica_santiago@dlsu.edu.ph</a>
+            </div>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:john_fredrick_tario@dlsu.edu.ph">john_fredrick_tario@dlsu.edu.ph</a>
+            </div>
+        </div>
+    </div>
+
+    </footer>
+</footer>
+
 </html>
