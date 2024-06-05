@@ -16,6 +16,8 @@
                     display:flex;
                     justify-content:space-between;
                     width:100%;
+                    margin-bottom:10px;
+                    margin-top:-180px;
                 }
                 .buttons-location{
                     margin-left:800px;
@@ -31,9 +33,18 @@
                     color:white;
                     background:none;
                     border:2px solid white;
+                    transition:0.5s;
+                }
+                .buttons-menu:hover{
+                    transition:0.5s;
+                    background: #412340;
                 }
                 .buttons-menu-disabled {
                     background: #A359A0;
+                }
+                .buttons-menu-disabled:hover{
+                    background: #A359A0;
+                    cursor:not-allowed;
                 }
                 .left-side{
                     display:flex;
@@ -43,6 +54,8 @@
                     height:550px;
                     width:600px;
                     padding:20px;
+                    margin-bottom:50px;
+                    margin-top:-10px;
                 }
                 .header-left-side{
                     font-family:'Montserrat', 'sans-serif';
@@ -53,14 +66,57 @@
                     width:450px;
                     letter-spacing: 3px;
                     text-shadow:2px 3px 5px black;
+                    margin-top:-30px;
+                    margin-bottom:10px;
                 }
                 .divider-left-side{
                     border-top:2px solid black;
                     margin-top:20px;
-                    width:450px;
+                    width:475px;
                 }
-                .divider-bottom-side{
-                    border-style:5px solid black;
+                .header-bottom-side{
+                    margin-top:20px;
+                    color:white;
+                    width:450px;
+                    height:100%;
+                }
+                .left-side-bottom-text{
+                    margin-top:20px;
+                    color:#FFFFFF;
+                    font-family:'Montserrat', 'sans-serif';
+                    font-size:20px;
+                    font-weight:100;
+                    position:relative;
+                    letter-spacing:2px;
+                    
+                }
+                .image-bottom-left-side{
+                    position:absolute;
+                    width:400px;
+                    height:400px;
+                    top:50px;
+                    left:200px;
+                    z-index:-1;
+                }
+                .button-see-more{
+                    margin-top:30px;
+                    background: #951ABE;
+                    color: #FFFFFF;
+                    font-family:'Inter', 'sans-serif';
+                    font-size:20px;
+                    font-weight:400;
+                    letter-spacing:3px;
+                    box-shadow: 1px 1px 3px 0.5px black;
+                    border:none;
+                    border-radius:15px;
+                    height:50px;
+                    width:200px;
+                    transition:0.5s;
+                }
+                .button-see-more:hover{
+                    transition:0.5s;
+                    background:#640B82;
+                    color:#FFFFFF;
                 }
                 .wrapper{
                     margin-top:40px;
@@ -173,12 +229,14 @@
                     justify-content:right;
                     display:flex;
                     align-items:flex-end; 
-                    margin-top:-25px;
+                    margin-top:-40px;
                     width:92%;
                 }
                 a{
                     padding-left:5px;
                     color:white;
+                    margin:0;
+                    padding:0;
                 }
 /*signup-initial.html CSS*/
 .headerquestion{
@@ -349,8 +407,15 @@
     color:black;
 }
 .footer-studentlab{
-    margin-top:5px;
+    padding-top:10px;
+    margin-top:auto;
     font-family: "Inter", sans-serif;
     font-size:20px;
+    text-align:center;
+    display:flex;
+    align-items:flex-end;
+    position:relative;
+    top:-40px;
+    left:445px;
 }
 
