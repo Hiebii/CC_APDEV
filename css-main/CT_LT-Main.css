@@ -192,8 +192,8 @@ td {
     display: none;
     position: fixed;
     width: 40%;
-    height: 30%;
-    top: 40%;
+    height: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
