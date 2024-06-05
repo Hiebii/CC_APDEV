@@ -174,7 +174,7 @@
                     margin-right:5px; 
                     margin-left:5px;
                 }
-                .textbox-login[type=text]{
+                .textbox-login{
                     background:#E6DBE6;
                     height:95%;
                     width:100%; 
@@ -184,7 +184,7 @@
                     font-size:20px;
                     transition:0.5s ease; 
                 }
-                .textbox-login[type=text]:focus{
+                .textbox-login:focus{
                     outline:none;
                     transition:0.5s ease;
                     background:#a79ea7;
@@ -370,7 +370,7 @@
     margin-right:5px; 
     margin-left:5px;
 }
-.textbox-studentlab[type=text]{
+.textbox-studentlab{
     background:#E6DBE6;
     height:95%;
     width:100%; 
@@ -380,7 +380,7 @@
     font-size:20px;
     transition:0.5s ease; 
 }
-.textbox-studentlab[type=text]:focus{
+.textbox-studentlab:focus{
     outline:none;
     transition:0.5s ease;
     background:#a79ea7;

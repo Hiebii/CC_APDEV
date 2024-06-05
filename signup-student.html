@@ -53,12 +53,12 @@
 
                         <div class="textcontainer-studentlab">
                             <img src="images/lock-password.png" class="texticon-password-studentlab">
-                            <input type="text" class="textbox-studentlab" id="student-password" placeholder="Password">
+                            <input type="password" class="textbox-studentlab" id="student-password" placeholder="Password">
                         </div>
 
                         <div class="textcontainer-studentlab">
                             <img src="images/lock-password.png" class="texticon-password-studentlab">
-                            <input type="text" class="textbox-studentlab" id="confirm-student-password" placeholder="Confirm Password">
+                            <input type="password" class="textbox-studentlab" id="confirm-student-password" placeholder="Confirm Password">
                         </div>
                         <input type="submit" id="submitcredentials" class="submitbuttonsignup" value="SIGN UP">
                     </div>
@@ -88,6 +88,33 @@
             const disabledButton = document.querySelector(".buttons-menu[disabled]");
 
             disabledButton.classList.add('buttons-menu-disabled');
+            
+            const emailCheck = document.getElementById('student-email')
+            const submitButton = document.getElementById('submitcredentials');
+            const passwordInitial = document.getElementById('student-password');
+            const passwordConfirm = document.getElementById('confirm-student-password');
+           
+            submitButton.addEventListener("click", function(event){
+            const emailCheckValue = emailCheck.value.trim();
+            const passwordInitialValue=passwordInitial.value.trim();
+            const passwordConfirmValue=passwordConfirm.value.trim();
+                if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue === passwordConfirmValue && passwordInitialValue!=='' && passwordConfirmValue!==''){
+                    alert("Welcome to tinkerlab!");
+                }
+                else if (emailCheckValue.endsWith('@dlsu.edu.ph') && (passwordInitialValue==='' || passwordConfirmValue==='')){
+                    alert("Invalid. You need to have a password.");
+                }
+                else if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue!==passwordConfirmValue ){
+                    alert("Invalid. Passwords Must Match.");
+                }
+                else if(emailCheckValue==='' && passwordInitialValue==='' && passwordConfirmValue===''){
+                    alert("Input something before progressing.");
+                }
+                else if(!(emailCheckValue.endsWith('@dlsu.edu.ph'))){
+                    alert("Email must end in @dlsu.edu.ph");
+                }
+            });
+            
             
         </script>
     </body>
