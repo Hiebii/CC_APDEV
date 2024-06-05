@@ -33,26 +33,29 @@
             </a>
         </div>
         <div class="btndivider">     
-            <a href ="CT-Profile.html"><button class="btndesign" id="profilebtn">Profile</button></a>
+            <a href ="LT-Profile_Peter.html">
+                <button class="btndesign" id="profilebtn">Profile</button>
+            </a>
                 <div class="dropdown">
                     <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
                 </div>
         </div>
+        
         <div class="searchdivider">
             <div class="searchfield">
-                <a href="CT-Profile_view-only.html">
+                <a href="LT-Profile_view-only_Peter.html">
                     <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
                 </a>
                 <input class="searchinput" type="text" placeholder="Search...">
             </div>
         </div>
+       
     </div>
     <!-- profile body -->
     <div class="profilediv">
 
         <!-- left profile side -->
         <div class="profilediv1">
-
             <div id="photo-div">
                 <div class="profileborder">
                     <img class="profilephoto" src="images/defaultpfp.png">
@@ -60,71 +63,53 @@
             </div>
             <br>
             <div id="role-div">
-                <h1 class="role">Student</h1>
+                <h1 class="role">Lab Technician</h1>
             </div>
             <br>
             <div id="editprofilebtn-div">
-                <button class="purple-button"><a class="linktoedit" href="CT-Profile.html">SAVE CHANGES</a></button>
+                <button class="purple-button"><a class="linktoedit" href="LT-Profile_edit_Peter.html">EDIT PROFILE</a></button>
             </div>
             <br><br>
             <div id="deleteaccbtn-div">
                 <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
             </div>
-
         </div>
 
-        <hr class="vl">
+        <hr class="vl"> 
 
         <!-- right profile side -->
         <div class="profilediv2">
-            <h2 class="profileheader" id="headeredit">Ava Watson</h2>
+            <h2 class="profileheader">Peter Jones</h2>
 
-            <textarea class="profiledesc" id="descedit" rows="7" cols="80">I challenge society's expectations for women in Regency-era London.</textarea>
+            <textarea readonly class="profiledesc" rows="7" cols="80">Humpty Dumpty sat on the wall. Be careful, darling. You might fall.</textarea>
 
             <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
             <div class="scheddiv">
-            <table>
-                <thead>
-                  <tr>
-                    <th>Seat No.</th>
-                    <th>Computer Lab</th>
-                    <th>Date of Request</th>
-                    <th>Time of Request</th>
-                    <th>Date of Reservation</th>
-                    <th>Time of Reservation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>A04</td>
-                        <td>AG101</td>
-                        <td>05/20/2024</td>
-                        <td>9:35AM</td>
-                        <td>05/21/2024</td>
-                        <td>9:00AM - 9:30AM</td>
-                    </tr>
-                    <tr>
-                        <td>A05</td>
-                        <td>AG101</td>
-                        <td>05/20/2024</td>
-                        <td>9:35AM</td>
-                        <td>05/21/2024</td>
-                        <td>9:00AM - 9:30AM</td>
-                    </tr>
-                    <tr>
-                        <td>A06</td>
-                        <td>AG101</td>
-                        <td>05/20/2024</td>
-                        <td>9:35AM</td>
-                        <td>05/21/2024</td>
-                        <td>9:00AM - 9:30AM</td>
-                    </tr>
-                </tbody>
-            </table>
+                <table>
+                    <thead>
+                      <tr>
+                            <th>Seat No.</th>
+                            <th>Computer Lab</th>
+                            <th>Date of Request</th>
+                            <th>Time of Request</th>
+                            <th>Date of Reservation</th>
+                            <th>Time of Reservation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>V07</td>
+                            <td>VL101</td>
+                            <td>05/19/2024</td>
+                            <td>2:36 PM</td>
+                            <td>05/20/2024</td>
+                            <td>7:30AM - 8:00AM</td>
+                        </tr>
+                        </tbody>
+                    </table>
             </div>
         </div>  
-
-    </div>    
+    </div>
     <!-- Hidden confirmation dialog -->
     <script src="js/prompt.js"></script>
     <div id="dialog-1" class="dialog-1">
@@ -153,7 +138,7 @@
        <div class="button-container">
            <button class="purple-button" onclick="toLoginpage()">Confirm</button>
        </div>
-   </div>
+   </div>    
    </body>
    <footer>
     <div class="footer-container">
