@@ -4,6 +4,8 @@
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssprofilepage.css">
+    <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
+
     <title>Welcome to tinkerlab</title>
    </head> 
    <body>
@@ -27,19 +29,25 @@
         <div class="btndivider">     
             <a href ="CT-profilepage.html"><button class="btndesign" id="profilebtn">Profile</button></a>
                 <div class="dropdown">
-                    <a class="btndesign" id="logoutbtn" href="">Logout</a>
+                    <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
                 </div>
         </div>
-        
         <div class="searchdivider">
             <div class="searchfield">
                 <a href="CT-profilepageview.html">
                     <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
                 </a>
                 <input class="searchinput" type="text" placeholder="Search...">
+            
+                <div id="suggestion-box">
+                    <ul>
+                        <li onclick="">Eloise</li>
+                        <li onclick="">Simon</li>
+                    </ul>
+                </div>
+            
             </div>
         </div>
-       
     </div>
     <!-- profile body -->
     <div class="profilediv">
@@ -61,7 +69,7 @@
             </div>
             <br><br>
             <div id="deleteaccbtn-div">
-                <a class="deleteaccbtn" href=" ">Delete Account</a>
+                <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
             </div>
         </div>
 
@@ -74,7 +82,7 @@
             <textarea readonly class="profiledesc" rows="9" cols="80">I challenge society's expectations for women in Regency-era London.</textarea>
 
             <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
-            <div class="tablediv">
+            <div class="scheddiv">
             <table>
                 <thead>
                   <tr>
@@ -99,6 +107,36 @@
                 </table>
             </div>
         </div>  
-    </div>    
+    </div>   
+    
+     <!-- Hidden confirmation dialog -->
+     <script src="js/prompt.js"></script>
+     <div id="dialog-1" class="dialog-1">
+         <div class="dialog-header"></div>
+         <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">DELETE ACCOUNT</span>?</p>
+         <div class="button-container">
+             <button class="back-button" onclick="hidePrompt()">Back</button>
+             <button class="purple-button" onclick="deleteAccountPrompt()">Confirm</button>
+         </div>
+     </div>
+
+     <script src="js/prompt.js"></script>
+    <div id="dialog-2" class="dialog-2">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt2()">Back</button>
+            <button class="purple-button"  onclick="showPrompt3()">Confirm</button>
+        </div>
+    </div>
+
+    <script src="js/prompt.js"></script>
+    <div id="dialog-3" class="dialog-3">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">PROCESS SUCCESSFUL.</p>
+        <div class="button-container">
+            <button class="purple-button" onclick="toLoginpage()">Confirm</button>
+        </div>
+    </div>
    </body>
 </html>
