@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function showPrompt2() {
-        promptText.innerHTML = '<span class="prompt-class"> <span class="js_note">Please<span class="js_seat"> select</span> <br> atleast 1 seat!</span></span>';
+        promptText.innerHTML = '<br><br><span class="prompt-class"> <span class="js_note">Please<span class="js_seat"> select</span> <br> atleast 1 seat!</span></span>';
         dialog.style.display = "block";
         dialog.style.display = "block";
     }
