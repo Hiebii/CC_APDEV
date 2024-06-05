@@ -5,7 +5,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
         <link rel="stylesheet" href="css-main/cssmainwebsite.css">
-        <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
+        <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
+        <link rel="stylesheet" href="css-main/CT_LT-Main.css">
         <link rel="icon" href="images/icon.png">
         <title>tinkerlab.</title>
     </head>
@@ -31,7 +32,9 @@
                 </a>
             </div>
             <div class="btndivider">
-                <button class="btndesign" id="profilebtn">Profile</button>
+                <a href="CT-Profile.html">
+                    <button class="btndesign" id="profilebtn">Profile</button>
+                </a>
             </div>
             
             <div class="searchdivider">
@@ -49,16 +52,18 @@
         <div class="outer-box">
             <ul class="details">
                 <li><span class = "bold">Name:</span> Eloise Bridgerton</li>
+                <li><input type="checkbox"><span class = "anon-text">Anonymous</span></li>
                 <li><span class = "bold">Computer Lab:</span> GK101</li>
                 <li><span class = "bold">Seat No.:</span> G01</li>
                 <li><span class = "bold">Date of Request:</span> 05-18-2024</li>
                 <li><span class = "bold">Time of Request:</span> 2:36PM</li>
                 <li><span class = "bold">Date of Reservation:</span> 05-19-2024</li>
                 <li><span class = "bold">Time of Reservation:</span> 7:30AM - 8:00AM</li>
-            </ul>  
+            </ul> 
         </div>
+        
         <div class="button-container">
-            <button class="back-button"><a href="insert.html">Back</a></button>
+            <button class="back-button"><a href="CT-Reservation_Goks.html">Back</a></button>
             <button class="purple-button" onclick="showPrompt()">Submit</button>
         </div>
         
@@ -77,16 +82,33 @@
     <footer>
         <div class="footer-container">
             <div class="footer-column-1">
-                <img class="imglogo" src="images/tinkerlablogo.png">
+                <img class="footer-logo" src="images/tinkerlablogo.png">
                 <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
             </div>
             <div class="footer-column-2">
                 <h3>About</h3>
-                <p>Insert about content here.</p>
+                <p class = "footer-about">an intuitive platform that allows students to easily<br> 
+                    reserve, check availability, and manage their computer<br> 
+                    lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
             </div>
             <div class="footer-column-3">
                 <h3>Contact</h3>
-                <p>Insert contact information here.</p>
+                <div class="contact-info">
+                    <img class="email-logo" src="images/email-logo.png">
+                    <a class="dlsu-email" href="mailto:charlemagne_craw@dlsu.edu.ph">charlemagne_craw@dlsu.edu.ph</a>
+                </div>
+                <div class="contact-info">
+                    <img class="email-logo" src="images/email-logo.png">
+                    <a class="dlsu-email" href="mailto:rafael_debelen@dlsu.edu.ph">rafael_debelen@dlsu.edu.ph</a>
+                </div>
+                <div class="contact-info">
+                    <img class="email-logo" src="images/email-logo.png">
+                    <a class="dlsu-email" href="mailto:monica_santiago@dlsu.edu.ph">monica_santiago@dlsu.edu.ph</a>
+                </div>
+                <div class="contact-info">
+                    <img class="email-logo" src="images/email-logo.png">
+                    <a class="dlsu-email" href="mailto:john_fredrick_tario@dlsu.edu.ph">john_fredrick_tario@dlsu.edu.ph</a>
+                </div>
             </div>
         </div>
     </footer>

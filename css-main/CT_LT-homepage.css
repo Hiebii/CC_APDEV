@@ -1,4 +1,4 @@
-#vieweditbtn {
+#homebtn {
     padding:35px;
     padding-top:10px;
     padding-bottom:10px;
@@ -13,7 +13,7 @@
     font-family: "Montserrat", sans-serif;
 }
 
-#vieweditbtn:hover{
+#homebtn:hover{
     transition-duration:0.5s;
     background-color:#292929;
     color:white;
