@@ -12,6 +12,64 @@
                     justify-content:center;
                     padding-top:200px;
                 }
+                .header-general{
+                    display:flex;
+                    justify-content:space-between;
+                    width:100%;
+                }
+                .buttons-location{
+                    margin-left:800px;
+                    align-items:center;
+                }
+                .buttons-menu{
+                    height:55px;
+                    width:100px;
+                    margin-left:30px;
+                    border-radius:30px;
+                    font-family:"Montserrat", "sans-serif";
+                    font-size:20px;
+                    color:white;
+                    background:none;
+                    border:2px solid white;
+                }
+                .buttons-menu-disabled {
+                    background: #A359A0;
+                }
+                .left-side{
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:center;
+                    height:550px;
+                    width:600px;
+                    padding:20px;
+                }
+                .header-left-side{
+                    font-family:'Montserrat', 'sans-serif';
+                    font-size:40px;
+                    font-weight:1000;
+                    color:#F4DAE1;
+                    text-transform:uppercase;
+                    width:450px;
+                    letter-spacing: 3px;
+                    text-shadow:2px 3px 5px black;
+                }
+                .divider-left-side{
+                    border-top:2px solid black;
+                    margin-top:20px;
+                    width:450px;
+                }
+                .divider-bottom-side{
+                    border-style:5px solid black;
+                }
+                .wrapper{
+                    margin-top:40px;
+                    display:flex;
+                    flex-direction:row;
+                    justify-content:space-between;
+                    width:100%;
+                    align-items:center;
+                }
                 .container{
                     border-radius:25px;
                     background:#FFFFFF;
@@ -40,14 +98,41 @@
                     row-gap:30px;
                     flex-direction: column;
                 }
-                .textform{
-                    width:350px;
-                    height:50px;
-                    background:#E7DBE7;
-                    border-radius:10px;
-                    border-width:0px;
-                    padding-left:20px;
-                    font-family: "Inter", sans-serif;       
+                .textcontainer-login{
+                    background:#E6DBE6;
+                    width:370px;
+                    height:60px;
+                    border-radius:20px;
+                    display:flex;
+                    align-items:center;
+                }
+                .texticon-email-login{
+                    height:24px;
+                    width:34px;
+                    margin-right:5px; 
+                    margin-left:5px;
+                }
+                .texticon-password-login{
+                    height:40px;
+                    width:31px;
+                    margin-right:5px; 
+                    margin-left:5px;
+                }
+                .textbox-login[type=text]{
+                    background:#E6DBE6;
+                    height:95%;
+                    width:100%; 
+                    border-radius:20px;
+                    border:0px;
+                    font-family: "Inter", sans-serif;
+                    font-size:20px;
+                    transition:0.5s ease; 
+                }
+                .textbox-login[type=text]:focus{
+                    outline:none;
+                    transition:0.5s ease;
+                    background:#a79ea7;
+                    color:white;
                 }
                 .submitbutton[type=submit]{
                     width:370px;
@@ -84,10 +169,14 @@
                 .bottom{
                     padding-top:10px;
                     font-size:20px;
+                    font-family: "Inter", sans-serif;    
+                    justify-content:right;
                     display:flex;
-                    font-family: "Inter", sans-serif;     
+                    align-items:flex-end; 
+                    margin-top:-25px;
+                    width:92%;
                 }
-                a:link{
+                a{
                     padding-left:5px;
                     color:white;
                 }
@@ -194,19 +283,74 @@
 .subheader-studentlab{
     justify-content:center;
     font-weight:400;
-    font-size:22px;
+    font-size:16px;
     width:80%;
+    margin-bottom:20px;
+}
+.content-studentlab{
+    display:flex;
+    flex-direction:row;
 }
 .textcontainer-studentlab{
     background:#E6DBE6;
-    width:330px;
-    height:50px;
+    width:350px;
+    height:60px;
     border-radius:20px;
+    display:flex;
+    align-items:center;
+    margin-bottom:20px;
+}
+.texticon-email-studentlab{
+    height:24px;
+    width:34px;
+    margin-right:5px; 
+    margin-left:5px;
+}
+.texticon-password-studentlab{
+    height:40px;
+    width:31px;
+    margin-right:5px; 
+    margin-left:5px;
 }
 .textbox-studentlab[type=text]{
     background:#E6DBE6;
-    height:45px;
-    width:230px; 
+    height:95%;
+    width:100%; 
     border-radius:20px;
     border:0px;
+    font-family: "Inter", sans-serif;
+    font-size:20px;
+    transition:0.5s ease; 
 }
+.textbox-studentlab[type=text]:focus{
+    outline:none;
+    transition:0.5s ease;
+    background:#a79ea7;
+    color:white;
+}
+.submitbuttonsignup[type=submit]{
+    margin-top:20px;
+    width:350px;
+    height:50px;
+    border-radius:10px;
+    border-width:0px;
+    padding-left:20px;
+    background:#709176;
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    font-family: "Inter", sans-serif;  
+    letter-spacing:4px;
+    box-shadow: 1px 1px 3px 0.5px black;
+}
+.submitbuttonsignup[type=submit]:hover{
+    transition:0.75s;
+    background:white;
+    color:black;
+}
+.footer-studentlab{
+    margin-top:5px;
+    font-family: "Inter", sans-serif;
+    font-size:20px;
+}
+

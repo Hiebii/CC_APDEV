@@ -17,13 +17,46 @@
                     <div class="subheader-studentlab">
                         Create your account.
                     </div>  
-
-                    <div class="textcontainer-studentlab">
-                            <img src="images/email-icon.png" class="texticon-studentlab">
-                            <input type="text" class="textbox-studentlab" placeholder="Email Address">
+                    <div class="content-studentlab">
+                        <div class="textcontainer-studentlab">
+                                <img src="images/email-icon.png" class="texticon-email-studentlab">
+                                <input type="text" class="textbox-studentlab" id="student-email" placeholder="Email Address">
+                            </div>
                         </div>
+
+                        <div class="textcontainer-studentlab">
+                            <img src="images/lock-password.png" class="texticon-password-studentlab">
+                            <input type="text" class="textbox-studentlab" id="student-password" placeholder="Password">
+                        </div>
+
+                        <div class="textcontainer-studentlab">
+                            <img src="images/lock-password.png" class="texticon-password-studentlab">
+                            <input type="text" class="textbox-studentlab" id="confirm-student-password" placeholder="Confirm Password">
+                        </div>
+                        <input type="submit" id="submitcredentials" class="submitbuttonsignup" value="SIGN UP">
                     </div>
+                    <div class="footer-studentlab">
+                    Already have an account? <a href="login-page.html">Log in.</a>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <script>
+            const colorBgContainer = document.querySelectorAll(".textbox-studentlab");
+            colorBgContainer.forEach(input =>{
+                input.addEventListener('focus', function(){
+                    const textContainer = input.closest('.textcontainer-studentlab');
+                    textContainer.style.backgroundColor='#a79ea7';
+                    textContainer.style.transition='0.5s ease';
+                });
+                
+                input.addEventListener('blur', function(){
+                    const textContainer = input.closest('.textcontainer-studentlab');
+                    textContainer.style.backgroundColor='#E6DBE6';
+                    textContainer.style.transition='0.5s ease';
+                })
+            });
+        </script>
     </body>
 </html>
