@@ -4,6 +4,7 @@
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssprofilepage.css">
+    <link rel="stylesheet" href="css-main/CT_LT-Main.css">
     <link rel="icon" href="images/icon.png">
     <title>tinkerlab.</title>
    </head> 
@@ -17,106 +18,127 @@
     <!-- Taskbar div -->
     <div class="taskbar">
         <div class="btndivider">
-            <a href="LT-homepage.html">
+            <a href="CT-homepage.html">
                 <button class="btndesign" id="homebtn">Home</button>
             </a>
         </div>
         <div class="btndivider">
-            <a href="LT-Reservation_Goks.html">
+            <a href="CT-Reservation_Goks.html">
             <button class="btndesign" id="reservationbtn">Reservation</button>
            </a>
         </div>
         <div class="btndivider">
-            <a href="LT-View-Edit.html">
+            <a href="CT-View-Edit.html">
             <button class="btndesign" id="vieweditbtn">View/Edit</button>
             </a>
         </div>
         <div class="btndivider">     
-            <a href ="LT-Profile.html"><button class="btndesign" id="profilebtn">Profile</button></a>
+            <a href ="CT-Profile.html">
+                <button class="btndesign" id="profilebtn">Profile</button>
+            </a>
                 <div class="dropdown">
-                    <a class="btndesign" id="logoutbtn" href="">Logout</a>
+                    <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
                 </div>
         </div>
+        
         <div class="searchdivider">
             <div class="searchfield">
-                <a href="LT-Profile-view-only.html">
+                <a href="CT-Profile_view-only_Benjamin.html">
                     <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
                 </a>
                 <input class="searchinput" type="text" placeholder="Search...">
             </div>
         </div>
+       
     </div>
     <!-- profile body -->
     <div class="profilediv">
 
         <!-- left profile side -->
         <div class="profilediv1">
-
-            <div class="profileborder">
-                <img class="profilephoto" src="images/defaultpfp.png">
+            <div id="photo-div">
+                <div class="profileborder">
+                    <img class="profilephoto" src="images/defaultpfp.png">
+                </div>
             </div>
-
-            <h1 class="role" id="lt">Lab Technician</h1>
-
-            <button class="purple-button" id="savebtn"><a class="linktoedit" href="LT-Profile.html">Save Changes</a></button>
-
-            <a class="deleteaccbtn" href=" ">Delete Account</a>
-
+            <br>
+            <div id="role-div">
+                <h1 class="role">Student</h1>
+            </div>
+            <br>
+            <div id="editprofilebtn-div">
+                <button class="purple-button"><a class="linktoedit" href="CT-Profile_edit_Benjamin.html">EDIT PROFILE</a></button>
+            </div>
+            <br><br>
+            <div id="deleteaccbtn-div">
+                <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
+            </div>
         </div>
 
-        <hr class="vl">
+        <hr class="vl"> 
 
         <!-- right profile side -->
         <div class="profilediv2">
-            <h2 class="profileheader" id="headeredit">Jackson Moore</h2>
+            <h2 class="profileheader">Benjamin Hernandez</h2>
 
-            <textarea class="profiledesc" id="descedit" rows="7" cols="80">I am the Duke of Hastings, finding solace in art and literature.</textarea>
+            <textarea readonly class="profiledesc" rows="7" cols="80">Together, forever, we are stroger.</textarea>
 
             <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
-            <div class="tablediv">
+            <div class="scheddiv">
                 <table>
                     <thead>
                       <tr>
-                            <th>Seat No.</th>
-                            <th>Computer Lab</th>
-                            <th>Date of Request</th>
-                            <th>Time of Request</th>
-                            <th>Date of Reservation</th>
-                            <th>Time of Reservation</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                        <th>Seat No.</th>
+                        <th>Computer Lab</th>
+                        <th>Date of Request</th>
+                        <th>Time of Request</th>
+                        <th>Date of Reservation</th>
+                        <th>Time of Reservation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
                         <tr>
-                            <td>A10</td>
-                            <td>AG101</td>
-                            <td>05/20/2024</td>
-                            <td>9:03PM</td>
-                            <td>05/21/2024</td>
-                            <td>9:00AM - 9:30AM</td>
+                            <td>G01</td>
+                            <td>GK101</td>
+                            <td>05/18/2024</td>
+                            <td>2:36AM</td>
+                            <td>05/19/2024</td>
+                            <td>7:30AM - 8:00AM</td>
                         </tr>
-                        <tr>
-                            <td>A11</td>
-                            <td>AG101</td>
-                            <td>05/20/2024</td>
-                            <td>9:03PM</td>
-                            <td>05/21/2024</td>
-                            <td>9:00AM - 9:30AM</td>
-                        </tr>
-                        <tr>
-                            <td>A12</td>
-                            <td>AG101</td>
-                            <td>05/20/2024</td>
-                            <td>9:03PM</td>
-                            <td>05/21/2024</td>
-                            <td>9:00AM - 9:30AM</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
             </div>
         </div>  
+    </div>
+    <!-- Hidden confirmation dialog -->
+    <script src="js/prompt.js"></script>
+    <div id="dialog-1" class="dialog-1">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">DELETE ACCOUNT</span>?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt()">Back</button>
+            <button class="purple-button" onclick="showPrompt3()">Confirm</button>
+        </div>
+    </div>
 
-    </div>    
+    <script src="js/prompt.js"></script>
+   <div id="dialog-2" class="dialog-2">
+       <div class="dialog-header"></div>
+       <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
+       <div class="button-container">
+           <button class="back-button" onclick="hidePrompt2()">Back</button>
+           <button class="purple-button"  onclick="showPrompt3()">Confirm</button>
+       </div>
+   </div>
 
+   <script src="js/prompt.js"></script>
+   <div id="dialog-3" class="dialog-3">
+       <div class="dialog-header"></div>
+       <p class="prompt-text">PROCESS SUCCESSFUL.</p>
+       <div class="button-container">
+           <button class="purple-button" onclick="toLoginpage()">Confirm</button>
+       </div>
+   </div>    
    </body>
    <footer>
     <div class="footer-container">
