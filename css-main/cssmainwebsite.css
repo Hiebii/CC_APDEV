@@ -236,3 +236,50 @@ html, body {
 .dlsu-email:hover {
     color: #9C70DC;
 }
+
+
+/* SEARCH SUGGESTION CSS */
+
+.suggestions-div {
+    width: 500px;
+    max-height: 300px;
+    overflow: auto;
+    position: relative;
+    border-radius: 40px;
+    border: 2px solid #000;
+    position: relative;
+    background-color: #fff;
+
+    display: none;
+}
+
+.uldump {
+    background-color: #fff;  
+    border-radius: 40px;
+    font-size: 25px;
+    list-style-type: none;
+    border-collapse: collapse;
+    margin-top: -5px;
+    padding-top: 20px;
+    padding-left: 0px;
+}
+
+.lidump {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.lidump:hover{
+    background: #efefef;   
+    padding-left: 10px;
+    transition: 0.3s; 
+}
+
+.searchdivider:focus-within .suggestions-div {
+    display: block;
+}
+
+.clearlink {
+    color: #000;
+    text-decoration: none;
+}
