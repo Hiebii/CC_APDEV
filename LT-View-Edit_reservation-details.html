@@ -5,8 +5,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
         <link rel="stylesheet" href="css-main/cssmainwebsite.css">
+        <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
         <link rel="stylesheet" href="css-main/CT_LT-Main.css">
-        <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
         <link rel="icon" href="images/icon.png">
         <title>tinkerlab.</title>
     </head>
@@ -17,22 +17,22 @@
         </div>
         <div class="taskbar">
             <div class="btndivider">
-                <a href="CT-homepage.html">
+                <a href="LT-homepage.html">
                     <button class="btndesign" id="homebtn">Home</button>
                 </a>
             </div>
             <div class="btndivider">
-                <a href="CT-Reservation_Goks.html">
+                <a href="LT-Reservation_Goks.html">
                 <button class="btndesign" id="reservationbtn">Reservation</button>
                </a>
             </div>
             <div class="btndivider">
-                <a href="CT-View-Edit.html">
+                <a href="LT-View-Edit.html">
                 <button class="btndesign" id="vieweditbtn">View/Edit</button>
                 </a>
             </div>
             <div class="btndivider">
-                <a href="CT-Profile.html">
+                <a href="LT-Profile.html">
                     <button class="btndesign" id="profilebtn">Profile</button>
                 </a>
             </div>
@@ -44,32 +44,41 @@
                     <input class="searchinput" type="text" placeholder="Search...">
                 </div>
             </div>
-           
+        </div>
+        <div class = "title-1">
+            RESERVATION DETAILS
         </div>
 
-        <div class="container">
-            <img class="comp-image" src="images/background.jpg"/>
-            <div class="overlay">
-                <div class="title-2">
-                    YOU HAVE SUCCESSFULLY <br>MODIFIED A RESERVATION!
-                </div>
-                <div class="outer-box">
-                    <ul class="details">
-                        <li><span class = "bold">Name:</span> Ava Watson</li>
-                        <li><span class = "bold">Computer Lab:</span> AG101</li>
-                        <li><span class = "bold">Seat No.:</span> A17</li>
-                        <li><span class = "bold">Date of Request:</span> 05-20-2024</li>
-                        <li><span class = "bold">Time of Request:</span> 9:35AM</li>
-                        <li><span class = "bold">Date of Reservation:</span> 05-21-2024</li>
-                        <li><span class = "bold">Time of Reservation:</span> 9:00AM - 9:30AM</li>
-                    </ul>  
-                </div>                
-                <div class="button-container">
-                    <button class="purple-button"><a href="CT-View-Edit.html">View</a></button>
-                </div> 
+        <div class="outer-box">
+            <ul class="details">
+                <li><span class = "bold">Name:</span> Ava Watson</li>
+                <li><input type="checkbox"><span class = "anon-text">Anonymous</span></li>
+                <li><span class = "bold">Computer Lab:</span> AG101</li>
+                <li><span class = "bold">Seat No.:</span> A18</li>
+                <li><span class = "bold">Date of Request:</span> 05-20-2024</li>
+                <li><span class = "bold">Time of Request:</span> 9:35AM</li>
+                <li><span class = "bold">Date of Reservation:</span> 05-21-2024</li>
+                <li><span class = "bold">Time of Reservation:</span> 9:00AM - 9:30AM</li>
+            </ul> 
+        </div>
+        
+        <div class="button-container">
+            <button class="back-button"><a href="LT-View-Edit_edit-reservation.html">Back</a></button>
+            <button class="purple-button" onclick="showPrompt()">Submit</button>
+        </div>
+        
+        <!-- Hidden confirmation dialog -->
+        <script src="js/prompt.js"></script>
+        <div id="dialog-1" class="dialog-1">
+            <div class="dialog-header"></div>
+            <p class="prompt-text">DO YOU CONFIRM TO <br>RESERVE<span class ="green-text"> A18</span> SEAT?</p>
+            <div class="button-container">
+                <button class="back-button" onclick="hidePrompt()">Back</button>
+                <button class="purple-button" onclick="confirmEdit2()">Confirm</button>
             </div>
-        </div>        
+        </div>
     </body>
+
     <footer>
         <div class="footer-container">
             <div class="footer-column-1">
