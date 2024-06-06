@@ -7,7 +7,6 @@
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css-main/CT-Reservation.css">
-    <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssmainwebsite_reserve.css">
 
     <link rel="icon" href="images/icon.png">
@@ -61,26 +60,24 @@
             <h1 class="left-text">TIME</h1>
             <div class="custom-select-wrapper">
                 <select class="time-dropdown">
-                    <option class="choices" value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
-                    <option class="choices" value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
-                    <option class="choices" value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
-                    <option class="choices" value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
-                    <option class="choices" value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
-                    <option class="choices" value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
-                    <option class="choices" value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
-                    <option class="choices" value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
-                    <option class="choices" value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
-                    <option class="choices" value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
+                    <option value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
+                    <option value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
+                    <option value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
+                    <option value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
+                    <option value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
+                    <option value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
+                    <option value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
+                    <option value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
+                    <option value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
+                    <option value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
                 </select>
             </div>
         </div>
         
-        <div class="date-button">
+        <div class = "date-button">
             <h1 class="left-text">DATE</h1>
-            <input type="date" class="date-input" id="dateInput">
+            <input type="date" class="date-input">
         </div>
-
-
     </div>
                   
             </div>
@@ -90,18 +87,25 @@
 
                 <div id="top-right">
                     <h1 id="comp-lab-text">COMPUTER LAB:</h1>
-                    <div class="lab-button">
+                    <div class = "lab-button">
                         <div class="custom-select-wrapper">
-                            <select id="lab-dropdown" class="lab-dropdown">
-                                <option value="CT-Reservation_Goks.html">GK01</option>
-                                <option value="CT-Reservation_Velasco.html">VL101</option>
-                                <option value="CT-Reservation_Andrew.html">AG101</option>
+                            <select class="lab-dropdown">
+                                <option value="GK01">GK01</option>
+                                <option value="VL01">VL01</option>
+                                <option value="AG101">AG101</option>
                             </select>
                         </div>
-                    </div>                    
-
+                    </div>
                 </div>
             
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js-main/CT-Reservation_LabDrop.js"></script>
+    <script src="js-main/CT-Reservation_TimePicker.js"></script>
+    <script src="js-main/CT-Reservation_DatePicker.js"></script>
+   
+                
 
     <div id="mid-right">
         <div class="container-mid">
@@ -113,7 +117,7 @@
             
             <div class="colside col-md-1">
                 <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-value="1" data-seat="GK01" data-value-name="Anonymous">GK01</div><br>
+                <div id="S01" class="seat-name" data-value="1" data-seat="GK01" data-value-name="Eloise Bridgerton">GK01</div><br>
                 <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S02" class="seat-name" data-value="0" data-seat="GK02" data-value-name="N/A">GK02</div><br>
                 <img class="lab-student-icon" src="images/lab-student.png">
@@ -200,13 +204,8 @@
                               
 
                 <div id="bot-right" >
-                    <a class="purple-button" id="reserve-button">Reserve</a>
-                    <div id="dialog-1" class="dialog-1">
-                        <div class="dialog-header"></div>
-                        <p class="prompt-text"></p>
-                        <div class="button-container">
-                            <button class="back-button" onclick="hidePrompt()">Back</button>
-                        </div>
+                    <a class="purple-button" href="CT-Reservation_reservation-details.html">Reserve</a>
+
                 </div>
             </div>
         </div>
@@ -215,54 +214,14 @@
      <!-- Hidden confirmation dialog -->
      <div id="dialog-1" class="dialog-1">
         <div class="dialog-header"></div>
+        <p class="prompt-text">SORRY data-seat SEAT IS <br> TAKEN ALREADY! Occupied by: <span class="occupied-by"></span></p>
         <div class="button-container">
             <button class="back-button" onclick="hidePrompt()">Back</button>
         </div>
     </div>
 
-
-</div>
     <script src="js/bootstrap.bundle.js"></script>
-    <script src="js-main/lab_reserve.js"></script>
     <script src="js-main/CT-Reservation_OnClick.js"></script>
     <script src="js-main/CT-Reservation_hoverseats.js"></script>
-    <script src="js-main/CT-Reservation_DateRestrict.js"></script>
 </body>
-
-<footer>
-    <div class="footer-container">
-        <div class="footer-column-1">
-            <img class="footer-logo" src="images/tinkerlablogo.png">
-            <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
-        </div>
-        <div class="footer-column-2">
-            <h3>About</h3>
-            <p class = "footer-about">an intuitive platform that allows students to easily<br> 
-                reserve, check availability, and manage their computer<br> 
-                lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
-        </div>
-        <div class="footer-column-3">
-            <h3>Contact</h3>
-            <div class="contact-info">
-                <img class="email-logo" src="images/email-logo.png">
-                <a class="dlsu-email" href="mailto:charlemagne_craw@dlsu.edu.ph">charlemagne_craw@dlsu.edu.ph</a>
-            </div>
-            <div class="contact-info">
-                <img class="email-logo" src="images/email-logo.png">
-                <a class="dlsu-email" href="mailto:rafael_debelen@dlsu.edu.ph">rafael_debelen@dlsu.edu.ph</a>
-            </div>
-            <div class="contact-info">
-                <img class="email-logo" src="images/email-logo.png">
-                <a class="dlsu-email" href="mailto:monica_santiago@dlsu.edu.ph">monica_santiago@dlsu.edu.ph</a>
-            </div>
-            <div class="contact-info">
-                <img class="email-logo" src="images/email-logo.png">
-                <a class="dlsu-email" href="mailto:john_fredrick_tario@dlsu.edu.ph">john_fredrick_tario@dlsu.edu.ph</a>
-            </div>
-        </div>
-    </div>
-
-    </footer>
-</footer>
-
 </html>

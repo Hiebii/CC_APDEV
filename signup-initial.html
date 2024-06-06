@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+        <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+        <link rel="stylesheet" href="css-main/cssloginsignup.css">
+        <title>Select the signup option</title>
+    </head>
+    <body class="background"> <!---This one was obtained from cssloginsignup.css-->
+        <div class="position"> <!---This one was obtained from cssloginsignup.css-->
+            <div class="header-general">
+                <img src="images/tinkerlablogo-yellow.png" height="55px" width="274px">
+                <div class="buttons-location">
+                    <a href="login-page.html">
+                    <button class="buttons-menu">Login</button></a>
+                    <button class="buttons-menu" disabled>Sign Up</button>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="left-side">
+                    <div class="header-left-side">
+                        Want to reserve a seat on your favourite lab?
+                    </div>
+                    <div class="divider-left-side"> </div>
+                    <div class="left-side-bottom-text">
+                        Join our lab reservation system to easily <br>
+                        book your spot, check availability, and  <br>
+                        manage your reservations.  <br>
+                        Sign up today with your  <br>
+                        DLSU  email  and  get  <br> 
+                        started   on  making  <br>
+                        the most of your lab  <br>
+                        time! <br>
+                        <a href="CT-Reservation_Goks-view-only.html"><button class="button-see-more">SEE MORE</button></a>
+                        <img src="images/phone-bulbs.png" class="image-bottom-left-side">
+                    </div> 
+                </div> 
+                <div class="container"> <!---This one was obtained from cssloginsignup.css-->
+                        <div class="headerquestion"><!---Header for the text box-->
+                            Are you a Lab Technician or a Student?                        
+                        </div>
+                        <div class="contents-question"><!---This one was obtained from cssloginsignup.css-->
+                            <div class="box-container">
+                                <label>
+                                    <div class="white-box">
+                                        <input type="radio" name="choices" value="student" id ='student'>
+                                        <img src="images/Student.png" class="imgdetails">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="box-container">
+                                <label>
+                                    <div class="white-box">   
+                                        <input type="radio" name="choices" value="labtechnician" id="labtechnician">                          
+                                        <img src="images/LabTechnician.png" class="imgdetails">                      
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="bottomquestion">
+                            <div class="textbottomquestion">
+                            Student
+                            </div>
+                            <div class="textbottomquestion">
+                                Lab Technician
+                            </div>
+                        </div>
+                        <input type="submit" id="submitcredentials" class="submitbuttonquestion" value="NEXT">
+                    </div>
+                    
+                </div>
+        </div>
+        <script>
+            document.getElementById("submitcredentials").addEventListener("click", function(event){
+            event.preventDefault();
+            if(document.getElementById("student").checked){
+                window.location.href="signup-student.html";
+            }
+            else if(document.getElementById("labtechnician").checked){
+                window.location.href="signup-labtechnician.html";
+            }
+            else{
+                alert("Please choose an option before clicking the button.");
+            } 
+         });
+
+         
+        const disabledButton = document.querySelector(".buttons-menu[disabled]");
+
+        disabledButton.classList.add('buttons-menu-disabled');
+        </script>
+    </body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+        <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+        <link rel="stylesheet" href="css-main/cssloginsignup.css">
+         <title>Signup as a Lab Technician</title>
+    </head>
+    <body class="background"> <!---This one was obtained from cssloginsignup.css-->
+        <div class="position"> <!---This one was obtained from cssloginsignup.css-->
+            <div class="header-general">
+                <img src="images/tinkerlablogo-yellow.png" height="55px" width="274px">
+                <div class="buttons-location">
+                    <a href="login-page.html">
+                    <button class="buttons-menu" >Login</button></a>
+                    <button class="buttons-menu" disabled>Sign Up</button>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="left-side">
+                    <div class="header-left-side">
+                        Want to reserve a seat on your favourite lab?
+                    </div>
+                    <div class="divider-left-side"> </div>
+                    <div class="left-side-bottom-text">
+                        Join our lab reservation system to easily <br>
+                        book your spot, check availability, and  <br>
+                        manage your reservations.  <br>
+                        Sign up today with your  <br>
+                        DLSU  email  and  get  <br> 
+                        started   on  making  <br>
+                        the most of your lab  <br>
+                        time! <br>
+                        <a href="CT-Reservation_Goks-view-only.html"><button class="button-see-more">SEE MORE</button></a>
+                        <img src="images/phone-bulbs.png" class="image-bottom-left-side">
+                    </div>
+                </div>
+            <div class="container-studentlab"> <!---This one was obtained from cssloginsignup.css-->
+                    <div class="header-studentlab"><!---Header for the text box-->
+                        REGISTER AS A LAB TECHNICIAN
+              
+                    </div>
+                    <div class="subheader-studentlab">
+                        Create your account.
+                    </div>  
+                    <div class="content-studentlab">
+                        <div class="textcontainer-studentlab">
+                                <img src="images/email-icon.png" class="texticon-email-studentlab">
+                                <input type="text" class="textbox-studentlab" id="lab-technician-email" placeholder="Email Address">
+                            </div>
+                        </div>
+
+                        <div class="textcontainer-studentlab">
+                            <img src="images/lock-password.png" class="texticon-password-studentlab">
+                            <input type="password" class="textbox-studentlab" id="lab-technician-password" placeholder="Password">
+                        </div>
+
+                        <div class="textcontainer-studentlab">
+                            <img src="images/lock-password.png" class="texticon-password-studentlab">
+                            <input type="password" class="textbox-studentlab" id="confirm-lab-technician-password" placeholder="Confirm Password">
+                        </div>
+                        <input type="submit" id="submitcredentials" class="submitbuttonsignup" value="SIGN UP">
+                          
+                    </div>
+                           
+                </div>   
+                <div class="footer-studentlab">
+                    Already have an account? <a href="login-page.html">Log in.</a>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+        <script>
+            const colorBgContainer = document.querySelectorAll(".textbox-studentlab");
+            colorBgContainer.forEach(input =>{
+                input.addEventListener('focus', function(){
+                    const textContainer = input.closest('.textcontainer-studentlab');
+                    textContainer.style.backgroundColor='#a79ea7';
+                    textContainer.style.transition='0.5s ease';
+                });
+                
+                input.addEventListener('blur', function(){
+                    const textContainer = input.closest('.textcontainer-studentlab');
+                    textContainer.style.backgroundColor='#E6DBE6';
+                    textContainer.style.transition='0.5s ease';
+                })
+            });
+
+            const disabledButton = document.querySelector(".buttons-menu[disabled]");
+
+            disabledButton.classList.add('buttons-menu-disabled');
+
+            const emailCheck = document.getElementById('lab-technician-email')
+            const submitButton = document.getElementById('submitcredentials');
+            const passwordInitial = document.getElementById('lab-technician-password');
+            const passwordConfirm = document.getElementById('confirm-lab-technician-password');
+           
+            submitButton.addEventListener("click", function(event){
+            const emailCheckValue = emailCheck.value.trim();
+            const passwordInitialValue=passwordInitial.value.trim();
+            const passwordConfirmValue=passwordConfirm.value.trim();
+                if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue === passwordConfirmValue && passwordInitialValue!=='' && passwordConfirmValue!==''){
+                    alert("Welcome to tinkerlab!");
+                }
+                else if (emailCheckValue.endsWith('@dlsu.edu.ph') && (passwordInitialValue==='' || passwordConfirmValue==='')){
+                    alert("Invalid. You need to have a password.");
+                }
+                else if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue!==passwordConfirmValue ){
+                    alert("Invalid. Passwords Must Match.");
+                }
+                else if(emailCheckValue==='' && passwordInitialValue==='' && passwordConfirmValue===''){
+                    alert("Input something before progressing.");
+                }
+                else if(!(emailCheckValue.endsWith('@dlsu.edu.ph'))){
+                    alert("Email must end in @dlsu.edu.ph");
+                }
+            });
+        </script>
+    </body>
+</html>
