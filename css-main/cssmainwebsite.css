@@ -121,7 +121,7 @@ html, body {
 }
 .pushleft{
     margin-top:40px;
-    margin-left:40px;
+    margin-left:30px;
 }
 .signboard-image{
     height:100px;
@@ -141,7 +141,8 @@ html, body {
 }
 .image-teacher{
     position:absolute;
-    margin-left:10px;
+    margin-left:60px;
+    height:440px;
 }
 .button-reserve{
     margin-top:20px;
