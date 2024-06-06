@@ -117,7 +117,7 @@ html, body {
     border-radius:20px;
     opacity:90%;
     height:80%;
-    width:55%;
+    width:58%;
 }
 .pushleft{
     margin-top:40px;
@@ -142,7 +142,8 @@ html, body {
 .image-teacher{
     position:absolute;
     margin-left:60px;
-    height:440px;
+    height:470px;
+    top:300px;
 }
 .button-reserve{
     margin-top:20px;
