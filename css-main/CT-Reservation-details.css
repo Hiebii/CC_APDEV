@@ -10,3 +10,13 @@ input[type="checkbox"] {
     height: 22px; 
 }
 
+.date-input {
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-family: "Montserrat", sans-serif;
+    background: #E6DBE6;
+}
