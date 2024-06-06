@@ -249,11 +249,11 @@ html, body {
     border: 2px solid #000;
     position: relative;
     background-color: #fff;
-
     display: none;
+    z-index: 1;
 }
 
-.uldump {
+.suggestions-ul {
     background-color: #fff;  
     border-radius: 40px;
     font-size: 25px;
@@ -264,12 +264,12 @@ html, body {
     padding-left: 0px;
 }
 
-.lidump {
+.suggestions-li {
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-.lidump:hover{
+.suggestions-li:hover{
     background: #efefef;   
     padding-left: 10px;
     transition: 0.3s; 
