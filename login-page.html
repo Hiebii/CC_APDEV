@@ -52,8 +52,7 @@
                                     <img src="images/lock-password.png" class="texticon-password-studentlab">
                                     <input type="password" class="textbox-login" id="login-password" placeholder="Password">
                                 </div>                    
-                                <a href="CT-homepage.html">
-                                <input type="submit" id="submitcredentials" class="submitbutton" value="LOGIN"></a>
+                                <input type="submit" id="login-button" class="submitbutton" value="LOGIN">  
                             </div>
                             <div class="contents-bottom">
                             <input type="checkbox" class="checkboxCCS">Remember me
@@ -85,6 +84,24 @@
             const disabledButton = document.querySelector(".buttons-menu[disabled]");
 
             disabledButton.classList.add('buttons-menu-disabled');
+
+            document.getElementById('login-button').addEventListener('click', function(){
+                const emailCheck = document.getElementById('login-email').value.trim();
+                const emailDomain = "@dlsu.edu.ph";
+
+                if (emailCheck.includes('_') && emailCheck.endsWith(emailDomain)){
+                    window.location.href='CT-homepage.html';
+                }
+                else if (emailCheck.includes('.') && emailCheck.endsWith(emailDomain)){
+                    window.location.href='LT-homepage.html';
+                }
+                else{
+                    alert('Invalid email and password! Please double check.');  
+                }
+            });
+            
+
+            
            
         </script>
     </body>
