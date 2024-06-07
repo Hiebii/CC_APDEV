@@ -133,7 +133,7 @@ html, body {
 }
 .pushleft{
     margin-top:40px;
-    margin-left:20px;
+    margin-left:50px;
 }
 .signboard-image{
     height:125px;
@@ -141,6 +141,8 @@ html, body {
 }
 .signboard-divider{
     margin-left:50px;
+    margin-top:30px;
+    margin-bottom:30px;
     border-top:2px solid black;
     width:300px;
 }
@@ -154,7 +156,7 @@ html, body {
 }
 .image-teacher{
     position:absolute;
-    margin-left:235px;
+    margin-left:203px;
     height:702px;
     top:300px;
 }
@@ -165,12 +167,12 @@ html, body {
     box-shadow: 1px 1px 3px 0.5px black;
     font-family:'Inter', 'sans-serif';
     font-weight:700;
-    font-size:40px;
+    font-size:30px;
     letter-spacing:3px;
     border:none;
     border-radius:20px;
-    height:80px;
-    width:320px;
+    height:70px;
+    width:280px;
     transition:0.5s;
 }
 .button-reserve:hover{
