@@ -43,10 +43,14 @@
         
         <div class="searchdivider">
             <div class="searchfield">
-                <a href="LT-Profile_view-only.html">
-                    <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
-                </a>
+                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
                 <input class="searchinput" type="text" placeholder="Search...">
+            </div>
+            <div class="suggestions-div">
+                <ul class="suggestions-ul">
+                    <li class="suggestions-li"><a class="clearlink" href="LT-Profile_view-only.html">Mason</a></li>    
+                    <li class="suggestions-li"><a class="clearlink" href="LT-Profile_view-only_Peter.html">Peter</a></li>    
+                </ul>
             </div>
         </div>
        
@@ -59,6 +63,9 @@
             <div id="photo-div">
                 <div class="profileborder">
                     <img class="profilephoto" src="images/defaultpfp.png">
+                </div>
+                <div class="addphoto-div">
+                    <a href=""><img id="addphotobtn" src="images/addphotoicon.png"></a>
                 </div>
             </div>
             <br>
@@ -81,7 +88,7 @@
         <div class="profilediv2">
             <h2 class="profileheader">Mason Miller</h2>
 
-            <textarea readonly class="profiledesc" rows="7" cols="80">Hi, I'm handsome and smart.</textarea>
+            <textarea class="profiledesc" id="descedit" rows="7" cols="80">Hi, I'm handsome and smart.</textarea>
 
             <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
             <div class="scheddiv">
