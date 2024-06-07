@@ -6,8 +6,6 @@
         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
         <link rel="stylesheet" href="css-main/cssmainwebsite.css">
         <link rel="stylesheet" href="css-main/CT_LT-Main.css">
-        <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
-        <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
         <link rel="icon" href="images/icon.png">
         <title>tinkerlab.</title>
     </head>
@@ -45,38 +43,31 @@
                     <input class="searchinput" type="text" placeholder="Search...">
                 </div>
             </div>
-        </div>
-        <div class = "title-1">
-            RESERVATION DETAILS
+           
         </div>
 
-        <div class="outer-box">
-            <ul class="details">
-                <li><span class="bold">Name:</span> <input type="text" class ="input-name" placeholder="Enter name"></li>
-                <li><input type="checkbox"><span class = "anon-text">Anonymous</span></li>
-                <li><span class = "bold">Computer Lab:</span> AG101</li>
-                <li><span class = "bold">Seat No.:</span> A02</li>
-                <li><span class = "bold">Date of Request:</span> 05-18-2024</li>
-                <li><span class = "bold">Time of Request:</span> 2:36PM</li>
-                <li><span class = "bold">Date of Reservation:</span> 05-19-2024</li>
-                <li><span class = "bold">Time of Reservation:</span> 7:30AM - 8:00AM</li>
-            </ul>  
-        </div>
-        <div class="button-container">
-            <button class="back-button"><a href="LT-Reservation_Andrew.html">Back</a></button>
-            <button class="purple-button" onclick="showPrompt()">Submit</button>
-        </div>
-        
-        <!-- Hidden confirmation dialog -->
-        <script src="js/prompt.js"></script>
-        <div id="dialog-1" class="dialog-1">
-            <div class="dialog-header"></div>
-            <p class="prompt-text">DO YOU CONFIRM TO <br>EDIT RESERVATION?</p>
-            <div class="button-container">
-                <button class="back-button" onclick="hidePrompt()">Cancel</button>
-                <button class="purple-button" onclick="confirmReservation2()">Confirm</button>
+        <div class="container">
+            <img class="comp-image" src="images/background.jpg"/>
+            <div class="overlay">
+                <div class="title-2">
+                    YOU HAVE SUCCESSFULLY <br>RESERVED A SLOT!
+                </div>
+                <div class="outer-box">
+                    <ul class="details">
+                        <li><span class = "bold">Name:</span> Liam Sanchez</li>
+                        <li><span class = "bold">Computer Lab:</span> AG101</li>
+                        <li><span class = "bold">Seat No.:</span> A02</li>
+                        <li><span class = "bold">Date of Request:</span> 05-18-2024</li>
+                        <li><span class = "bold">Time of Request:</span> 2:36PM</li>
+                        <li><span class = "bold">Date of Reservation:</span> 05-19-2024</li>
+                        <li><span class = "bold">Time of Reservation:</span> 7:30AM - 8:00AM</li>
+                    </ul>  
+                </div>                
+                <div class="button-container">
+                    <button class="purple-button"><a href="LT-homepage.html">Return Home</a></button>
+                </div> 
             </div>
-        </div>
+        </div>        
     </body>
     <footer>
         <div class="footer-container">
