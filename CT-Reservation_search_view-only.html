@@ -29,8 +29,8 @@
         </div>
             
             <div class="searchdivider">
-                <div class="searchfield">
-                    <button class="searchbutton"disabled><img src="images/searchglass.png" class="imgbtn" ></button>
+                <div class="searchfield" disabled>
+                    <img src="images/searchglass.png" style="padding-left:20px; cursor:not-allowed;">
                     
                     <input class="searchinput" type="text" placeholder="Search..." disabled>
                 </div>
@@ -41,7 +41,7 @@
           <div class = "lab-button">
               <p class = "sort-text">COMPUTER LAB:</p>
               <div class="custom-select-wrapper">
-                  <select class="lab-dropdown" disabled>
+                  <select class="lab-dropdown" disabled style="cursor:not-allowed; background:gray">
                       <option value="GK01">GK01</option>
                       <option value="VL01">VL01</option>
                       <option value="AG101">AG101</option>
@@ -52,7 +52,7 @@
           <div class = "time-button">
               <p class = "sort-text">TIME:</p>
               <div class="custom-select-wrapper">
-                  <select class="time-dropdown" disabled>
+                  <select class="time-dropdown" disabled style="cursor:not-allowed; background:gray">
                       <option value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
                       <option value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
                       <option value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
@@ -69,7 +69,7 @@
           
           <div class = "date-button" disabled>
               <p class = "sort-text">DATE:</p>
-              <input type="date" class="date-input"disabled>
+              <input type="date" class="date-input"disabled style="cursor:not-allowed; background:gray">
           </div>
       </div>
 
@@ -224,9 +224,13 @@
 
         const disabledSearch=document.querySelectorAll(".searchinput[disabled]");
         disabledSearch.forEach(text=>{
-            text.style.height='90%';
-            text.style.background='#585757';
-            text.style.cursor='not-allowed';
-        })
+            text.classList.add('disabled-searchinput');
+        });
+
+        const disabledSearchField=document.querySelectorAll(".searchfield[disabled]");
+        disabledSearchField.forEach(searchField=>{
+            searchField.style.background='#292929';
+        });
+        
   </script>
 </html>

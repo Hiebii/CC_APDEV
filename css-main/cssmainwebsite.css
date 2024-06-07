@@ -62,8 +62,8 @@
     border-radius:40px;
     display:flex;
     flex-direction:row;
-
 }
+
 .searchinput[type=text]{
     font-family: "Montserrat", sans-serif;
     font-size:25px;
@@ -75,6 +75,14 @@
     border-width:0px;
 }
 
+.disabled-searchinput{
+    cursor:not-allowed;
+    background:#292929;
+}
+.disabled-searchbtn{
+    cursor:not-allowed;
+    background:#292929;
+}
 .searchinput[type=text]:focus{
     border:none;
     outline:none;
