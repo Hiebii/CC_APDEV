@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function showPrompt(seatName, occupant) {
-        const profileLink = "CT-Profile.html";
+        const profileLink = "LT-Profile_view-only_Liam.html";
         promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
         dialog.style.display = "block";
         dialog.style.display = "block";
