@@ -133,7 +133,7 @@ html, body {
 }
 .pushleft{
     margin-top:40px;
-    margin-left:30px;
+    margin-left:20px;
 }
 .signboard-image{
     height:125px;
@@ -154,7 +154,7 @@ html, body {
 }
 .image-teacher{
     position:absolute;
-    margin-left:220px;
+    margin-left:235px;
     height:702px;
     top:300px;
 }
@@ -169,8 +169,8 @@ html, body {
     letter-spacing:3px;
     border:none;
     border-radius:20px;
-    height:100px;
-    width:400px;
+    height:80px;
+    width:320px;
     transition:0.5s;
 }
 .button-reserve:hover{
