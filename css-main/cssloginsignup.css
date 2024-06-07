@@ -159,7 +159,7 @@
                 .textcontainer-login{
                     background:#E6DBE6;
                     width:500px;
-                    height:60px;
+                    height:70px;
                     border-radius:20px;
                     display:flex;
                     align-items:center;
@@ -229,13 +229,14 @@
                 }
                 .bottom{
                     padding-top:10px;
-                    font-size:20px;
+                    font-size:30px;
                     font-family: "Inter", sans-serif;    
                     justify-content:right;
                     display:flex;
                     align-items:flex-end; 
                     margin-top:-40px;
-                    width:92%;
+                    width:91%;
+                    left:500px;
                 }
                 a{
                     padding-left:5px;
@@ -329,8 +330,8 @@
 .container-studentlab{
     border-radius:25px;
     background:#FFFFFF;
-    height:550px;
-    width:450px;
+    height:825px;
+    width:675px;
     justify-content:center;
     align-items:center;
     text-align:center;
@@ -340,13 +341,13 @@
 }
 .header-studentlab{
     font-weight:1000;
-    font-size:28px;
-    width:80%;
+    font-size:48px;
+    width:95%;
 }
 .subheader-studentlab{
     justify-content:center;
     font-weight:400;
-    font-size:16px;
+    font-size:32px;
     width:80%;
     margin-bottom:20px;
 }
@@ -356,8 +357,8 @@
 }
 .textcontainer-studentlab{
     background:#E6DBE6;
-    width:350px;
-    height:60px;
+    width:500px;
+    height:70px;
     border-radius:20px;
     display:flex;
     align-items:center;
@@ -421,6 +422,6 @@
     align-items:flex-end;
     position:relative;
     top:-40px;
-    left:445px;
+    left:800px;
 }
 
