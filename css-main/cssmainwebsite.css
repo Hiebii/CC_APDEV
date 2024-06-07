@@ -43,6 +43,10 @@
     background-color:#292929;
     color:white;
 }
+.btndesign-disabled{
+    background:#A359A0;
+    cursor:not-allowed;
+}
 .searchdivider{
     padding-top:20px;
     padding-left:10px;
