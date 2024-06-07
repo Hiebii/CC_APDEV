@@ -101,6 +101,7 @@
             const passwordConfirmValue=passwordConfirm.value.trim();
                 if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue === passwordConfirmValue && passwordInitialValue!=='' && passwordConfirmValue!==''){
                     alert("Welcome to tinkerlab!");
+                    window.location.href="login-page.html";
                 }
                 else if (emailCheckValue.endsWith('@dlsu.edu.ph') && (passwordInitialValue==='' || passwordConfirmValue==='')){
                     alert("Invalid. You need to have a password.");
