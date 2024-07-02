@@ -13,7 +13,7 @@
             <div class="header-general">
                 <img src="images/tinkerlablogo-yellow.png" height="55px" width="274px">
                 <div class="buttons-location">
-                    <a href="login-page.html">
+                    <a href="/login-page">
                     <button class="buttons-menu">Login</button></a>
                     <button class="buttons-menu" disabled>Sign Up</button>
                 </div>
@@ -33,7 +33,7 @@
                         started   on  making  <br>
                         the most of your lab  <br>
                         time! <br>
-                        <a href="CT-Reservation_search_view-only.html"><button class="button-see-more">SEE MORE</button></a>
+                        <a href="/CT-Reservation_search_view-only"><button class="button-see-more">SEE MORE</button></a>
                         <img src="images/phone-bulbs.png" class="image-bottom-left-side">
                     </div> 
                 </div> 
@@ -76,10 +76,10 @@
             document.getElementById("submitcredentials").addEventListener("click", function(event){
             event.preventDefault();
             if(document.getElementById("student").checked){
-                window.location.href="signup-student.html";
+                window.location.href="/signup-student";
             }
             else if(document.getElementById("labtechnician").checked){
-                window.location.href="signup-labtechnician.html";
+                window.location.href="/signup-labtechnician";
             }
             else{
                 alert("Please choose an option before clicking the button.");

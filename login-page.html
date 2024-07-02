@@ -14,7 +14,7 @@
                     <img src="images/tinkerlablogo-yellow.png" height="55px" width="274px">
                     <div class="buttons-location">
                         <button class="buttons-menu" disabled>Login</button>
-                        <a href="signup-initial.html"><button class="buttons-menu">Sign Up</button></a>
+                        <a href="/signup-initial"><button class="buttons-menu">Sign Up</button></a>
                     </div>
                 </div>
                 <div class="wrapper">
@@ -32,7 +32,7 @@
                             started   on  making  <br>
                             the most of your lab  <br>
                             time! <br>
-                            <a href="CT-Reservation_search_view-only.html"><button class="button-see-more">SEE MORE</button></a>
+                            <a href="/CT-Reservation_search_view-only"><button class="button-see-more">SEE MORE</button></a>
                             <img src="images/phone-bulbs.png" class="image-bottom-left-side">
                         </div> 
                     </div> 
@@ -60,7 +60,7 @@
                     </div>
 
                 </div>
-                <div class="bottom">Don't have an account yet?<a href="signup-initial.html">Sign Up</a></div>
+                <div class="bottom">Don't have an account yet?<a href="/signup-initial">Sign Up</a></div>
 
 
             </div>
@@ -90,10 +90,10 @@
                 const emailDomain = "@dlsu.edu.ph";
 
                 if (emailCheck.includes('_') && emailCheck.endsWith(emailDomain)){
-                    window.location.href='CT-homepage.html';
+                    window.location.href='/CT-homepage';
                 }
                 else if (emailCheck.includes('.') && emailCheck.endsWith(emailDomain)){
-                    window.location.href='LT-homepage.html';
+                    window.location.href='/LT-homepage';
                 }
                 else{
                     alert('Invalid email and password! Please double check.');  

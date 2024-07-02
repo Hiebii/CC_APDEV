@@ -14,7 +14,11 @@ document.addEventListener("DOMContentLoaded", function() {
             const occupant = seat.getAttribute("data-value-name");
 
             if (value === "1") {
-                showPrompt(seatName, occupant);
+                if (occupant == "Anonymous"){
+                    showPrompt3(seatName, occupant);
+                } else{
+                    showPrompt(seatName, occupant);
+                }
             } else if (value === "0") {
                 seat.classList.toggle("selected");
                 if (seat.classList.contains("selected")) {
@@ -32,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     reserveButton.addEventListener("click", function() {
         if (numSelected > 0) {
-            window.location.href = "LT-Reservation_reservation-details.html";
+            window.location.href = "/LT-View-Edit_reservation-details.";
         } else {
             showPrompt2();
         }
@@ -45,8 +49,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function showPrompt(seatName, occupant) {
-        const profileLink = "LT-Profile_view-only_Liam.html";
+        const profileLink = "/LT-Profile_view-only_Liam";
         promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
+        dialog.style.display = "block";
+        dialog.style.display = "block";
+    }
+
+    function showPrompt3(seatName, occupant) {
+        promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> ${occupant}</a></span></span>`;
         dialog.style.display = "block";
         dialog.style.display = "block";
     }

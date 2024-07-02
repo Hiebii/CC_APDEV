@@ -33,7 +33,7 @@
                         started   on  making  <br>
                         the most of your lab  <br>
                         time! <br>
-                        <a href="CT-Reservation_search_view-only.html"><button class="button-see-more">SEE MORE</button></a>
+                        <a href="/CT-Reservation_search_view-only"><button class="button-see-more">SEE MORE</button></a>
                         <img src="images/phone-bulbs.png" class="image-bottom-left-side">
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                    
                 </div>
                 <div class="bottom">
-                    Already have an account? <a href="login-page.html">Log in.</a>
+                    Already have an account? <a href="/login-page">Log in.</a>
                     </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
             const passwordConfirmValue=passwordConfirm.value.trim();
                 if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue === passwordConfirmValue && passwordInitialValue!=='' && passwordConfirmValue!==''){
                     alert("Welcome to tinkerlab!");
-                    window.location.href="login-page.html";
+                    window.location.href="/login-page";
                 }
                 else if (emailCheckValue.endsWith('@dlsu.edu.ph') && (passwordInitialValue==='' || passwordConfirmValue==='')){
                     alert("Invalid. You need to have a password.");
