@@ -146,7 +146,7 @@ app.get('/LT-View-Edit_reservation-details', function(req, res) {
 
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
-    res.sendFile(__dirname + 'LT-Profile_view-only_Liam.html');
+    res.sendFile(__dirname + '/LT-Profile_view-only_Liam.html');
 });
 
 // Handle form submission and respond with a success message

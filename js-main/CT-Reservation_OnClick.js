@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     reserveButton.addEventListener("click", function() {
         if (numSelected > 0) {
-            window.location.href = "/CT-Reservation_reservation-details";
+            window.location.href = "CT-View-Edit_reservation-details.html";
         } else {
             showPrompt2();
         }
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function showPrompt(seatName, occupant) {
-        const profileLink = "/CT-Profile_view-only_Liam";
+        const profileLink = "CT-Profile_view-only.html";
         promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
         dialog.style.display = "block";
         dialog.style.display = "block";
