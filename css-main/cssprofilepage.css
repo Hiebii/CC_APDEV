@@ -72,6 +72,27 @@
     text-decoration: underline;
 }
 
+
+.addphoto-div {
+    background-color:#F4DAE1;
+    width: 670px;
+    max-height: auto;
+    margin: 5px;
+    padding-right: 20px;
+    position: absolute;
+
+}
+
+#addphotobtn {
+    background-color: #FFFFF0;
+    padding: 5px;
+    border-radius: 70px;
+    height: 130px;
+    position: absolute;
+    top: 80px;
+    left: 410px;
+}
+
 .vl {
     border: none;
     border-left: 3px solid #000; 

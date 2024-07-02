@@ -5,7 +5,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
         <link rel="stylesheet" href="css-main/cssloginsignup.css">
-         <title>Signup as a Lab Technician</title>
+         <link rel="icon" href="images/icon.png">
+        <title>tinkerlab.</title>
     </head>
     <body class="background"> <!---This one was obtained from cssloginsignup.css-->
         <div class="position"> <!---This one was obtained from cssloginsignup.css-->
@@ -32,7 +33,7 @@
                         started   on  making  <br>
                         the most of your lab  <br>
                         time! <br>
-                        <a href="CT-Reservation_Goks-view-only.html"><button class="button-see-more">SEE MORE</button></a>
+                        <a href="CT-Reservation_search_view-only.html"><button class="button-see-more">SEE MORE</button></a>
                         <img src="images/phone-bulbs.png" class="image-bottom-left-side">
                     </div>
                 </div>
@@ -65,7 +66,7 @@
                     </div>
                            
                 </div>   
-                <div class="footer-studentlab">
+                <div class="bottom">
                     Already have an account? <a href="login-page.html">Log in.</a>
                 </div> 
             </div>
@@ -103,6 +104,7 @@
             const passwordConfirmValue=passwordConfirm.value.trim();
                 if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue === passwordConfirmValue && passwordInitialValue!=='' && passwordConfirmValue!==''){
                     alert("Welcome to tinkerlab!");
+                    window.location.href="login-page.html";
                 }
                 else if (emailCheckValue.endsWith('@dlsu.edu.ph') && (passwordInitialValue==='' || passwordConfirmValue==='')){
                     alert("Invalid. You need to have a password.");

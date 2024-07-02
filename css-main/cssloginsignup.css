@@ -16,16 +16,17 @@
                     display:flex;
                     justify-content:space-between;
                     width:100%;
+                    height:100px;
                     margin-bottom:10px;
                     margin-top:-180px;
                 }
                 .buttons-location{
-                    margin-left:800px;
+                    margin-left:40%;
                     align-items:center;
                 }
                 .buttons-menu{
-                    height:55px;
-                    width:100px;
+                    height:70px;
+                    width:200px;
                     margin-left:30px;
                     border-radius:30px;
                     font-family:"Montserrat", "sans-serif";
@@ -51,19 +52,19 @@
                     flex-direction:column;
                     align-items:center;
                     justify-content:center;
-                    height:550px;
-                    width:600px;
+                    height:825px;
+                    width:900px;
                     padding:20px;
                     margin-bottom:50px;
                     margin-top:-10px;
                 }
                 .header-left-side{
                     font-family:'Montserrat', 'sans-serif';
-                    font-size:40px;
+                    font-size:80px;
                     font-weight:1000;
                     color:#F4DAE1;
                     text-transform:uppercase;
-                    width:450px;
+                    width:900px;
                     letter-spacing: 3px;
                     text-shadow:2px 3px 5px black;
                     margin-top:-30px;
@@ -72,19 +73,19 @@
                 .divider-left-side{
                     border-top:2px solid black;
                     margin-top:20px;
-                    width:475px;
+                    width:725px;
                 }
                 .header-bottom-side{
                     margin-top:20px;
                     color:white;
-                    width:450px;
+                    width:900px;
                     height:100%;
                 }
                 .left-side-bottom-text{
                     margin-top:20px;
                     color:#FFFFFF;
                     font-family:'Montserrat', 'sans-serif';
-                    font-size:20px;
+                    font-size:40px;
                     font-weight:100;
                     position:relative;
                     letter-spacing:2px;
@@ -92,10 +93,10 @@
                 }
                 .image-bottom-left-side{
                     position:absolute;
-                    width:400px;
-                    height:400px;
+                    width:600px;
+                    height:600px;
                     top:50px;
-                    left:200px;
+                    left:400px;
                     z-index:-1;
                 }
                 .button-see-more{
@@ -103,14 +104,14 @@
                     background: #951ABE;
                     color: #FFFFFF;
                     font-family:'Inter', 'sans-serif';
-                    font-size:20px;
+                    font-size:35px;
                     font-weight:400;
                     letter-spacing:3px;
                     box-shadow: 1px 1px 3px 0.5px black;
                     border:none;
                     border-radius:15px;
-                    height:50px;
-                    width:200px;
+                    height:80px;
+                    width:300px;
                     transition:0.5s;
                 }
                 .button-see-more:hover{
@@ -125,12 +126,13 @@
                     justify-content:space-between;
                     width:100%;
                     align-items:center;
+                    column-gap:150px;
                 }
                 .container{
                     border-radius:25px;
                     background:#FFFFFF;
-                    height:550px;
-                    width:450px;
+                    height:825px;
+                    width:675px;
                     justify-content:center;
                     align-items:center;
                     text-align:center;
@@ -140,12 +142,12 @@
                 .header{
                     font-family: "Montserrat", sans-serif;
                     font-weight:1000;
-                    font-size:36px;
+                    font-size:64px;
                     align-items:center;
                     justify-content:center;
                 }
                 .subtitle{
-                    font-size:16px;
+                    font-size:32px;
                 }
                 .contents{
                     display:flex;
@@ -156,8 +158,8 @@
                 }
                 .textcontainer-login{
                     background:#E6DBE6;
-                    width:370px;
-                    height:60px;
+                    width:500px;
+                    height:70px;
                     border-radius:20px;
                     display:flex;
                     align-items:center;
@@ -181,7 +183,7 @@
                     border-radius:20px;
                     border:0px;
                     font-family: "Inter", sans-serif;
-                    font-size:20px;
+                    font-size:25px;
                     transition:0.5s ease; 
                 }
                 .textbox-login:focus{
@@ -191,7 +193,7 @@
                     color:white;
                 }
                 .submitbutton[type=submit]{
-                    width:370px;
+                    width:500px;
                     height:50px;
                     border-radius:10px;
                     border-width:0px;
@@ -201,6 +203,9 @@
                     font-size:20px;
                     font-weight:700;
                     font-family: "Inter", sans-serif;  
+                    justify-content:center;
+                    align-items:center;
+                    display:flex;
                     letter-spacing:4px;
                     box-shadow: 1px 1px 3px 0.5px black;
                 }
@@ -224,13 +229,14 @@
                 }
                 .bottom{
                     padding-top:10px;
-                    font-size:20px;
+                    font-size:30px;
                     font-family: "Inter", sans-serif;    
                     justify-content:right;
                     display:flex;
                     align-items:flex-end; 
                     margin-top:-40px;
-                    width:92%;
+                    width:91%;
+                    left:500px;
                 }
                 a{
                     padding-left:5px;
@@ -242,8 +248,8 @@
 .headerquestion{
     font-family: "Montserrat", sans-serif;
     font-weight:1000;
-    font-size:28px;
-    width:80%;
+    font-size:48px;
+    width:95%;
     align-items:center;
     justify-content:center;
 }
@@ -254,8 +260,8 @@
 .box-container{
     background:#A359A0;
     border-radius:20px;
-    height:150px;
-    width:150px;
+    height:200px;
+    width:200px;
     margin:20px;
     margin-top:40px;
     margin-bottom:-30px;
@@ -263,8 +269,8 @@
 }
 .white-box{
     border-radius:15px;
-    height:150px;
-    width:150px;
+    height:200px;
+    width:200px;
     display:flex;
     background:#FFFFFF;
     justify-content:center;
@@ -273,7 +279,7 @@
 }
 .imgdetails{
     padding-right:5px;
-    height:150px;
+    height:200px;
     width:auto;
 }
 .bottomquestion{
@@ -284,8 +290,8 @@
 .textbottomquestion{
     font-family:"Montserrat", sans-serif;
     font-weight:1000;
-    font-size:28px;
-    width:150px;
+    font-size:30px;
+    width:200px;
     margin:30px;
     align-items:center;
 }
@@ -302,17 +308,17 @@
     background:#000000;
 }
 .submitbuttonquestion[type=submit]{
-    width:200px;
-    height:50px;
+    width:300px;
+    height:80px;
     border-radius:10px;
     border-width:0px;
     padding-left:20px;
     background:#709176;
     color:white;
-    font-size:20px;
+    font-size:40px;
     font-weight:700;
     font-family: "Inter", sans-serif;  
-    letter-spacing:4px;
+    letter-spacing:5px;
     box-shadow: 1px 1px 3px 0.5px black;
 }
 .submitbuttonquestion[type=submit]:hover{
@@ -324,8 +330,8 @@
 .container-studentlab{
     border-radius:25px;
     background:#FFFFFF;
-    height:550px;
-    width:450px;
+    height:825px;
+    width:675px;
     justify-content:center;
     align-items:center;
     text-align:center;
@@ -335,13 +341,13 @@
 }
 .header-studentlab{
     font-weight:1000;
-    font-size:28px;
-    width:80%;
+    font-size:48px;
+    width:95%;
 }
 .subheader-studentlab{
     justify-content:center;
     font-weight:400;
-    font-size:16px;
+    font-size:32px;
     width:80%;
     margin-bottom:20px;
 }
@@ -351,8 +357,8 @@
 }
 .textcontainer-studentlab{
     background:#E6DBE6;
-    width:350px;
-    height:60px;
+    width:500px;
+    height:70px;
     border-radius:20px;
     display:flex;
     align-items:center;
@@ -416,6 +422,6 @@
     align-items:flex-end;
     position:relative;
     top:-40px;
-    left:445px;
+    left:800px;
 }
 

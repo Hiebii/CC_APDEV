@@ -23,8 +23,15 @@ function hidePrompt3() {
 function confirmReservation() {
     window.location.href = "CT-Reservation_success.html";
 }
+function confirmReservation2() {
+    window.location.href = "LT-Reservation_success.html";
+}
 
-function confirmEdit() {
+function confirmEdit1() {
+    window.location.href = "CT-View-Edit_success-edit.html";
+}
+
+function confirmEdit2() {
     window.location.href = "LT-View-Edit_success-edit.html";
 }
 
