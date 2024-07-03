@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.4.4"
   },
   "name": "cc_apdev",
   "version": "1.0.0",

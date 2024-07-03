@@ -1,10 +1,19 @@
 var express = require('express');
+
+const lodash = require('lodash');
+const mongoose = require('mongoose');
 const app = express();
 const port = 3000; 
+
+//Connect to MongoDB
+const dbURI = 'mongodb+srv://DB_Grp15:MCO2@MCO2_Apdev.ctvkqsg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+mongoose.connect(dbURI);
+
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
+
 
 // Serve the /login-page.html file at the root route
 app.get('/', function(req, res) {
@@ -34,6 +43,20 @@ app.get('/signup-student', function(req, res) {
 
 app.get('/signup-labtechnician', function(req, res) {
     res.sendFile(__dirname + '/signup-labtechnician.html');
+});
+
+
+// CT-Menu Bar
+app.get('/CT-homepage', function(req, res) {
+    res.sendFile(__dirname + '/views/CT-homepage.html');
+});
+
+app.get('/CT-View-Edit', function(req, res) {
+    res.sendFile(__dirname + '/CT-View-Edit.html');
+});
+
+app.get('/CT-Profile', function(req, res) {
+    res.sendFile(__dirname + '/CT-Profile.html');
 });
 
 
@@ -75,21 +98,6 @@ app.get('/CT-Profile_view-only_Liam', function(req, res) {
 app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
     res.sendFile(__dirname + 'CT-Profile_view-only_Benjamin.html');
 });
-
-
-// CT-Menu Bar
-app.get('/CT-homepage', function(req, res) {
-    res.sendFile(__dirname + '/CT-homepage.html');
-});
-
-app.get('/CT-View-Edit', function(req, res) {
-    res.sendFile(__dirname + '/CT-View-Edit.html');
-});
-
-app.get('/CT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/CT-Profile.html');
-});
-
 
 
 // LT-Menu Bar
