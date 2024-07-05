@@ -47,13 +47,17 @@ app.get('/signup-labtechnician', function(req, res) {
 
 
 //CT
-// CT-Men
+// CT-Menu
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
 app.get('/CT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+});
+
+app.get('/CT-View-Edit_reservation-details', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-View-Edit_reservation-details.html');
 });
 
 app.get('/CT-Profile', function(req, res) {
@@ -83,7 +87,7 @@ app.get('/CT-Reservation_search-andrew', function(req, res) {
 });
 
 
-// CT-Reservation_reservation-details & Profile
+// CT-Reservation_details & Profile
 app.get('/CT-Reservation_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_reservation-details.html');
 });
@@ -145,6 +149,8 @@ app.get('/LT-Reservation_search-andrew', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-andrew.html');
 });
 
+
+// LT-Reservation_details & Profile
 app.get('/LT-Reservation_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_reservation-details.html');
 });
@@ -153,6 +159,8 @@ app.get('/LT-Reservation_reservation-details', function(req, res) {
 app.get('/LT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit_reservation-details.html');
 });
+
+
 
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
