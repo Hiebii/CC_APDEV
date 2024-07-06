@@ -104,6 +104,21 @@ app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
 
+//CT View
+app.get('/CT-View-Edit_edit-reservation', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
+});
+
+app.get('/CT-View-Edit_success-edit', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-View-Edit_success-edit.html');
+});
+
+app.get('/CT-View-Edit_success-cancel', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-View-Edit_success-cancel.html');
+});
+
+
+
 
 //LT
 // LT-Menu Bar
@@ -155,12 +170,23 @@ app.get('/LT-Reservation_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_reservation-details.html');
 });
 
-
 app.get('/LT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit_reservation-details.html');
 });
 
 
+//LT View
+app.get('/LT-View-Edit_edit-reservation', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-View-Edit_edit-reservation.html');
+});
+
+app.get('/LT-View-Edit_success-edit', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-View-Edit_success-edit.html');
+});
+
+app.get('/LT-View-Edit_success-delete', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-View-Edit_success-delete.html');
+});
 
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {

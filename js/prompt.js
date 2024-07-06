@@ -21,28 +21,28 @@ function hidePrompt3() {
 }
 
 function confirmReservation() {
-    window.location.href = "CT-Reservation_success.html";
+    window.location.href = "/CT-Reservation_success";
 }
 function confirmReservation2() {
-    window.location.href = "LT-Reservation_success.html";
+    window.location.href = "/LT-Reservation_success";
 }
 
 function confirmEdit1() {
-    window.location.href = "CT-View-Edit_success-edit.html";
+    window.location.href = "/CT-View-Edit_success-edit";
 }
 
 function confirmEdit2() {
-    window.location.href = "LT-View-Edit_success-edit.html";
+    window.location.href = "/LT-View-Edit_success-edit";
 }
 
 function cancelReservation() {
-    window.location.href = "CT-View-Edit_success-cancel.html";
+    window.location.href = "/CT-View-Edit_success-cancel";
 }
 
 function deleteReservation() {
-    window.location.href = "LT-View-Edit_success-delete.html";
+    window.location.href = "/LT-View-Edit_success-delete";
 }
 
 function toLoginpage() {
-    window.location.href = "login-page.html"
+    window.location.href = "/login-page"   
 }
