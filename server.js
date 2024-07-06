@@ -189,9 +189,62 @@ app.get('/LT-View-Edit_success-delete', function(req, res) {
 });
 
 // Profile
+app.get('/LT-Profile', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-Profile.html');
+});
+
+app.get('/LT-Profile_Peter', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-Profile_Peter.html');
+});
+
+app.get('/LT-Profile_edit', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-Profile_edit.html');
+});
+
+app.get('/LT-Profile_edit_Peter', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-Profile_edit_Peter.html');
+});
+
+app.get('/LT-Profile_view-only', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-Profile_view-only.html');
+});
+
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
+
+app.get('/LT-Profile_view-only_Peter', function(req, res) {
+    res.sendFile(__dirname + '/LT/LT-Profile_view-only_Peter.html');
+});
+
+app.get('/CT-Profile', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile.html');
+});
+
+app.get('/CT-Profile_Benjamin', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_Benjamin.html');
+});
+
+app.get('/CT-Profile_edit', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_edit.html');
+});
+
+app.get('/CT-Profile_edit_Benjamin', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_edit_Benjamin.html');
+});
+
+app.get('/CT-Profile_view-only', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only.html');
+});
+
+app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
+});
+
+app.get('/CT-Profile_view-only_Liam', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
+});
+
 
 
 
