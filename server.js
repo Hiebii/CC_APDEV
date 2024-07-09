@@ -11,15 +11,30 @@ const port = 3000;
 
 const hbs = require('hbs');
 app.set('view engine','hbs');
+<<<<<<< HEAD
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));    
+app.use(express.static(__dirname));
+=======
+>>>>>>> fred_branch
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
 
+/*
+app.use(
+    session((
+        secret: "secret-key",
+        resave: false,
+        saveUninitialized: false,
+    ))
+);*/
 
 
 /*// Serve the /login-page.html file at the root route
@@ -117,21 +132,6 @@ app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
 
-//CT View
-app.get('/CT-View-Edit_edit-reservation', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
-});
-
-app.get('/CT-View-Edit_success-edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit_success-edit.html');
-});
-
-app.get('/CT-View-Edit_success-cancel', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit_success-cancel.html');
-});
-
-
-
 
 //LT
 // LT-Menu Bar
@@ -183,81 +183,17 @@ app.get('/LT-Reservation_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_reservation-details.html');
 });
 
+
 app.get('/LT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit_reservation-details.html');
 });
 
 
-//LT View
-app.get('/LT-View-Edit_edit-reservation', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-View-Edit_edit-reservation.html');
-});
-
-app.get('/LT-View-Edit_success-edit', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-View-Edit_success-edit.html');
-});
-
-app.get('/LT-View-Edit_success-delete', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-View-Edit_success-delete.html');
-});
 
 // Profile
-app.get('/LT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile.html');
-});
-
-app.get('/LT-Profile_Peter', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile_Peter.html');
-});
-
-app.get('/LT-Profile_edit', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile_edit.html');
-});
-
-app.get('/LT-Profile_edit_Peter', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile_edit_Peter.html');
-});
-
-app.get('/LT-Profile_view-only', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile_view-only.html');
-});
-
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
-
-app.get('/LT-Profile_view-only_Peter', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile_view-only_Peter.html');
-});
-
-app.get('/CT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile.html');
-});
-
-app.get('/CT-Profile_Benjamin', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_Benjamin.html');
-});
-
-app.get('/CT-Profile_edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_edit.html');
-});
-
-app.get('/CT-Profile_edit_Benjamin', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_edit_Benjamin.html');
-});
-
-app.get('/CT-Profile_view-only', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only.html');
-});
-
-app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
-});
-
-app.get('/CT-Profile_view-only_Liam', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
-});
-
 
 
 

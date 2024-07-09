@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css-main/CT-Reservation.css">
+    <link rel="stylesheet" href="css-main/cssmainwebsite.css">
+    <link rel="stylesheet" href="css-main/cssmainwebsite_reserve.css">
+    <link rel="icon" href="images/icon.png">
+    <title>tinkerlab.</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get references to elements
+            const labDropdown = document.getElementById("lab-dropdown");
+            const seatElements = document.querySelectorAll(".seat-name");
+
+            // Add event listener to dropdown change
+            labDropdown.addEventListener("change", function() {
+                const selectedRoom = labDropdown.value;
+
+                // Update seat information based on selected room
+                seatElements.forEach(function(seatElement, index) {
+                    const seatData = rooms[selectedRoom].seats[index + 1];
+                    seatElement.dataset.value = seatData.value;
+                    seatElement.dataset.reserverName = seatData["reserver-name"];
+                    seatElement.dataset.anonymous = seatData.anonymous;
+                    seatElement.textContent = seatData["seat-name"];
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="top-right">
+        <h1 id="comp-lab-text">COMPUTER LAB:</h1>
+        <div class="lab-button">
+            <div class="custom-select-wrapper">
+                <select id="lab-dropdown" class="lab-dropdown">
+                    {{#each roomNames}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>  
+        <img class="lab-student-icon" src="images/lab-student.png">
+       
+        <!-- Seat elements updated dynamically -->
+        <div id="S02" class="seat-name"></div><br> 
+        <div id="S03" class="seat-name"></div><br> 
+        <div id="S04" class="seat-name"></div><br> 
+        <div id="S05" class="seat-name"></div><br> 
+        <div id="S06" class="seat-name"></div><br> 
+        <div id="S07" class="seat-name"></div><br> 
+        <div id="S08" class="seat-name"></div><br> 
+    </div>
+</body>
+</html>
