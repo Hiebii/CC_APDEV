@@ -100,10 +100,23 @@ app.get('/CT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit_reservation-details.html');
 });
 
-app.get('/CT-Profile', function(req, res) {
+/*app.get('/CT-Profile', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile.html');
-});
+});*/
 
+app.get('/CT-Profile', async (req, res) => {
+    try {
+      const fullName = 'Alice Johnson'; 
+      const profiles = await Profiles.find({ name: fullName }).lean();
+      if (!profiles) {
+        return res.status(404).send('User not found');
+      }
+      res.render('CT-Profile', { profiles });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Server Error');
+    }
+  });
 
 // CT-Reservations
 app.get('/CT-Reservation_Goks', function(req, res) {
@@ -143,6 +156,42 @@ app.get('/CT-Profile_view-only_Liam', function(req, res) {
 app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
+
+/* Example of serving a static page and handling dynamic content separately
+app.get('/CT-Profile_view-only_Liam', async (req, res) => {
+    // Handle static file serving
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
+
+    // Handle dynamic content (assuming profile ID is passed in URL or query)
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Render the profile page with user data
+        res.render('profile', { user }); // Assuming 'profile' is your Handlebars template
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Example of handling search and redirect
+app.get('/search', async (req, res) => {
+    const name = req.query.name; // Get the name from query parameters
+    try {
+        const user = await User.findOne({ name }); // Query the database for the user
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Redirect to profile page with the found user data
+        res.redirect(`/CT-Profile_view-only_Liam/${user._id}`); // Redirect to the user's profile using their ID
+    } catch (error) {
+        console.error('Error searching for user:', error);
+        res.status(500).send('Internal server error');
+    }
+});*/
 
 
 /*-----------------------      LT      --------------------------*/ 

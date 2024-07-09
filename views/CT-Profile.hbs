@@ -43,7 +43,7 @@
         
         <div class="searchdivider">
             <div class="searchfield">
-                <form action="/CT-Profile_view-only_Benjamin" method="GET">
+                <form action="/CT-Profile" method="GET">
                     <button type="submit" class="searchbutton"><img src="/images/searchglass.png" class="imgbtn"></button>
                     <input class="searchinput" type="text" name="name" placeholder="Search...">
                 </form>
@@ -61,94 +61,96 @@
        
     </div>
     <!-- profile body -->
-<!-- profilediv -->
-<!-- Example profile.hbs template -->
-<div class="profilediv">
-    <div class="profilediv1">
-        <div id="photo-div">
-            <div class="profileborder">
-                <img class="profilephoto" src="images/defaultpfp.png" alt="Profile Photo">
+    <div class="profilediv">
+
+        <!-- left profile side -->
+        <div class="profilediv1">
+            <div id="photo-div">
+                <div class="profileborder">
+                    <img class="profilephoto" src="images/defaultpfp.png" alt="Profile Photo">
+                </div>
+            </div>
+            <br>
+            <div id="role-div">
+                <h1 class="role">{{user.role}}</h1>
+            </div>
+            <br>
+            <div id="editprofilebtn-div">
+                <button class="purple-button"><a class="linktoedit" href="/CT-Profile_edit">EDIT PROFILE</a></button>
+            </div>
+            <br><br>
+            <div id="deleteaccbtn-div">
+                <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
             </div>
         </div>
-        <div id="role-div">
-            <h1 class="role">{{ user.role }}</h1>
-        </div>
-        <div id="editprofilebtn-div">
-            <button class="purple-button"><a class="linktoedit" href="/edit-profile">EDIT PROFILE</a></button>
-        </div>
-        <div id="deleteaccbtn-div">
-            <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
-        </div>
-    </div>
 
-    <hr class="vl">
+        <hr class="vl"> 
 
-    <div class="profilediv2">
-        <h2 class="profileheader">{{ user.name }}</h2>
-        <textarea readonly class="profiledesc" rows="7" cols="80">{{ user.description }}</textarea>
+        <!-- right profile side -->
+        <div class="profilediv2">
+            <h2 class="profileheader">{{user.name}}</h2>
+            <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
 
-        <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
-        <div class="scheddiv">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Seat No.</th>
-                        <th>Computer Lab</th>
-                        <th>Date of Request</th>
-                        <th>Time of Request</th>
-                        <th>Date of Reservation</th>
-                        <th>Time of Reservation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each user.reservations}}
+            <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
+            <div class="scheddiv">
+                <table>
+                    <thead>
                         <tr>
-                            <td>{{ this.seatNo }}</td>
-                            <td>{{ this.computerLab }}</td>
-                            <td>{{ this.dateOfRequest }}</td>
-                            <td>{{ this.timeOfRequest }}</td>
-                            <td>{{ this.dateOfReservation }}</td>
-                            <td>{{ this.timeOfReservation }}</td>
+                            <th>Seat No.</th>
+                            <th>Computer Lab</th>
+                            <th>Date of Request</th>
+                            <th>Time of Request</th>
+                            <th>Date of Reservation</th>
+                            <th>Time of Reservation</th>
                         </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {{#each user.reservations}}
+                        <tr>
+                            <td>{{this.seatNo}}</td>
+                            <td>{{this.computerLab}}</td>
+                            <td>{{this.dateOfRequest}}</td>
+                            <td>{{this.timeOfRequest}}</td>
+                            <td>{{this.dateOfReservation}}</td>
+                            <td>{{this.timeOfReservation}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>  
+    </div>
+
+    <!-- Hidden confirmation dialog -->
+    <script src="js/prompt.js"></script>
+    <div id="dialog-1" class="dialog-1">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">DELETE ACCOUNT</span>?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt()">Back</button>
+            <button class="purple-button" onclick="showPrompt3()">Confirm</button>
         </div>
     </div>
-</div>
 
-
-<!-- Hidden confirmation dialogs -->
-<script src="js/prompt.js"></script>
-<div id="dialog-1" class="dialog-1">
-    <div class="dialog-header"></div>
-    <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">DELETE ACCOUNT</span>?</p>
-    <div class="button-container">
-        <button class="back-button" onclick="hidePrompt()">Back</button>
-        <button class="purple-button" onclick="showPrompt3()">Confirm</button>
+    <script src="js/prompt.js"></script>
+    <div id="dialog-2" class="dialog-2">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt2()">Back</button>
+            <button class="purple-button"  onclick="showPrompt3()">Confirm</button>
+        </div>
     </div>
-</div>
 
-<script src="js/prompt.js"></script>
-<div id="dialog-2" class="dialog-2">
-    <div class="dialog-header"></div>
-    <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
-    <div class="button-container">
-        <button class="back-button" onclick="hidePrompt2()">Back</button>
-        <button class="purple-button"  onclick="showPrompt3()">Confirm</button>
-    </div>
-</div>
-
-<script src="js/prompt.js"></script>
-<div id="dialog-3" class="dialog-3">
-    <div class="dialog-header"></div>
-    <p class="prompt-text">PROCESS SUCCESSFUL.</p>
-    <div class="button-container">
-        <button class="purple-button" onclick="toLoginPage()">Confirm</button>
-    </div>
-</div>
-  
-   </body>
+    <script src="js/prompt.js"></script>
+    <div id="dialog-3" class="dialog-3">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">PROCESS SUCCESSFUL.</p>
+        <div class="button-container">
+            <button class="purple-button" onclick="toLoginpage()">Confirm</button>
+        </div>
+    </div>    
+    </body>
    <footer>
     <div class="footer-container">
         <div class="footer-column-1">

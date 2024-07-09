@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-// Define a schema for User
-const userSchema = new mongoose.Schema({
+// Define a schema for profile
+const profileSchema = new mongoose.Schema({
     name: String,
     role: String,
     description: String,
@@ -18,6 +18,6 @@ const userSchema = new mongoose.Schema({
 });
 
 // Create a model based on the schema
-const User = mongoose.model('User', userSchema);
+const Profile = mongoose.model('Profile', profileSchema);
 
-module.exports = User; // Export the User model
+module.exports = Profile; // Export the User model
