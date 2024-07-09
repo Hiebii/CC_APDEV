@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css-main/CT-Reservation.css">
+    <link rel="stylesheet" href="css-main/cssmainwebsite.css">
+    <link rel="stylesheet" href="css-main/cssmainwebsite_reserve.css">
+
+    <link rel="icon" href="images/icon.png">
+    <title>tinkerlab.</title>
+</head>
+<body>
+    <div class="header">
+        <img class="imglogo" src="images/tinkerlablogo.png" alt="Tinkerlab Logo">
+    </div>
+    <div class="taskbar">
+        <div class="btndivider">
+            <a href="/CT-homepage">
+                <button class="btndesign" id="homebtn">Home</button>
+            </a>
+        </div>
+        <div class="btndivider">     
+            <a href ="/CT-Reservation_Goks">
+                <button class="btndesign" id="reservationbtn">Reservation</button>
+            </a>
+                <div class="dropdown-search">
+                    <a href="/CT-Reservation_search-goks" class="btndesign" id="searchbtn" href="">Search</a>
+                </div>
+        </div>
+        <div class="btndivider">
+            <a href="/CT-View-Edit">
+            <button class="btndesign" id="vieweditbtn">View/Edit</button>
+            </a>
+        </div>
+        <div class="btndivider">
+            <a href="/CT-Profile">
+                <button class="btndesign" id="profilebtn">Profile</button>
+            </a>
+        </div>
+        <div class="searchdivider">
+            <div class="searchfield">
+                <button class="searchbutton"><img src="images/searchglass.png" class="imgbtn" alt="Search"></button>
+                <input class="searchinput" type="text" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="content">
+            <!--Left-->
+            <div class="left-column">
+                <div id="left" class="full-height">
+
+                   
+                   
+          <div class = "time-button">
+            <h1 class="left-text">TIME</h1>
+            <div class="custom-select-wrapper">
+                <select class="time-dropdown">
+                    <option class="choices" value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
+                    <option class="choices" value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
+                    <option class="choices" value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
+                    <option class="choices" value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
+                    <option class="choices" value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
+                    <option class="choices" value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
+                    <option class="choices" value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
+                    <option class="choices" value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
+                    <option class="choices" value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
+                    <option class="choices" value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="date-button">
+            <h1 class="left-text">DATE</h1>
+            <input type="date" class="date-input" id="dateInput">
+        </div>
+
+
+    </div>
+                  
+            </div>
+
+            <!--Right-->
+            <div class="right-column"  class="full-height">
+
+                <div id="top-right">
+                    <h1 id="comp-lab-text">COMPUTER LAB:</h1>
+                    <div class="lab-button">
+                        <div class="custom-select-wrapper">
+                            <select id="lab-dropdown" class="lab-dropdown">
+                                <option value="/CT-Reservation_Andrew">AG101</option>
+                                <option value="/CT-Reservation_Goks">GK01</option>
+                                <option value="/CT-Reservation_Velasco">VL101</option>
+                            </select>
+                        </div>
+                    </div>                    
+
+                </div>
+            
+
+    <div id="mid-right">
+        <div class="container-mid">
+            <div id="top">
+                <div id="teach-table">
+                    <span id="teach-text">Teacher's table</span>
+                </div>
+            </div>
+
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-value="1" data-seat="GK01" data-value-name="Anonymous">GK01</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S02" class="seat-name" data-value="0" data-seat="GK02" data-value-name="N/A">GK02</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S03" class="seat-name" data-value="0" data-seat="GK03" data-value-name="N/A">GK03</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S05" class="seat-name" data-value="0" data-seat="GK04" data-value-name="N/A">GK04</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S05" class="seat-name" data-value="0" data-seat="GK05" data-value-name="N/A">GK05</div>
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S06" class="seat-name" data-value="0" data-seat="GK06" data-value-name="N/A">GK06</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S07" class="seat-name" data-value="0" data-seat="GK07" data-value-name="N/A">GK07</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S08" class="seat-name" data-value="0" data-seat="GK08" data-value-name="N/A">GK08</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S09" class="seat-name" data-value="0" data-seat="GK09" data-value-name="N/A">GK09</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S10" class="seat-name" data-value="0" data-seat="GK010" data-value-name="N/A">GK10</div>
+            </div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S11" class="seat-name" data-value="0" data-seat="GK11" data-value-name="N/A">GK11</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S12" class="seat-name" data-value="0" data-seat="GK12" data-value-name="N/A">GK12</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S13" class="seat-name" data-value="0" data-seat="GK13" data-value-name="N/A">GK13</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S14" class="seat-name" data-value="0" data-seat="GK14" data-value-name="N/A">GK14</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S15" class="seat-name" data-value="0" data-seat="GK15" data-value-name="N/A">GK15</div>
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S16" class="seat-name" data-value="0" data-seat="GK16" data-value-name="N/A">GK16</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S17" class="seat-name" data-value="0" data-seat="GK17" data-value-name="N/A">GK17</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S18" class="seat-name" data-value="0" data-seat="GK18" data-value-name="N/A">GK18</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S19" class="seat-name" data-value="0" data-seat="GK19" data-value-name="N/A">GK19</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S20" class="seat-name" data-value="0" data-seat="GK20" data-value-name="N/A">GK20</div>
+            </div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S21" class="seat-name" data-value="0" data-seat="GK21" data-value-name="N/A">GK21</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S22" class="seat-name" data-value="0" data-seat="GK22" data-value-name="N/A">GK22</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S23" class="seat-name" data-value="0" data-seat="GK23" data-value-name="N/A">GK23</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S24" class="seat-name" data-value="0" data-seat="GK24" data-value-name="N/A">GK24</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S25" class="seat-name" data-value="0" data-seat="GK25" data-value-name="N/A">GK25</div>
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S26" class="seat-name" data-value="0" data-seat="GK26" data-value-name="N/A">GK26</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S27" class="seat-name" data-value="0" data-seat="GK27" data-value-name="N/A">GK27</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S28" class="seat-name" data-value="0" data-seat="GK28" data-value-name="N/A">GK28</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S29" class="seat-name" data-value="0" data-seat="GK29" data-value-name="N/A">GK29</div><br>
+                <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S30" class="seat-name" data-value="0" data-seat="GK30" data-value-name="N/A">GK30</div>
+            </div>
+        </div>
+    </div>
+    
+                              
+
+                <div id="bot-right" >
+                    <a class="purple-button" id="reserve-button">Reserve</a>
+                    <div id="dialog-1" class="dialog-1">
+                        <div class="dialog-header"></div>
+                        <p class="prompt-text"></p>
+                        <div class="button-container">
+                            <button class="back-button" onclick="hidePrompt()">Back</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Hidden confirmation dialog -->
+     <div id="dialog-1" class="dialog-1">
+        <div class="dialog-header"></div>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt()">Back</button>
+        </div>
+    </div>
+
+
+</div>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js-main/lab_reserve.js"></script>
+    <script src="js-main/CT-Reservation_OnClick.js"></script>
+    <script src="js-main/CT-Reservation_hoverseats.js"></script>
+    <script src="js-main/CT-Reservation_DateRestrict.js"></script>
+</body>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-column-1">
+            <img class="footer-logo" src="images/tinkerlablogo.png">
+            <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
+        </div>
+        <div class="footer-column-2">
+            <h3>About</h3>
+            <p class = "footer-about">an intuitive platform that allows students to easily<br> 
+                reserve, check availability, and manage their computer<br> 
+                lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
+        </div>
+        <div class="footer-column-3">
+            <h3>Contact</h3>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:charlemagne_craw@dlsu.edu.ph">charlemagne_craw@dlsu.edu.ph</a>
+            </div>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:rafael_debelen@dlsu.edu.ph">rafael_debelen@dlsu.edu.ph</a>
+            </div>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:monica_santiago@dlsu.edu.ph">monica_santiago@dlsu.edu.ph</a>
+            </div>
+            <div class="contact-info">
+                <img class="email-logo" src="images/email-logo.png">
+                <a class="dlsu-email" href="mailto:john_fredrick_tario@dlsu.edu.ph">john_fredrick_tario@dlsu.edu.ph</a>
+            </div>
+        </div>
+    </div>
+    </footer>
+</html>
