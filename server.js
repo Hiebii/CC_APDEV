@@ -21,13 +21,6 @@ app.use(fileUpload()) // for fileuploads
 //handlebar
 var hbs = require('hbs')
 app.set('view engine','hbs');
-<<<<<<< HEAD
-
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));    
-app.use(express.static(__dirname));
-=======
->>>>>>> fred_branch
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,14 +31,9 @@ app.use(express.static(__dirname));
 const cookieParser = require('cookie-parser');*/
 
 
-<<<<<<< HEAD
-
-/*// Serve the /login-page.html file at the root route
-=======
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
->>>>>>> fred_branch
-app.get('/', function(req, res) {
+/*app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/login-page.hbs');
 });*/
 
@@ -69,7 +57,7 @@ app.get('/CT-Reservation_search_view-only', function(req, res) {
 });
 
 app.get('/login-page', function(req, res) {
-    res.sendFile(__dirname + '/START/login-page.html');
+    res.render('login-page');
 });
 
 app.get('/signup-student', function(req, res) {
