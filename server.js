@@ -11,6 +11,7 @@ const fileUpload = require('express-fileupload')
 
 /* Initialize our post */
 const Post = require("./database/models/Rooms")
+const Users = require("./database/models/Users")
 const path = require('path') // our path directory
 
 app.use(express.json()) // use json
@@ -30,6 +31,29 @@ app.use(express.static(__dirname));
 /*const session = require('express-session');
 const cookieParser = require('cookie-parser');*/
 
+/*-----------------------      SIGNUP      --------------------------*/ 
+
+app.post('/signup', async (req, res) => {
+    const { email, password, title } = req.body;
+
+    try { 
+        // This part is to check if an email already exists.
+        const existingEmail = await Users.findOne({ email });
+        //If email exists, send alert that there already exists a user with an email.
+        if (existingEmail){
+            return res.status(400).send('User Already Exists!');
+        }
+        //create the user
+        const newUser = new Users({email, password, title});
+        await newUser.save();
+
+        res.status(201).send('User registered successfully!');
+    }catch (err){
+        console.error(err);
+        //Send an error if it is not working.
+        res.status(500).send('Server Error!');
+    }
+});
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
