@@ -1,23 +1,36 @@
-var express = require('express');
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://127.0.0.1:27017/TryH')
 
+const express = require('express');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const lodash = require('lodash');
-const mongoose = require('mongoose');
+
 const app = express();
 const port = 3000; 
 
-//Connect to MongoDB
-const dbURI = 'mongodb+srv://DB_Grp15:MCO2@MCO2_Apdev.ctvkqsg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-mongoose.connect(dbURI);
+const hbs = require('hbs');
+app.set('view engine','hbs');
 
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));    
+app.use(express.static(__dirname));
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
 
 
-// Serve the /login-page.html file at the root route
+
+/*// Serve the /login-page.html file at the root route
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/START/login-page.html');
+    res.sendFile(__dirname + '/views/login-page.hbs');
+});*/
+
+//Login Start Route
+
+app.get('/', (req, res) =>{
+    res.render('login-page');
 });
 
 //Login & Sign Up Page
