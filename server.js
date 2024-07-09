@@ -10,7 +10,8 @@ const port = 3000;
 const fileUpload = require('express-fileupload')
 
 /* Initialize our post */
-const Post = require("./database/models/Rooms")
+const Andrew = require("./database/models/Andrew")
+const Goks = require("./database/models/Goks")
 const path = require('path') // our path directory
 
 app.use(express.json()) // use json
@@ -29,7 +30,29 @@ app.use(express.static(__dirname));
 //Dont mind this one
 /*const session = require('express-session');
 const cookieParser = require('cookie-parser');*/
+/*
+app.get('/tinkerlab', (req, res) => {
+    res.json({mssg: "welcomee to the api"})
+})
 
+app.get('/content', async(req,res) => {
+    const posts = await Post.find({})
+    console.log(posts)
+    res.render('content',{posts})
+})
+*/
+
+
+app.get('/Andrew', async (req, res) => {
+    try {
+        const andrews = await Andrew.find({ seat: { $in: ['A01', 'A02'] } });
+        const andrews2 = await Andrew.find({ seat: { $in: ['A04', 'A05'] } });
+        res.render('CT-Reservation_Goks', { andrews, andrews2 });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route

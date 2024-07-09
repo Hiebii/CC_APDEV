@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 
-const RoomsSchema = new mongoose.Schema({
+const GoksSchema = new mongoose.Schema({
     title: String,
     description: String,
     content: String,
     image: String
 })
 
-const Rooms = mongoose.model('Rooms', RoomsSchema)
+const Goks = mongoose.model('Goks', GoksSchema)
 
-module.exports = Rooms
+module.exports = Goks
 
