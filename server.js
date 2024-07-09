@@ -1,34 +1,37 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://127.0.0.1:27017/TryH')
+mongoose.connect('mongodb://localhost/tinkerlab')
 
+/* Initialize express */
 const express = require('express');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
-const lodash = require('lodash');
-
 const app = express();
 const port = 3000; 
 
-const hbs = require('hbs');
+/* For file uplods */
+const fileUpload = require('express-fileupload')
+
+/* Initialize our post */
+const Post = require("./database/models/Rooms")
+const path = require('path') // our path directory
+
+app.use(express.json()) // use json
+app.use(express.urlencoded( {extended: true})); // files consist of more than strings
+app.use(express.static('public')) // we'll add a static directory named "public"
+app.use(fileUpload()) // for fileuploads
+
+//handlebar
+var hbs = require('hbs')
 app.set('view engine','hbs');
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(__dirname));
+//Dont mind this one
+/*const session = require('express-session');
+const cookieParser = require('cookie-parser');*/
 
-/*
-app.use(
-    session((
-        secret: "secret-key",
-        resave: false,
-        saveUninitialized: false,
-    ))
-);*/
 
+/*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/START/login-page.html');
@@ -60,7 +63,7 @@ app.get('/signup-labtechnician', function(req, res) {
 });
 
 
-//CT
+/*-----------------------      CT      --------------------------*/ 
 // CT-Menu
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
@@ -119,7 +122,7 @@ app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
 });
 
 
-//LT
+/*-----------------------      LT      --------------------------*/ 
 // LT-Menu Bar
 app.get('/LT-homepage', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-homepage.html');
