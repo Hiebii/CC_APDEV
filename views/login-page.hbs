@@ -37,22 +37,28 @@
                         </div> 
                     </div> 
                     <div class="container">
+
+                        {{#if error}}
+                              <p class="error-text">{{error}}</p>
+                        {{/if}}
                             <div class="header">
                                 WELCOME BACK
                                 <div class="subtitle">Enter your credentials to log in.</div>
                                 
                             </div>
                             <div class="contents">
+                                <form action ="/login" method="POST">
                                 <div class="textcontainer-login">
                                     <img src="images/email-icon.png" class="texticon-email-login">
-                                    <input type="text" class="textbox-login" id="login-email" placeholder="Email Address">
+                                    <input type="text" class="textbox-login" id="login-email" name="email" placeholder="Email Address">
                                 </div>   
 
                                 <div class="textcontainer-login">
                                     <img src="images/lock-password.png" class="texticon-password-studentlab">
-                                    <input type="password" class="textbox-login" id="login-password" placeholder="Password">
+                                    <input type="password" class="textbox-login" id="login-password" name="password" placeholder="Password">
                                 </div>                    
-                                <input type="submit" id="login-button" class="submitbutton" value="LOGIN">  
+                                <input type="submit" id="login-button" class="submitbutton" value="LOGIN"> 
+                                </form> 
                             </div>
                             <div class="contents-bottom">
                             <input type="checkbox" class="checkboxCCS">Remember me
@@ -67,6 +73,7 @@
         </div>
         <script>
             const colorBgContainer = document.querySelectorAll(".textbox-login");
+            event. preventDefault(); //This is so the default form submission is not there.
             colorBgContainer.forEach(input =>{
                 input.addEventListener('focus', function(){
                     const textContainer = input.closest('.textcontainer-login');
@@ -84,8 +91,29 @@
             const disabledButton = document.querySelector(".buttons-menu[disabled]");
 
             disabledButton.classList.add('buttons-menu-disabled');
+            
+            document.getElementById('loginForm').onsubmit = async (event) => {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                try {
+                    const response = await fetch('/login', {
+                        method: 'POST',
+                        body:formData
+                    });
+        
+                        const result = await response.json();
+                    if (!response.ok){
+                        alert(result.message);
+                    } else {
+                        window.location.href = result.redirectUrl;
+                    }
+                } catch (error) {
+                    console.error('Error during login: ', error);
+                    alert('Server error, please try again!');
+                }
+            };
 
-            document.getElementById('login-button').addEventListener('click', function(){
+            /*document.getElementById('login-button').addEventListener('click', function(){
                 const emailCheck = document.getElementById('login-email').value.trim();
                 const emailDomain = "@dlsu.edu.ph";
 
@@ -98,7 +126,7 @@
                 else{
                     alert('Invalid email and password! Please double check.');  
                 }
-            });
+            }); */
             
 
             
