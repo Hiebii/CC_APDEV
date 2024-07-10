@@ -13,7 +13,7 @@
             <div class="header-general">
                 <img src="images/tinkerlablogo-yellow.png" height="55px" width="274px">
                 <div class="buttons-location">
-                    <a href="login-page.html">
+                    <a href="/login-page">
                     <button class="buttons-menu">Login</button></a>
                     <button class="buttons-menu" disabled>Sign Up</button>
                 </div>
@@ -46,24 +46,31 @@
                         Create your account.
                     </div>  
                     <div class="content-studentlab">
+                        <form id = "signupForm" action="/signup" method="POST">
+
+                        <div class="textcontainer-studentlab">
+                            <img src="images/name.png" class="texticon-email-studentlab">
+                            <input type="text" class="textbox-studentlab" id="student-email" name="fullName" placeholder="Name">
+                        </div>
+
                         <div class="textcontainer-studentlab">
                                 <img src="images/email-icon.png" class="texticon-email-studentlab">
-                                <input type="text" class="textbox-studentlab" id="student-email" placeholder="Email Address">
+                                <input type="text" class="textbox-studentlab" id="student-email" name="email" placeholder="Email Address">
                             </div>
                         </div>
-
+                        <input type="hidden" name="title" value="student">
                         <div class="textcontainer-studentlab">
                             <img src="images/lock-password.png" class="texticon-password-studentlab">
-                            <input type="password" class="textbox-studentlab" id="student-password" placeholder="Password">
+                            <input type="password" class="textbox-studentlab" id="student-password" name="password" placeholder="Password">
                         </div>
 
                         <div class="textcontainer-studentlab">
                             <img src="images/lock-password.png" class="texticon-password-studentlab">
-                            <input type="password" class="textbox-studentlab" id="confirm-student-password" placeholder="Confirm Password">
+                            <input type="password" class="textbox-studentlab" id="confirm-student-password" name="confirm-password" placeholder="Confirm Password">
                         </div>
                         <input type="submit" id="submitcredentials" class="submitbuttonsignup" value="SIGN UP">
                     </div>
-                   
+                    </form>
                 </div>
                 <div class="bottom">
                     Already have an account? <a href="/login-page">Log in.</a>

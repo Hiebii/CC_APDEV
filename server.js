@@ -10,9 +10,12 @@ const port = 3000;
 const fileUpload = require('express-fileupload')
 
 /* Initialize our post */
+const Post = require("./database/models/Rooms")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
+const Users = require("./database/models/Users")
 const path = require('path') // our path directory
+
 
 app.use(express.json()) // use json
 app.use(express.urlencoded( {extended: true})); // files consist of more than strings
@@ -62,11 +65,68 @@ app.get('/Andrew', async (req, res) => {
 });
 
 
+/*-----------------------      SIGNUP      --------------------------*/ 
+
+app.post('/signup', async (req, res) => {
+    const { fullName, email, password, title } = req.body;
+
+    try { 
+        // This part is to check if an email already exists.
+        const existingEmail = await Users.findOne({ email });
+        //If email exists, send alert that there already exists a user with an email.
+        if (existingEmail){
+            return res.status(400).json({ message: 'User Already Exists!' });
+        }
+        //create the user
+        const newUser = new Users({fullName, email, password, title});
+        await newUser.save();
+
+        res.status(201).json({ message:'User registered successfully!'});
+    }catch (err){
+        console.error(err);
+        //Send an error if it is not working.
+        res.status(500).json({ message:'Server Error!'});
+    }
+});
+
+/*-----------------------      LOGIN      --------------------------*/ 
+app.post('/login', async (req, res) => {
+    const { email, password }  = req.body;
+
+    try{
+        //See if user does exist in the database
+        const user = await Users.findOne({ email });
+        if (!user){
+            return res.render('login-page', { error: 'User does not exist! '});
+        }
+
+        if(user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password! '});
+        }
+
+        if (user.title === 'labtechnician'){
+            res.redirect('/LT-homepage');
+        } else if (user.title === 'student'){
+            res.redirect('/CT-homepage');
+        }else{
+            res.status(400).json({ message: 'Unknown role!'});
+        }
+    }catch(err){
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
+});
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/START/login-page.html');
+/*app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/views/login-page.hbs');
+});*/
+
+//Login Start Route
+
+app.get('/', (req, res) =>{
+    res.render('login-page');
 });
 
 //Login & Sign Up Page
@@ -83,7 +143,7 @@ app.get('/CT-Reservation_search_view-only', function(req, res) {
 });
 
 app.get('/login-page', function(req, res) {
-    res.sendFile(__dirname + '/START/login-page.html');
+    res.render('login-page');
 });
 
 app.get('/signup-student', function(req, res) {
