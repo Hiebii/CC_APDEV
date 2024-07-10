@@ -34,7 +34,7 @@ const cookieParser = require('cookie-parser');*/
 /*-----------------------      SIGNUP      --------------------------*/ 
 
 app.post('/signup', async (req, res) => {
-    const { email, password, title } = req.body;
+    const { fullName, email, password, title } = req.body;
 
     try { 
         // This part is to check if an email already exists.
@@ -44,7 +44,7 @@ app.post('/signup', async (req, res) => {
             return res.status(400).json({ message: 'User Already Exists!' });
         }
         //create the user
-        const newUser = new Users({email, password, title});
+        const newUser = new Users({fullName, email, password, title});
         await newUser.save();
 
         res.status(201).json({ message:'User registered successfully!'});
