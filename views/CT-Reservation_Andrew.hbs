@@ -75,13 +75,25 @@
             </div>
         </div>
         
-      <div class="date-button">
+  <div class="date-button">
     <h1 class="left-text">DATE</h1>
-    <form action="/Andrew" method="GET"> <!-- Assuming GET method for simplicity -->
+    <form id="dateForm" action="/Andrew" method="GET"> <!-- Assuming GET method for simplicity -->
         <input type="date" class="date-input" id="dateInput" name="date"> <!-- Ensure name attribute is "date" -->
-        <button type="submit">Submit</button> <!-- Add a submit button -->
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('dateInput');
+        
+        // Listen for change in date input
+        dateInput.addEventListener('change', function() {
+            // Automatically submit the form when date is selected
+            document.getElementById('dateForm').submit();
+        });
+    });
+</script>
+
 
     </div>
                   
@@ -118,13 +130,71 @@
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
-
                  {{/each}}
-                 {{/each}}
-              
+                 {{/each}}  
             </div>
 
-<script>
+
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                {{#each andrews2}}
+                {{#each this.reservations}}
+                     <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                 {{/each}}
+                 {{/each}}  
+        
+               
+            </div>
+    
+            <div class="colside col-md-1">
+                {{#each andrews3}}
+                {{#each this.reservations}}
+                     <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                 {{/each}}
+                 {{/each}}  
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                {{#each andrews4}}
+                {{#each this.reservations}}
+                     <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                 {{/each}}
+                 {{/each}}  
+    
+            </div>
+    
+            <div class="colside col-md-1">
+                {{#each andrews5}}
+                {{#each this.reservations}}
+                     <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                 {{/each}}
+                 {{/each}}  
+
+            </div>
+    
+            <div class="colmid col-md-1 border p-3"></div>
+    
+            <div class="colside col-md-1">
+                 {{#each andrews6}}
+                {{#each this.reservations}}
+                     <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                 {{/each}}
+                 {{/each}}  
+    
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
   // Select all elements with the class 'seat-name'
   const seatDivs = document.querySelectorAll('.seat-name');
 
@@ -138,75 +208,6 @@
   });
 </script>
 
-            <div class="colmid col-md-1 border p-3"></div>
-    
-            <div class="colside col-md-1">
-                {{#each andrews2}}
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S06" class="seat-name" data-value="0" data-seat="GK06" data-value-name="N/A">{{this.seat}}</div><br>
-                  {{/each}}
-        
-               
-            </div>
-    
-            <div class="colside col-md-1">
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S11" class="seat-name" data-value="0" data-seat="GK11" data-value-name="N/A">GK11</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S12" class="seat-name" data-value="0" data-seat="GK12" data-value-name="N/A">GK12</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S13" class="seat-name" data-value="0" data-seat="GK13" data-value-name="N/A">GK13</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S14" class="seat-name" data-value="0" data-seat="GK14" data-value-name="N/A">GK14</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S15" class="seat-name" data-value="0" data-seat="GK15" data-value-name="N/A">GK15</div>
-            </div>
-    
-            <div class="colmid col-md-1 border p-3"></div>
-    
-            <div class="colside col-md-1">
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S16" class="seat-name" data-value="0" data-seat="GK16" data-value-name="N/A">GK16</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S17" class="seat-name" data-value="0" data-seat="GK17" data-value-name="N/A">GK17</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S18" class="seat-name" data-value="0" data-seat="GK18" data-value-name="N/A">GK18</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S19" class="seat-name" data-value="0" data-seat="GK19" data-value-name="N/A">GK19</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S20" class="seat-name" data-value="0" data-seat="GK20" data-value-name="N/A">GK20</div>
-            </div>
-    
-            <div class="colside col-md-1">
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S21" class="seat-name" data-value="0" data-seat="GK21" data-value-name="N/A">GK21</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S22" class="seat-name" data-value="0" data-seat="GK22" data-value-name="N/A">GK22</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S23" class="seat-name" data-value="0" data-seat="GK23" data-value-name="N/A">GK23</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S24" class="seat-name" data-value="0" data-seat="GK24" data-value-name="N/A">GK24</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S25" class="seat-name" data-value="0" data-seat="GK25" data-value-name="N/A">GK25</div>
-            </div>
-    
-            <div class="colmid col-md-1 border p-3"></div>
-    
-            <div class="colside col-md-1">
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S26" class="seat-name" data-value="0" data-seat="GK26" data-value-name="N/A">GK26</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S27" class="seat-name" data-value="0" data-seat="GK27" data-value-name="N/A">GK27</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S28" class="seat-name" data-value="0" data-seat="GK28" data-value-name="N/A">GK28</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S29" class="seat-name" data-value="0" data-seat="GK29" data-value-name="N/A">GK29</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S30" class="seat-name" data-value="0" data-seat="GK30" data-value-name="N/A">GK30</div>
-            </div>
-        </div>
-    </div>
-    
                               
 
                 <div id="bot-right" >
