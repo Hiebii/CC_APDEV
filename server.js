@@ -180,7 +180,7 @@ app.get('/CT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit_reservation-details.html');
 });
 
-/*-----------------------      PROFILE      --------------------------*/ 
+/*-----------------------      CT PROFILE      --------------------------*/ 
 app.get('/CT-Profile', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -290,8 +290,23 @@ app.get('/LT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit.html');
 });
 
-app.get('/LT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile.html');
+/*-----------------------      LT PROFILE      --------------------------*/ 
+app.get('/LT-Profile', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('LT-Profile', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 
