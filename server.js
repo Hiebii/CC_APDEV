@@ -54,24 +54,6 @@ app.get('/content', async(req,res) => {
 })
 */
 
-app.get('/CT-Profile_view-only', async (req, res) => {
-    try {
-        if (!req.session.userId) {
-            return res.status(401).send('Unauthorized');
-        }
-
-        const user = await Users.findById(req.session.userId).lean();
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        res.render('CT-Profile_view-only', { user });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred');
-    }
-});
-
 app.get('/Andrew', async (req, res) => {
     try {
         // Extract the date parameter from the query string
@@ -217,6 +199,41 @@ app.get('/CT-Profile', async (req, res) => {
     }
 });
 
+app.get('/CT-Profile_view-content', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+        const currentUserId = req.session.userId;
+        const users = await Users.find({ _id: { $ne: currentUserId } }).lean();
+        if (!users) {
+            return res.status(404).send('User not found');
+        }
+
+        res.json(users); // Return users data as JSON
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+app.get('/CT-Profile_view-only', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.query.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('CT-Profile_view-only', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
 
 // CT-Reservations
 app.get('/CT-Reservation_Goks', function(req, res) {
@@ -243,10 +260,6 @@ app.get('/CT-Reservation_search-andrew', function(req, res) {
 // CT-Reservation_details & Profile
 app.get('/CT-Reservation_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_reservation-details.html');
-});
-
-app.get('/CT-Profile_view-only', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only.html');
 });
 
 app.get('/CT-Profile_view-only_Liam', function(req, res) {

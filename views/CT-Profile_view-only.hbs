@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css-main/cssprofilepage.css">
     <link rel="stylesheet" href="css-main/CT_LT-Main.css">
     <link rel="icon" href="images/icon.png">
-    <script src="../js-main/search/js"></script>    
+    <script src="../js-main/search.js"></script>    
     <title>tinkerlab.</title>
    </head> 
    <body>
@@ -48,9 +48,9 @@
             <div class="suggestions-div">
                 <div class="suggestion-card">
                     <!-- <template class="user-card-template"> -->
-                        {{#each users}}
+                        {{#each user}}
                         <div class="card">
-                            <a href="/view-profile">{{user.name}}</a>
+                            <a href="/CT-profile_view-only">{{user.fullName}}</a>
                             </div>
                         {{/each}}
                     <!-- </template> -->
@@ -72,7 +72,7 @@
             </div>
             <br>
             <div id="role-div">
-                <h1 class="role">{{user.role}}</h1>
+                <h1 class="role">{{user.title}}</h1>
             </div>
         </div>
 
@@ -80,7 +80,7 @@
 
         <!-- right profile side -->
         <div class="profilediv2">
-            <h2 class="profileheader">{{user.name}}</h2>
+            <h2 class="profileheader">{{user.fullName}}</h2>
 
             <textarea class="profiledesc" rows="7" cols="80" readonly>{{user.description}}</textarea>
 
