@@ -3,6 +3,7 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 
 /* Initialize express */
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const port = 3000; 
 
@@ -20,6 +21,14 @@ app.use(express.json()) // use json
 app.use(express.urlencoded( {extended: true})); // files consist of more than strings
 app.use(express.static('public')) // we'll add a static directory named "public"
 app.use(fileUpload()) // for fileuploads
+
+// Configure session middleware
+app.use(session({
+    secret: 'yourSecretKey', // Replace with your own secret
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 
 //handlebar
 var hbs = require('hbs')
@@ -70,7 +79,54 @@ app.get('/Andrew', async (req, res) => {
     }
 });
 
+/*-----------------------      SIGNUP      --------------------------*/ 
+app.post('/signup', async (req, res) => {
+    const { fullName, email, password, title } = req.body;
 
+    try { 
+        const existingEmail = await Users.findOne({ email });
+        if (existingEmail){
+            return res.status(400).json({ message: 'User Already Exists!' });
+        }
+
+        const newUser = new Users({ fullName, email, password, title });
+        await newUser.save();
+
+        res.status(201).json({ message:'User registered successfully!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message:'Server Error!' });
+    }
+});
+
+/*-----------------------      LOGIN      --------------------------*/ 
+app.post('/login', async (req, res) => {
+    const { email, password }  = req.body;
+
+    try {
+        const user = await Users.findOne({ email });
+        if (!user){
+            return res.render('login-page', { error: 'User does not exist!' });
+        }
+
+        if (user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password!' });
+        }
+
+        req.session.userId = user._id; // Store user ID in session
+
+        if (user.title === 'Lab Technician'){
+            res.redirect('/LT-homepage');
+        } else if (user.title === 'Student'){
+            res.redirect('/CT-homepage');
+        } else {
+            res.status(400).json({ message: 'Unknown role!' });
+        }
+    } catch(err) {
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
+});
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
@@ -124,25 +180,24 @@ app.get('/CT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit_reservation-details.html');
 });
 
-/*app.get('/CT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile.html');
-});*/
-
+/*-----------------------      PROFILE      --------------------------*/ 
 app.get('/CT-Profile', async (req, res) => {
     try {
-        const fullName = 'Alice Johnson'; 
-        const user = await Users.findOne({ fullName: fullName }).lean();
-        console.log(user); // Check if the user data is retrieved
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
         if (!user) {
             return res.status(404).send('User not found');
         }
+
         res.render('CT-Profile', { user });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
     }
 });
-
 
 
 // CT-Reservations
