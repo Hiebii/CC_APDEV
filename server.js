@@ -32,58 +32,45 @@ app.use(express.static(__dirname));
 //Dont mind this one
 /*const session = require('express-session');
 const cookieParser = require('cookie-parser');*/
+/*
+app.get('/tinkerlab', (req, res) => {
+    res.json({mssg: "welcomee to the api"})
+})
 
-/*-----------------------      SIGNUP      --------------------------*/ 
+app.get('/content', async(req,res) => {
+    const posts = await Post.find({})
+    console.log(posts)
+    res.render('content',{posts})
+})
+*/
 
-app.post('/signup', async (req, res) => {
-    const { fullName, email, password, title } = req.body;
 
-    try { 
-        // This part is to check if an email already exists.
-        const existingEmail = await Users.findOne({ email });
-        //If email exists, send alert that there already exists a user with an email.
-        if (existingEmail){
-            return res.status(400).json({ message: 'User Already Exists!' });
-        }
-        //create the user
-        const newUser = new Users({fullName, email, password, title});
-        await newUser.save();
+app.get('/Andrew', async (req, res) => {
+    try {
+        // Extract the date parameter from the query string
+        const { date } = req.query;
 
-        res.status(201).json({ message:'User registered successfully!'});
-    }catch (err){
-        console.error(err);
-        //Send an error if it is not working.
-        res.status(500).json({ message:'Server Error!'});
+        // Query the database based on seat and date
+        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews2 = await Andrew.aggregate([{ $match: { seat: { $in: ['A06', 'A07', 'A08', 'A09', 'A10'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews3 = await Andrew.aggregate([{ $match: { seat: { $in: ['A11', 'A12', 'A13', 'A14', 'A15'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews4 = await Andrew.aggregate([{ $match: { seat: { $in: ['A16', 'A17', 'A18', 'A19', 'A20'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews5 = await Andrew.aggregate([{ $match: { seat: { $in: ['A21', 'A22', 'A23', 'A24', 'A25'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews6 = await Andrew.aggregate([{ $match: { seat: { $in: ['A26', 'A27', 'A28', 'A29', 'A30'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        // Render your Handlebars template with the data
+        res.render('CT-Reservation_Andrew', { andrews, andrews2, andrews3, andrews4, andrews5, andrews6 });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
     }
 });
 
-/*-----------------------      LOGIN      --------------------------*/ 
-app.post('/login', async (req, res) => {
-    const { email, password }  = req.body;
 
-    try{
-        //See if user does exist in the database
-        const user = await Users.findOne({ email });
-        if (!user){
-            return res.render('login-page', { error: 'User does not exist! '});
-        }
-
-        if(user.password !== password){
-            return res.render('login-page', { error: 'Invalid Password! '});
-        }
-
-        if (user.title === 'labtechnician'){
-            res.redirect('/LT-homepage');
-        } else if (user.title === 'student'){
-            res.redirect('/CT-homepage');
-        }else{
-            res.status(400).json({ message: 'Unknown role!'});
-        }
-    }catch(err){
-        console.error(err);
-        res.status(500).send('Server Error!');
-    }
-});
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
