@@ -43,14 +43,11 @@
         
         <div class="searchdivider">
             <div class="searchfield">
-                <form action="/CT-Profile" method="GET">
-                    <button type="submit" class="searchbutton"><img src="/images/searchglass.png" class="imgbtn"></button>
-                    <input class="searchinput" type="text" name="name" placeholder="Search...">
-                </form>
+                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
+                <input class="searchinput" type="text" placeholder="Search...">
             </div>
             <div class="suggestions-div">
                 <ul class="suggestions-ul">
-                    <!-- Static links can be replaced with dynamic suggestions if needed -->
                     <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only">Ava</a></li>    
                     <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only_Liam">Liam</a></li>    
                     <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only_Benjamin">Benjamin</a></li>
@@ -60,66 +57,67 @@
 
        
     </div>
-    <!-- profile body -->
-    <div class="profilediv">
+<!-- profile body -->
+<div class="profilediv">
 
-        <!-- left profile side -->
-        <div class="profilediv1">
-            <div id="photo-div">
-                <div class="profileborder">
-                    <img class="profilephoto" src="images/defaultpfp.png" alt="Profile Photo">
-                </div>
-            </div>
-            <br>
-            <div id="role-div">
-                <h1 class="role">{{user.role}}</h1>
-            </div>
-            <br>
-            <div id="editprofilebtn-div">
-                <button class="purple-button"><a class="linktoedit" href="/CT-Profile_edit">EDIT PROFILE</a></button>
-            </div>
-            <br><br>
-            <div id="deleteaccbtn-div">
-                <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
+    <!-- left profile side -->
+    <div class="profilediv1">
+        <div id="photo-div">
+            <div class="profileborder">
+                <img class="profilephoto" src="images/defaultpfp.png" alt="Profile Photo">
             </div>
         </div>
-
-        <hr class="vl"> 
-
-        <!-- right profile side -->
-        <div class="profilediv2">
-            <h2 class="profileheader">{{user.name}}</h2>
-            <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
-
-            <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
-            <div class="scheddiv">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Seat No.</th>
-                            <th>Computer Lab</th>
-                            <th>Date of Request</th>
-                            <th>Time of Request</th>
-                            <th>Date of Reservation</th>
-                            <th>Time of Reservation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each user.reservations}}
-                        <tr>
-                            <td>{{this.seatNo}}</td>
-                            <td>{{this.computerLab}}</td>
-                            <td>{{this.dateOfRequest}}</td>
-                            <td>{{this.timeOfRequest}}</td>
-                            <td>{{this.dateOfReservation}}</td>
-                            <td>{{this.timeOfReservation}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        </div>  
+        <br>
+        <div id="role-div">
+            <h1 class="role">{{user.title}}</h1>
+        </div>
+        <br>
+        <div id="editprofilebtn-div">
+            <button class="purple-button"><a class="linktoedit" href="/CT-Profile_edit">EDIT PROFILE</a></button>
+        </div>
+        <br><br>
+        <div id="deleteaccbtn-div">
+            <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
+        </div>
     </div>
+
+    <hr class="vl"> 
+
+    <!-- right profile side -->
+    <div class="profilediv2">
+        <h2 class="profileheader">{{user.fullName}}</h2>
+        <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
+
+        <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
+        <div class="scheddiv">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Seat No.</th>
+                        <th>Computer Lab</th>
+                        <th>Date of Request</th>
+                        <th>Time of Request</th>
+                        <th>Date of Reservation</th>
+                        <th>Time of Reservation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each user.reservations}}
+                    <tr>
+                        <td>{{this.seatNo}}</td>
+                        <td>{{this.computerLab}}</td>
+                        <td>{{this.dateOfRequest}}</td>
+                        <td>{{this.timeOfRequest}}</td>
+                        <td>{{this.dateOfReservation}}</td>
+                        <td>{{this.timeOfReservation}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>  
+</div>
+
 
     <!-- Hidden confirmation dialog -->
     <script src="js/prompt.js"></script>

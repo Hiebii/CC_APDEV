@@ -10,7 +10,7 @@ const port = 3000;
 const fileUpload = require('express-fileupload')
 
 /* Initialize our post */
-const Post = require("./database/models/Rooms")
+
 const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
@@ -130,17 +130,20 @@ app.get('/CT-View-Edit_reservation-details', function(req, res) {
 
 app.get('/CT-Profile', async (req, res) => {
     try {
-      const fullName = 'Alice Johnson'; 
-      const profiles = await Profiles.find({ name: fullName }).lean();
-      if (!profiles) {
-        return res.status(404).send('User not found');
-      }
-      res.render('CT-Profile', { profiles });
+        const fullName = 'Alice Johnson'; 
+        const user = await Users.findOne({ fullName: fullName }).lean();
+        console.log(user); // Check if the user data is retrieved
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        res.render('CT-Profile', { user });
     } catch (err) {
-      console.error(err);
-      res.status(500).send('Server Error');
+        console.error(err);
+        res.status(500).send('An error occurred');
     }
-  });
+});
+
+
 
 // CT-Reservations
 app.get('/CT-Reservation_Goks', function(req, res) {

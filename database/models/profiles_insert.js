@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
-const Profile = require('./profiles');
+const Profile = require('./Users');
 
 mongoose.connect('mongodb://localhost:27017/tinkerlab', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // run this in cmd (e.g node profiles_insert)
+
 const sampleProfiles = [
   {
     name: "Alice Johnson",
