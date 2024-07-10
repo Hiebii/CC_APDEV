@@ -56,39 +56,77 @@
                 <div id="left" class="full-height">
 
                    
-                   
-          <div class = "time-button">
-            <h1 class="left-text">TIME</h1>
-            <div class="custom-select-wrapper">
-                <select class="time-dropdown">
-                    <option class="choices" value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
-                    <option class="choices" value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
-                    <option class="choices" value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
-                    <option class="choices" value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
-                    <option class="choices" value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
-                    <option class="choices" value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
-                    <option class="choices" value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
-                    <option class="choices" value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
-                    <option class="choices" value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
-                    <option class="choices" value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
-                </select>
-            </div>
-        </div>
-        
-  <div class="date-button">
+   <div class="time-button">
+    <h1 class="left-text">TIME</h1>
+    <div class="custom-select-wrapper">
+        <select id="time-dropdown" class="time-dropdown" name="time">
+            <option class="choices" value="7:30AM-8:00AM">7:30AM - 8:00AM</option>
+            <option class="choices" value="8:00AM-8:30AM">8:00AM - 8:30AM</option>
+            <option class="choices" value="8:30AM-9:00AM">8:30AM - 9:00AM</option>
+            <option class="choices" value="9:00AM-9:30AM">9:00AM - 9:30AM</option>
+            <option class="choices" value="9:30AM-10:00AM">9:30AM - 10:00AM</option>
+            <option class="choices" value="10:00AM-10:30AM">10:00AM - 10:30AM</option>
+            <option class="choices" value="10:30AM-11:00AM">10:30AM - 11:00AM</option>
+            <option class="choices" value="11:00AM-11:30AM">11:00AM - 11:30AM</option>
+            <option class="choices" value="11:30AM-12:00PM">11:30AM - 12:00PM</option>
+            <option class="choices" value="12:00PM-12:30PM">12:00PM - 12:30PM</option>
+        </select>
+    </div>
+</div>
+
+<div class="date-button">
     <h1 class="left-text">DATE</h1>
-    <form id="dateForm" action="/Andrew" method="GET"> <!-- Assuming GET method for simplicity -->
-        <input type="date" class="date-input" id="dateInput" name="date"> <!-- Ensure name attribute is "date" -->
+    <form id="dateForm" action="/Andrew" method="GET">
+        <input type="date" class="date-input" id="dateInput" name="date">
+        <!-- Hidden input to store selected time -->
+        <input type="hidden" id="selectedTime" name="time">
+        <button type="button" id="submit-button">Submit</button>
     </form>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const timeDropdown = document.getElementById('time-dropdown');
         const dateInput = document.getElementById('dateInput');
+        const selectedTimeInput = document.getElementById('selectedTime');
+        const submitButton = document.getElementById('submit-button');
         
-        // Listen for change in date input
+        // Function to update the URL and hidden input based on selected time and date
+        function updateFormData() {
+            const selectedTime = timeDropdown.value;
+            const selectedDate = dateInput.value;
+            
+            selectedTimeInput.value = selectedTime;
+            
+            const url = `/Andrew?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
+            document.getElementById('dateForm').action = url;
+        }
+  
+        timeDropdown.addEventListener('change', function() {
+            updateFormData();
+        });
+
         dateInput.addEventListener('change', function() {
-            // Automatically submit the form when date is selected
+            updateFormData();
+        });
+
+        // On page load, check if there are existing values in the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const timeParam = urlParams.get('time');
+        const dateParam = urlParams.get('date');
+
+        if (timeParam && dateParam) {
+            timeDropdown.value = timeParam;
+            dateInput.value = dateParam;
+            updateFormData(); // Update the form with the selected values
+        }
+
+        // Listen for submit button click
+        submitButton.addEventListener('click', function() {
+            // Update form data before submitting
+            updateFormData();
+            
+            // Submit the form
             document.getElementById('dateForm').submit();
         });
     });
@@ -129,7 +167,7 @@
                 {{#each andrews}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
             </div>
@@ -141,7 +179,7 @@
                 {{#each andrews2}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
         
@@ -152,7 +190,7 @@
                 {{#each andrews3}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
             </div>
@@ -163,7 +201,7 @@
                 {{#each andrews4}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
     
@@ -173,7 +211,7 @@
                 {{#each andrews5}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
 
@@ -185,7 +223,7 @@
                  {{#each andrews6}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
     
