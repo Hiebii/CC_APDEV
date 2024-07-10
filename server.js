@@ -45,14 +45,23 @@ app.get('/content', async(req,res) => {
 
 app.get('/Andrew', async (req, res) => {
     try {
-        const andrews = await Andrew.find({ seat: { $in: ['A01', 'A02'] } });
-        const andrews2 = await Andrew.find({ seat: { $in: ['A04', 'A05'] } });
-        res.render('CT-Reservation_Goks', { andrews, andrews2 });
+        // Extract the date parameter from the query string
+        const { date } = req.query;
+
+        // Query the database based on seat and date
+        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", "2024-07-12"] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews2 = await Andrew.find({ seat: { $in: ['A04', 'A05'] }, date });
+
+        // Render your Handlebars template with the data
+        res.render('CT-Reservation_Andrew', { andrews, andrews2 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
     }
 });
+
+
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route

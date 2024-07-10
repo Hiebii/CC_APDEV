@@ -75,11 +75,13 @@
             </div>
         </div>
         
-        <div class="date-button">
-            <h1 class="left-text">DATE</h1>
-            <input type="date" class="date-input" id="dateInput">
-        </div>
-
+      <div class="date-button">
+    <h1 class="left-text">DATE</h1>
+    <form action="/Andrew" method="GET"> <!-- Assuming GET method for simplicity -->
+        <input type="date" class="date-input" id="dateInput" name="date"> <!-- Ensure name attribute is "date" -->
+        <button type="submit">Submit</button> <!-- Add a submit button -->
+    </form>
+</div>
 
     </div>
                   
@@ -113,13 +115,28 @@
 
             <div class="colside col-md-1">
                 {{#each andrews}}
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-value="1" data-seat="GK01" data-value-name="Anonymous">{{this.seat}}</div><br>
+                {{#each this.reservations}}
+                     <img class="lab-student-icon" src="images/lab-student.png">
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}">data-seat</div><br>
+
                  {{/each}}
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S02" class="seat-name" data-value="0" data-seat="GK02" data-value-name="N/A">GK02</div><br>
+                 {{/each}}
               
             </div>
+
+<script>
+  // Select all elements with the class 'seat-name'
+  const seatDivs = document.querySelectorAll('.seat-name');
+
+  // Loop through each seat div
+  seatDivs.forEach(seatDiv => {
+    // Get the value of the data-seat attribute for each div
+    const seatValue = seatDiv.getAttribute('data-seat');
+    
+    // Set the content of each div to the value of its data-seat attribute
+    seatDiv.textContent = seatValue;
+  });
+</script>
 
             <div class="colmid col-md-1 border p-3"></div>
     
@@ -128,12 +145,7 @@
                 <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S06" class="seat-name" data-value="0" data-seat="GK06" data-value-name="N/A">{{this.seat}}</div><br>
                   {{/each}}
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S07" class="seat-name" data-value="0" data-seat="GK07" data-value-name="N/A">GK07</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S08" class="seat-name" data-value="0" data-seat="GK08" data-value-name="N/A">GK08</div><br>
-                <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S09" class="seat-name" data-value="0" data-seat="GK09" data-value-name="N/A">GK09</div><br>
+        
                
             </div>
     
