@@ -3,6 +3,7 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 
 /* Initialize express */
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const port = 3000; 
 
@@ -10,10 +11,10 @@ const port = 3000;
 const fileUpload = require('express-fileupload')
 
 /* Initialize our post */
-const Post = require("./database/models/Rooms")
+
+const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
-const Users = require("./database/models/Users")
 const path = require('path') // our path directory
 
 
@@ -21,6 +22,14 @@ app.use(express.json()) // use json
 app.use(express.urlencoded( {extended: true})); // files consist of more than strings
 app.use(express.static('public')) // we'll add a static directory named "public"
 app.use(fileUpload()) // for fileuploads
+
+// Configure session middleware
+app.use(session({
+    secret: 'yourSecretKey', // Replace with your own secret
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 
 //handlebar
 var hbs = require('hbs')
@@ -69,40 +78,42 @@ app.get('/Andrew', async (req, res) => {
         const { date } = req.query;
 
         // Query the database based on seat and date
-        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", "2024-07-12"] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        const andrews2 = await Andrew.find({ seat: { $in: ['A04', 'A05'] }, date });
+        const andrews2 = await Andrew.aggregate([{ $match: { seat: { $in: ['A06', 'A07', 'A08', 'A09', 'A10'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
+        const andrews3 = await Andrew.aggregate([{ $match: { seat: { $in: ['A11', 'A12', 'A13', 'A14', 'A15'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews4 = await Andrew.aggregate([{ $match: { seat: { $in: ['A16', 'A17', 'A18', 'A19', 'A20'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews5 = await Andrew.aggregate([{ $match: { seat: { $in: ['A21', 'A22', 'A23', 'A24', 'A25'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews6 = await Andrew.aggregate([{ $match: { seat: { $in: ['A26', 'A27', 'A28', 'A29', 'A30'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        res.render('CT-Reservation_Andrew', { andrews, andrews2 });
+        res.render('CT-Reservation_Andrew', { andrews, andrews2, andrews3, andrews4, andrews5, andrews6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
     }
 });
 
-
 /*-----------------------      SIGNUP      --------------------------*/ 
-
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, title } = req.body;
 
     try { 
-        // This part is to check if an email already exists.
         const existingEmail = await Users.findOne({ email });
-        //If email exists, send alert that there already exists a user with an email.
         if (existingEmail){
             return res.status(400).json({ message: 'User Already Exists!' });
         }
-        //create the user
-        const newUser = new Users({fullName, email, password, title});
+
+        const newUser = new Users({ fullName, email, password, title });
         await newUser.save();
 
-        res.status(201).json({ message:'User registered successfully!'});
-    }catch (err){
+        res.status(201).json({ message:'User registered successfully!' });
+    } catch (err) {
         console.error(err);
-        //Send an error if it is not working.
-        res.status(500).json({ message:'Server Error!'});
+        res.status(500).json({ message:'Server Error!' });
     }
 });
 
@@ -110,25 +121,26 @@ app.post('/signup', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { email, password }  = req.body;
 
-    try{
-        //See if user does exist in the database
+    try {
         const user = await Users.findOne({ email });
         if (!user){
-            return res.render('login-page', { error: 'User does not exist! '});
+            return res.render('login-page', { error: 'User does not exist!' });
         }
 
-        if(user.password !== password){
-            return res.render('login-page', { error: 'Invalid Password! '});
+        if (user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password!' });
         }
 
-        if (user.title === 'labtechnician'){
+        req.session.userId = user._id; // Store user ID in session
+
+        if (user.title === 'Lab Technician'){
             res.redirect('/LT-homepage');
-        } else if (user.title === 'student'){
+        } else if (user.title === 'Student'){
             res.redirect('/CT-homepage');
-        }else{
-            res.status(400).json({ message: 'Unknown role!'});
+        } else {
+            res.status(400).json({ message: 'Unknown role!' });
         }
-    }catch(err){
+    } catch(err) {
         console.error(err);
         res.status(500).send('Server Error!');
     }
@@ -186,8 +198,23 @@ app.get('/CT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit_reservation-details.html');
 });
 
-app.get('/CT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile.html');
+/*-----------------------      PROFILE      --------------------------*/ 
+app.get('/CT-Profile', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('CT-Profile', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 
@@ -229,6 +256,42 @@ app.get('/CT-Profile_view-only_Liam', function(req, res) {
 app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
+
+/* Example of serving a static page and handling dynamic content separately
+app.get('/CT-Profile_view-only_Liam', async (req, res) => {
+    // Handle static file serving
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
+
+    // Handle dynamic content (assuming profile ID is passed in URL or query)
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Render the profile page with user data
+        res.render('profile', { user }); // Assuming 'profile' is your Handlebars template
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Example of handling search and redirect
+app.get('/search', async (req, res) => {
+    const name = req.query.name; // Get the name from query parameters
+    try {
+        const user = await User.findOne({ name }); // Query the database for the user
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Redirect to profile page with the found user data
+        res.redirect(`/CT-Profile_view-only_Liam/${user._id}`); // Redirect to the user's profile using their ID
+    } catch (error) {
+        console.error('Error searching for user:', error);
+        res.status(500).send('Internal server error');
+    }
+});*/
 
 
 /*-----------------------      LT      --------------------------*/ 
