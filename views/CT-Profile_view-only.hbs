@@ -47,11 +47,13 @@
             </div>
             <div class="suggestions-div">
                 <div class="suggestion-card">
-                    <template class="user-card-template">
+                    <!-- <template class="user-card-template"> -->
+                        {{#each users}}
                         <div class="card">
-                            <div class="card-content"></div>
+                            <a href="/view-profile">{{user.name}}</a>
                             </div>
-                    </template>
+                        {{/each}}
+                    <!-- </template> -->
                 </div>
             </div>
 
@@ -70,7 +72,7 @@
             </div>
             <br>
             <div id="role-div">
-                <h1 class="role">Student</h1>
+                <h1 class="role">{{user.role}}</h1>
             </div>
         </div>
 
@@ -78,9 +80,9 @@
 
         <!-- right profile side -->
         <div class="profilediv2">
-            <h2 class="profileheader">Ava Watson</h2>
+            <h2 class="profileheader">{{user.name}}</h2>
 
-            <textarea class="profiledesc" rows="7" cols="80" readonly>I challenge society's expectations for women in Regency-era London.</textarea>
+            <textarea class="profiledesc" rows="7" cols="80" readonly>{{user.description}}</textarea>
 
             <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
             <div class="scheddiv">
@@ -96,31 +98,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>A04</td>
-                        <td>AG101</td>
-                        <td>05/20/2024</td>
-                        <td>9:35AM</td>
-                        <td>05/21/2024</td>
-                        <td>9:00AM - 9:30AM</td>
-                    </tr>
-                    <tr>
-                        <td>A05</td>
-                        <td>AG101</td>
-                        <td>05/20/2024</td>
-                        <td>9:35AM</td>
-                        <td>05/21/2024</td>
-                        <td>9:00AM - 9:30AM</td>
-                    </tr>
-                    <tr>
-                        <td>A06</td>
-                        <td>AG101</td>
-                        <td>05/20/2024</td>
-                        <td>9:35AM</td>
-                        <td>05/21/2024</td>
-                        <td>9:00AM - 9:30AM</td>
-                    </tr>
-                </tbody>
+                        {{#each user.reservations}}
+                            <tr>
+                                <td>{{ this.seatNo }}</td>
+                                <td>{{ this.computerLab }}</td>
+                                <td>{{ this.dateOfRequest }}</td>
+                                <td>{{ this.timeOfRequest }}</td>
+                                <td>{{ this.dateOfReservation }}</td>
+                                <td>{{ this.timeOfReservation }}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
             </table>
             </div>
         </div>  
