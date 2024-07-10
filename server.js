@@ -33,6 +33,57 @@ app.use(express.static(__dirname));
 /*const session = require('express-session');
 const cookieParser = require('cookie-parser');*/
 
+/*-----------------------      SIGNUP      --------------------------*/ 
+
+app.post('/signup', async (req, res) => {
+    const { fullName, email, password, title } = req.body;
+
+    try { 
+        // This part is to check if an email already exists.
+        const existingEmail = await Users.findOne({ email });
+        //If email exists, send alert that there already exists a user with an email.
+        if (existingEmail){
+            return res.status(400).json({ message: 'User Already Exists!' });
+        }
+        //create the user
+        const newUser = new Users({fullName, email, password, title});
+        await newUser.save();
+
+        res.status(201).json({ message:'User registered successfully!'});
+    }catch (err){
+        console.error(err);
+        //Send an error if it is not working.
+        res.status(500).json({ message:'Server Error!'});
+    }
+});
+
+/*-----------------------      LOGIN      --------------------------*/ 
+app.post('/login', async (req, res) => {
+    const { email, password }  = req.body;
+
+    try{
+        //See if user does exist in the database
+        const user = await Users.findOne({ email });
+        if (!user){
+            return res.render('login-page', { error: 'User does not exist! '});
+        }
+
+        if(user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password! '});
+        }
+
+        if (user.title === 'labtechnician'){
+            res.redirect('/LT-homepage');
+        } else if (user.title === 'student'){
+            res.redirect('/CT-homepage');
+        }else{
+            res.status(400).json({ message: 'Unknown role!'});
+        }
+    }catch(err){
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
+});
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
