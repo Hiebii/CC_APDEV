@@ -3,6 +3,7 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 
 /* Initialize express */
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const port = 3000; 
 
@@ -10,6 +11,8 @@ const port = 3000;
 const fileUpload = require('express-fileupload')
 
 /* Initialize our post */
+
+const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
 const path = require('path') // our path directory
@@ -18,6 +21,14 @@ app.use(express.json()) // use json
 app.use(express.urlencoded( {extended: true})); // files consist of more than strings
 app.use(express.static('public')) // we'll add a static directory named "public"
 app.use(fileUpload()) // for fileuploads
+
+// Configure session middleware
+app.use(session({
+    secret: 'yourSecretKey', // Replace with your own secret
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 
 //handlebar
 var hbs = require('hbs')
@@ -66,12 +77,65 @@ app.get('/Andrew', async (req, res) => {
     }
 });
 
+/*-----------------------      SIGNUP      --------------------------*/ 
+app.post('/signup', async (req, res) => {
+    const { fullName, email, password, title } = req.body;
 
+    try { 
+        const existingEmail = await Users.findOne({ email });
+        if (existingEmail){
+            return res.status(400).json({ message: 'User Already Exists!' });
+        }
+
+        const newUser = new Users({ fullName, email, password, title });
+        await newUser.save();
+
+        res.status(201).json({ message:'User registered successfully!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message:'Server Error!' });
+    }
+});
+
+/*-----------------------      LOGIN      --------------------------*/ 
+app.post('/login', async (req, res) => {
+    const { email, password }  = req.body;
+
+    try {
+        const user = await Users.findOne({ email });
+        if (!user){
+            return res.render('login-page', { error: 'User does not exist!' });
+        }
+
+        if (user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password!' });
+        }
+
+        req.session.userId = user._id; // Store user ID in session
+
+        if (user.title === 'Lab Technician'){
+            res.redirect('/LT-homepage');
+        } else if (user.title === 'Student'){
+            res.redirect('/CT-homepage');
+        } else {
+            res.status(400).json({ message: 'Unknown role!' });
+        }
+    } catch(err) {
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
+});
 
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/START/login-page.html');
+/*app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/views/login-page.hbs');
+});*/
+
+//Login Start Route
+
+app.get('/', (req, res) =>{
+    res.render('login-page');
 });
 
 //Login & Sign Up Page
@@ -88,7 +152,7 @@ app.get('/CT-Reservation_search_view-only', function(req, res) {
 });
 
 app.get('/login-page', function(req, res) {
-    res.sendFile(__dirname + '/START/login-page.html');
+    res.render('login-page');
 });
 
 app.get('/signup-student', function(req, res) {
@@ -114,8 +178,23 @@ app.get('/CT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit_reservation-details.html');
 });
 
-app.get('/CT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile.html');
+/*-----------------------      CT PROFILE      --------------------------*/ 
+app.get('/CT-Profile', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('CT-Profile', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 
@@ -158,6 +237,42 @@ app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
 
+/* Example of serving a static page and handling dynamic content separately
+app.get('/CT-Profile_view-only_Liam', async (req, res) => {
+    // Handle static file serving
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
+
+    // Handle dynamic content (assuming profile ID is passed in URL or query)
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Render the profile page with user data
+        res.render('profile', { user }); // Assuming 'profile' is your Handlebars template
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Example of handling search and redirect
+app.get('/search', async (req, res) => {
+    const name = req.query.name; // Get the name from query parameters
+    try {
+        const user = await User.findOne({ name }); // Query the database for the user
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Redirect to profile page with the found user data
+        res.redirect(`/CT-Profile_view-only_Liam/${user._id}`); // Redirect to the user's profile using their ID
+    } catch (error) {
+        console.error('Error searching for user:', error);
+        res.status(500).send('Internal server error');
+    }
+});*/
+
 
 /*-----------------------      LT      --------------------------*/ 
 // LT-Menu Bar
@@ -173,8 +288,23 @@ app.get('/LT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit.html');
 });
 
-app.get('/LT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile.html');
+/*-----------------------      LT PROFILE      --------------------------*/ 
+app.get('/LT-Profile', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('LT-Profile', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 
