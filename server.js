@@ -96,6 +96,14 @@ app.post('/login', async (req, res) => {
     }
 });
 
+app.get('/reservations', async (req, res) =>{
+    try {
+        const reservations = await Andrew.find();
+        res.render('reservations', { reservations });
+    }catch (err){
+        res.status(500).send(err);
+    }
+});
 
 
 app.get('/Andrew', async (req, res) => {
@@ -170,7 +178,7 @@ app.get('/CT-homepage', function(req, res) {
 });
 
 app.get('/CT-View-Edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+    res.render('CT-View-Edit.hbs');
 });
 
 app.get('/CT-View-Edit_reservation-details', function(req, res) {
