@@ -35,14 +35,14 @@ const reservationSchema = new mongoose.Schema({
     }
   });
 
-const AndrewSchema = new mongoose.Schema({
+const VelascoSchema = new mongoose.Schema({
     seat: {
         type: String,
         required: true
       },
       reservations: [reservationSchema]
-}, {versionKey: false});
+}, {versionKey: false})
 
-const Andrew = mongoose.model('Andrew', AndrewSchema)
+const Velasco = mongoose.model('Velasco', VelascoSchema)
 
-module.exports = Andrew
+module.exports = Velasco
