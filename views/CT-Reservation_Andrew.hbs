@@ -12,6 +12,7 @@
 
     <link rel="icon" href="images/icon.png">
     <title>tinkerlab.</title>
+
 </head>
 <body>
     <div class="header">
@@ -260,6 +261,146 @@
             </div>
         </div>
     </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const reserveButton = document.getElementById('reserve-button');
+    const labDropdown = document.getElementById('lab-dropdown');
+    const seatElements = document.querySelectorAll('.seat-name');
+    const dialog = document.getElementById("dialog-1");
+    const promptText = document.querySelector(".prompt-text");
+    
+    // Debug: Ensure elements exist
+    console.log("Reserve Button:", reserveButton);
+    console.log("Lab Dropdown:", labDropdown);
+    console.log("Seat Elements:", seatElements);
+
+    // Add event listener to each seat element
+    seatElements.forEach(function(seat) {
+        seat.addEventListener('click', function() {
+            handleSeatClick(seat);
+        });
+    });
+
+    // Function to handle seat click events
+    function handleSeatClick(seat) {
+        console.log("Seat clicked:", seat.textContent.trim());
+        const value = seat.getAttribute("data-value");
+        const seatName = seat.getAttribute("data-seat");
+        const occupant = seat.getAttribute("data-value-name");
+
+        if (value === "1") {
+            if (occupant === "Anonymous") {
+                showPrompt3(seatName, occupant);
+            } else {
+                showPrompt(seatName, occupant);
+            }
+        } else if (value === "0") {
+            seat.classList.toggle('selected');
+            if (seat.classList.contains("selected")) {
+                seat.style.backgroundColor = "#951ABE";
+                seat.style.color = "white";
+            } else {
+                seat.style.backgroundColor = "green";
+                seat.style.color = "black";
+            }
+        }
+    }
+ let reservationData; // Declare reservationData in a scope accessible to both functions
+
+reserveButton.addEventListener('click', async function() {
+    // Initialize an empty array to store selected seat names
+    const selectedSeats = [];
+
+    // Iterate over each seat element
+    seatElements.forEach(function(seat) {
+        // Check if the seat is selected
+        if (seat.classList.contains('selected')) {
+            // Trim and push the text content (seat name) into the selectedSeats array
+            selectedSeats.push(seat.textContent.trim());
+        }
+    });
+
+    // Check if at least one seat is selected
+    if (selectedSeats.length > 0) {
+        const selectedLab = labDropdown.value;
+        const dateofreservation = document.getElementById('dateInput').value;
+        const timeofreservation = document.getElementById('time-dropdown').value;
+
+        const now = new Date();
+        const dateofrequest = now.toISOString().split('T')[0];
+        const timeofrequest = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        reservationData = {
+            lab: selectedLab,
+            dateofreservation,
+            timeofreservation,
+            timeofrequest,
+            dateofrequest,
+            seatNames: selectedSeats
+        };
+
+        console.log("Reservation Data:", reservationData);
+
+        try {
+            const response = await fetch('/CT-View-Edit_reservation-details', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reservationData)
+            });
+
+            if (response.ok) {
+                // Redirect to the reservation details page
+                window.location.href = '/CT-View-Edit_reservation-details';
+            } else {
+                alert('Failed to reserve seats. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        }
+    } else {
+        showPrompt2();
+    }
+});
+
+
+    function showPrompt(seatName, occupant) {
+        const profileLink = "/CT-Profile_view-only";
+        promptText.innerHTML = `<span class="prompt-class"> 
+            <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> 
+            <br><br> 
+            <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span>
+        </span>`;
+        dialog.style.display = "block";
+    }
+
+    function showPrompt2() {
+        promptText.innerHTML = '<br><br><span class="prompt-class"> 
+            <span class="js_note">Please <span class="js_seat">select</span> <br> at least 1 seat!</span>
+        </span>';
+        dialog.style.display = "block";
+    }
+
+    function showPrompt3(seatName, occupant) {
+        promptText.innerHTML = `<span class="prompt-class"> 
+            <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> 
+            <br><br> 
+            <span class="js_username"><span class="js_occu">Occupied by:</span> ${occupant}</span>
+        </span>`;
+        dialog.style.display = "block";
+    }
+
+    window.hidePrompt = function() {
+        dialog.style.display = "none";
+    };
+});
+</script>
+
+
 
      <!-- Hidden confirmation dialog -->
      <div id="dialog-1" class="dialog-1">

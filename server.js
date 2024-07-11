@@ -126,6 +126,81 @@ app.get('/Velasco', async (req, res) => {
         res.status(500).send('An error occurred');
     }
 });
+
+/*
+// Example endpoint for handling reservations
+app.post('/reserve', async (req, res) => {
+    const { dateofreservation, timeofreservation, seatNames, Collection } = req.body;
+
+    // Validate Collection and determine Roomname
+    let Roomname;
+    switch (Collection) {
+        case 'CT-Reservation_Andrew':
+            Roomname = "AG101";
+            break;
+        case 'CT-Reservation_Goks':
+            Roomname = "GK101";
+            break;
+        case 'CT-Reservation_Velascos':
+            Roomname = "VL101";
+            break;
+        default:
+            return res.status(400).send('Invalid Collection');
+    }
+
+    try {
+        // Example of a function to get model for the given Collection
+        const ReservationModel = getModelForCollection(Collection);
+
+        // Iterate over each seatName to save reservations
+        for (const seatName of seatNames) {
+            const newReservation = {
+                name: 'Fredrick Tario',
+                value: 1,
+                anonymous: 1,
+                dateofrequest: new Date().toISOString().split('T')[0],
+                dateofreservation,
+                timeofrequest: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                timeofreservation,
+                reservedby: 'Fredrick Tario'
+            };
+
+            // Update or create reservation for the seat
+            await ReservationModel.updateOne(
+                { seat: seatName },
+                { $push: { reservations: newReservation } },
+                { upsert: true } // Creates a new document if seatName doesn't exist
+            );
+        }
+
+        res.status(201).send('Reservations created successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Example function to get appropriate model for the Collection
+function getModelForCollection(Collection) {
+    // Example implementation based on your logic
+    switch (Collection) {
+        case 'CT-Reservation_Andrew':
+            return AndrewReservationModel; // Replace with your actual model
+        case 'CT-Reservation_Goks':
+            return GoksReservationModel; // Replace with your actual model
+        case 'CT-Reservation_Velascos':
+            return VelascosReservationModel; // Replace with your actual model
+        default:
+            throw new Error('Invalid Collection');
+    }
+}
+
+// Example reservation models (replace with your actual Mongoose models)
+const AndrewReservationModel = require('./database/models/Andrew');
+const GoksReservationModel = require('./database/models/Goks');
+const VelascosReservationModel = require('./database/models/Velasco');
+*/
+
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, title } = req.body;
@@ -223,9 +298,15 @@ app.get('/CT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
 });
 
-app.get('/CT-View-Edit_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/views/CT-View-Edit_reservation-details.html');
+app.post('/CT-View-Edit_reservation-details', (req, res) => {
+    reservationData = req.body;
+    res.status(200).send('Reservation data received');
 });
+
+app.get('/CT-View-Edit_reservation-details', (req, res) => {
+    res.render('CT-View-Edit_reservation-details', reservationData);
+});
+
 
 app.get('/CT-View-Edit_success-edit', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit_success-edit.html');
