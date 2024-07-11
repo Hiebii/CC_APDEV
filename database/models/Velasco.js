@@ -35,7 +35,7 @@ const reservationSchema = new mongoose.Schema({
     }
   });
 
-const GoksSchema = new mongoose.Schema({
+const VelascoSchema = new mongoose.Schema({
     seat: {
         type: String,
         required: true
@@ -43,6 +43,6 @@ const GoksSchema = new mongoose.Schema({
       reservations: [reservationSchema]
 })
 
-const Goks = mongoose.model('Goks', GoksSchema)
+const Velasco = mongoose.model('Velasco', VelascoSchema)
 
-module.exports = Goks
+module.exports = Velasco
