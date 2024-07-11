@@ -98,7 +98,7 @@
             
             selectedTimeInput.value = selectedTime;
             
-            const url = `/Andrew?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
+            const url = `/Goks?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
             document.getElementById('dateForm').action = url;
         }
   
@@ -145,8 +145,8 @@
                     <div class="lab-button">
                         <div class="custom-select-wrapper">
                             <select id="lab-dropdown" class="lab-dropdown">
+                                  <option value="/Goks">GK101</option>
                                 <option value="/Andrew">AG101</option>
-                                <option value="/Goks">GK101</option>
                                 <option value="/Velasco">VL101</option>
                             </select>
                         </div>
@@ -164,7 +164,7 @@
             </div>
 
             <div class="colside col-md-1">
-                {{#each andrews}}
+                {{#each goks}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -176,7 +176,7 @@
             <div class="colmid col-md-1 border p-3"></div>
     
             <div class="colside col-md-1">
-                {{#each andrews2}}
+                {{#each goks2}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -187,7 +187,7 @@
             </div>
     
             <div class="colside col-md-1">
-                {{#each andrews3}}
+                {{#each goks3}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -198,7 +198,7 @@
             <div class="colmid col-md-1 border p-3"></div>
     
             <div class="colside col-md-1">
-                {{#each andrews4}}
+                {{#each goks4}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -208,7 +208,7 @@
             </div>
     
             <div class="colside col-md-1">
-                {{#each andrews5}}
+                {{#each goks5}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -220,7 +220,7 @@
             <div class="colmid col-md-1 border p-3"></div>
     
             <div class="colside col-md-1">
-                 {{#each andrews6}}
+                 {{#each goks6}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
