@@ -320,16 +320,6 @@ app.get('/CT-Reservation_search-andrew', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_search-andrew.html');
 });
 
-
-// CT-Reservation_details & Profile
-app.get('/CT-Reservation_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Reservation_reservation-details.html');
-});
-
-app.get('/CT-Profile_view-only', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only.html');
-});
-
 app.get('/CT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
 });

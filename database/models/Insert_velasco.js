@@ -3,7 +3,7 @@ const Velasco = require('./Velasco'); // Ensure the path is correct
 
 mongoose.connect('mongodb://localhost:27017/tinkerlab', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// run this in cmd (e.g node Users_insert.js)
+// run this in cmd (e.g node Insert_velasco.js)
 const sampleVelasco = [ {
     seat: "VL01",
     reservations: [

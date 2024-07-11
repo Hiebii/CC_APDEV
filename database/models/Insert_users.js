@@ -20,7 +20,7 @@ const sampleUsers = [
             dateOfRequest: "2024-07-01",
             timeOfRequest: "09:00 AM",
             dateOfReservation: "2024-07-02",
-            timeOfReservation: "07:30 AM"
+            timeOfReservation: "7:30AM-8:00AM"
           }
       ]
   },
@@ -38,7 +38,7 @@ const sampleUsers = [
             dateOfRequest: "2024-07-05",
             timeOfRequest: "01:00 PM",
             dateOfReservation: "2024-07-06",
-            timeOfReservation: "08:30 AM"
+            timeOfReservation: "8:30AM-9:00AM"
           }
       ]
   },
@@ -56,7 +56,7 @@ const sampleUsers = [
             dateOfRequest: "2024-07-07",
             timeOfRequest: "02:00 PM",
             dateOfReservation: "2024-07-08",
-            timeOfReservation: "09:00 AM"
+            timeOfReservation: "7:30AM-8:00AM"
           },
           {
             seatNo: "V02",
@@ -64,7 +64,7 @@ const sampleUsers = [
             dateOfRequest: "2024-07-09",
             timeOfRequest: "03:00 PM",
             dateOfReservation: "2024-07-10",
-            timeOfReservation: "09:30 AM"
+            timeOfReservation: "9:30AM-10:00AM"
           }
       ]
   },
@@ -82,7 +82,7 @@ const sampleUsers = [
             dateOfRequest: "2024-07-11",
             timeOfRequest: "09:00 AM",
             dateOfReservation: "2024-07-12",
-            timeOfReservation: "10:00 AM"
+            timeOfReservation: "10:00AM-10:30AM"
           }
       ]
   },
@@ -100,7 +100,7 @@ const sampleUsers = [
             dateOfRequest: "2024-07-13",
             timeOfRequest: "11:00 AM",
             dateOfReservation: "2024-07-14",
-            timeOfReservation: "10:30 AM"
+            timeOfReservation: "7:30AM-8:00AM"
           },
           {
             seatNo: "V03",
@@ -108,7 +108,7 @@ const sampleUsers = [
             dateOfRequest: "2024-07-15",
             timeOfRequest: "12:00 PM",
             dateOfReservation: "2024-07-16",
-            timeOfReservation: "11:00 AM"
+            timeOfReservation: "11:00AM-11:30AM"
           }
       ]
   }
