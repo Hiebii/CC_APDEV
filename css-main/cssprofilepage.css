@@ -290,3 +290,17 @@ table {
 .green-text {
     color: greenyellow;
 }
+
+.addphoto-div{
+    margin-top: 25px;
+    background-color: #FCFBF1;
+}
+
+#profilePhotoInput{
+    font-family: "Montserrat", sans-serif;
+    font-size: 30px;
+    color: black;
+    background-color: #FCFBF1;
+    align-items: center;
+    text-align: center;
+}
