@@ -3,7 +3,7 @@ const Goks = require('./Goks'); // Ensure the path is correct
 
 mongoose.connect('mongodb://localhost:27017/tinkerlab', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// run this in cmd (e.g node Users_insert.js)
+// run this in cmd (e.g node Insert_goks.js)
 const sampleGoks = [ {
     seat: "GK01",
     reservations: [

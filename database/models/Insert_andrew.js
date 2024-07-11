@@ -3,19 +3,19 @@ const Andrew = require('./Andrew'); // Ensure the path is correct
 
 mongoose.connect('mongodb://localhost:27017/tinkerlab', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// run this in cmd (e.g node Users_insert.js)
+// run this in cmd (e.g node Insert_andrew.js)
 const sampleAndrew = [ {
     seat: "A01",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Mari Santos",
         value: 1,
-        anonymous: 1,
+        anonymous: 0,
         dateofrequest: "2024-07-12",
         dateofreservation: "2024-07-12",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Mari Santos"
       }
     ]
   },
@@ -23,14 +23,14 @@ const sampleAndrew = [ {
     seat: "A02",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Irina Solarez",
         value: 1,
-        anonymous: 1,
+        anonymous: 0,
         dateofrequest: "2024-07-12",
         dateofreservation: "2024-07-12",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofrequest: "9:00 AM",
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Irina Solarez"
       }
     ]
   },

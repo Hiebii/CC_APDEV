@@ -4,29 +4,25 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 /* Initialize express */
 const express = require('express');
 const session = require('express-session');
+const fileUpload = require('express-fileupload')
 const app = express();
 const port = 3000; 
 
-/* For file uplods */
-const fileUpload = require('express-fileupload')
-
 /* Initialize our post */
-
 const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
 const Velasco = require("./database/models/Velasco")
-const path = require('path') // our path directory
+const path = require('path') 
 
-
-app.use(express.json()) // use json
-app.use(express.urlencoded( {extended: true})); // files consist of more than strings
-app.use(express.static('public')) // we'll add a static directory named "public"
-app.use(fileUpload()) // for fileuploads
+app.use(express.json()) 
+app.use(express.urlencoded( {extended: true})); 
+app.use(express.static('public')) 
+app.use(fileUpload())
 
 // Configure session middleware
 app.use(session({
-    secret: 'yourSecretKey', // Replace with your own secret
+    secret: 'tinkerlab',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
@@ -213,8 +209,7 @@ app.get('/signup-labtechnician', function(req, res) {
 });
 
 
-/*-----------------------      CT      --------------------------*/ 
-// CT-Menu
+/*--------------------------   CT  MENU    ---------------------------*/ 
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
@@ -249,39 +244,57 @@ app.get('/CT-Profile', async (req, res) => {
     }
 });
 
-app.get('/CT-Profile_view-content', async (req, res) => {
+/*-----------------------    CT PROFILE EDIT   --------------------------*/ 
+app.get('/CT-Profile_edit', async (req, res) => {
     try {
-        if (!req.session.userId) {
-            return res.status(401).send('Unauthorized');
-        }
-        const currentUserId = req.session.userId;
-        const users = await Users.find({ _id: { $ne: currentUserId } }).lean();
-        if (!users) {
-            return res.status(404).send('User not found');
-        }
+        const userId = req.session.userId; // Assuming userId is stored in session
+        const user = await Users.findById(userId).lean(); // Fetch user data
 
-        res.json(users); // Return users data as JSON
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred');
-    }
-});
-
-app.get('/CT-Profile_view-only', async (req, res) => {
-    try {
-        if (!req.session.userId) {
-            return res.status(401).send('Unauthorized');
-        }
-
-        const user = await Users.findById(req.query.userId).lean();
         if (!user) {
             return res.status(404).send('User not found');
         }
 
-        res.render('CT-Profile_view-only', { user });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred');
+        res.render('CT-Profile_edit', { user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.post('/CT-Profile_edit', async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const { description } = req.body;
+
+        // Update user's description in the database
+        await Users.findByIdAndUpdate(userId, { description });
+
+        // Handle file upload if profile photo is changed
+        if (req.files && req.files.profilePhoto) {
+            const profilePhoto = req.files.profilePhoto;
+            const uploadPath = path.join(__dirname, 'images', profilePhoto.name);
+
+            console.log(`Uploading file to: ${uploadPath}`);
+
+            // Move the uploaded file to the designated path
+            profilePhoto.mv(uploadPath, async (err) => {
+                if (err) {
+                    console.error('File upload error:', err);
+                    return res.status(500).send('File upload failed');
+                }
+
+                // Update user's profile photo path in the database
+                await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
+
+                console.log('File uploaded and user updated successfully');
+                res.redirect('/CT-Profile'); 
+            });
+        } else {
+            res.redirect('/CT-Profile'); // Redirect to profile page if no file upload
+        }
+    } catch (error) {
+        console.error('Server error:', error);
+        res.status(500).send('Server Error');
     }
 });
 
@@ -304,12 +317,6 @@ app.get('/CT-Reservation_search-goks', function(req, res) {
 
 app.get('/CT-Reservation_search-andrew', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_search-andrew.html');
-});
-
-
-// CT-Reservation_details & Profile
-app.get('/CT-Reservation_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Reservation_reservation-details.html');
 });
 
 app.get('/CT-Profile_view-only_Liam', function(req, res) {
@@ -390,6 +397,59 @@ app.get('/LT-Profile', async (req, res) => {
     }
 });
 
+/*-----------------------    LT PROFILE EDIT   --------------------------*/ 
+app.get('/LT-Profile_edit', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+        const user = await Users.findById(userId).lean(); // Fetch user data
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('LT-Profile_edit', { user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.post('/LT-Profile_edit', async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const { description } = req.body;
+
+        // Update user's description in the database
+        await Users.findByIdAndUpdate(userId, { description });
+
+        // Handle file upload if profile photo is changed
+        if (req.files && req.files.profilePhoto) {
+            const profilePhoto = req.files.profilePhoto;
+            const uploadPath = path.join(__dirname, 'images', profilePhoto.name);
+
+            console.log(`Uploading file to: ${uploadPath}`);
+
+            // Move the uploaded file to the designated path
+            profilePhoto.mv(uploadPath, async (err) => {
+                if (err) {
+                    console.error('File upload error:', err);
+                    return res.status(500).send('File upload failed');
+                }
+
+                // Update user's profile photo path in the database
+                await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
+
+                console.log('File uploaded and user updated successfully');
+                res.redirect('/LT-Profile'); 
+            });
+        } else {
+            res.redirect('/LT-Profile'); // Redirect to profile page if no file upload
+        }
+    } catch (error) {
+        console.error('Server error:', error);
+        res.status(500).send('Server Error');
+    }
+});
 
 // LT-Reservations
 app.get('/LT-Reservation_Goks', function(req, res) {
@@ -427,14 +487,10 @@ app.get('/LT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit_reservation-details.html');
 });
 
-
-
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
-
-
 
 // Handle form submission and respond with a success message
 app.post('/submit-student-data', function(req, res) {
