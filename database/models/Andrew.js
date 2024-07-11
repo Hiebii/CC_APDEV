@@ -41,7 +41,7 @@ const AndrewSchema = new mongoose.Schema({
         required: true
       },
       reservations: [reservationSchema]
-})
+}, {versionKey: false});
 
 const Andrew = mongoose.model('Andrew', AndrewSchema)
 

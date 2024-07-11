@@ -41,7 +41,7 @@ const VelascoSchema = new mongoose.Schema({
         required: true
       },
       reservations: [reservationSchema]
-})
+}, {versionKey: false})
 
 const Velasco = mongoose.model('Velasco', VelascoSchema)
 

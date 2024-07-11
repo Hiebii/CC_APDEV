@@ -41,7 +41,7 @@ const GoksSchema = new mongoose.Schema({
         required: true
       },
       reservations: [reservationSchema]
-})
+}, {versionKey: false});
 
 const Goks = mongoose.model('Goks', GoksSchema)
 
