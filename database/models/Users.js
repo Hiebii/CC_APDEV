@@ -6,7 +6,16 @@ const UsersSchema = new mongoose.Schema({
     description: String,
     title: String,
     password: String,
-    reservedRoom: String
+    reservations: [
+        {
+            seatNo: String,
+            computerLab: String,
+            dateOfRequest: String,
+            timeOfRequest: String,
+            dateOfReservation: String,
+            timeOfReservation: String
+        }
+    ]
 });
 
 const Users = mongoose.model('Users', UsersSchema);

@@ -56,21 +56,19 @@ app.get('/content', async(req,res) => {
 
 app.get('/Andrew', async (req, res) => {
     try {
-        // Extract the date parameter from the query string
-        const { date } = req.query;
+        const { date, time } = req.query;
 
-        // Query the database based on seat and date
-        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        const andrews2 = await Andrew.aggregate([{ $match: { seat: { $in: ['A06', 'A07', 'A08', 'A09', 'A10'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        const andrews2 = await Andrew.aggregate([{ $match: { seat: { $in: ['A06', 'A07', 'A08', 'A09', 'A10'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        const andrews3 = await Andrew.aggregate([{ $match: { seat: { $in: ['A11', 'A12', 'A13', 'A14', 'A15'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        const andrews3 = await Andrew.aggregate([{ $match: { seat: { $in: ['A11', 'A12', 'A13', 'A14', 'A15'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        const andrews4 = await Andrew.aggregate([{ $match: { seat: { $in: ['A16', 'A17', 'A18', 'A19', 'A20'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        const andrews4 = await Andrew.aggregate([{ $match: { seat: { $in: ['A16', 'A17', 'A18', 'A19', 'A20'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        const andrews5 = await Andrew.aggregate([{ $match: { seat: { $in: ['A21', 'A22', 'A23', 'A24', 'A25'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        const andrews5 = await Andrew.aggregate([{ $match: { seat: { $in: ['A21', 'A22', 'A23', 'A24', 'A25'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        const andrews6 = await Andrew.aggregate([{ $match: { seat: { $in: ['A26', 'A27', 'A28', 'A29', 'A30'] } } }, { $project: { seat: 1, reservations: { $cond: { if: { $eq: [{ $size: "$reservations" }, 0] }, then: 0, else: { $filter: { input: "$reservations", as: "reservation", cond: { $eq: ["$$reservation.dateofreservation", date] } } } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        const andrews6 = await Andrew.aggregate([{ $match: { seat: { $in: ['A26', 'A27', 'A28', 'A29', 'A30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
         res.render('CT-Reservation_Andrew', { andrews, andrews2, andrews3, andrews4, andrews5, andrews6 });
     } catch (error) {
@@ -180,7 +178,7 @@ app.get('/CT-View-Edit_reservation-details', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit_reservation-details.html');
 });
 
-/*-----------------------      PROFILE      --------------------------*/ 
+/*-----------------------      CT PROFILE      --------------------------*/ 
 app.get('/CT-Profile', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -321,8 +319,23 @@ app.get('/LT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit.html');
 });
 
-app.get('/LT-Profile', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile.html');
+/*-----------------------      LT PROFILE      --------------------------*/ 
+app.get('/LT-Profile', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('LT-Profile', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 
