@@ -97,20 +97,22 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each Andrew}}
+                {{#each reservations}}
                 <tr>
-                  <td>{{seat}}</td>
+                  
+                  <td>{{this.seat}}</td>
+                  {{#each this.reservations}}
                   <td>AG101</td>
-                  <td>{{dateofrequest}}</td>
-                  <td>{{timeofrequest}}</td>
-                  <td>{{dateofreservation}}</td>
-                  <td>{{timeofreservation}}</td>
-                  <td>{{name}}</td>
+                  <td>{{this.dateofrequest}}</td>
+                  <td>{{this.timeofrequest}}</td>
+                  <td>{{this.dateofreservation}}</td>
+                  <td>{{this.timeofreservation}}</td>
+                  <td>{{this.name}}</td>
                   <td>
                     <button class="edit-button"><a href="/CT-View-Edit_edit-reservation">Edit</a></button>
                     <button class="cancel-button" onclick="showPrompt()">Cancel</button>
                   </td>
-                </tr>
+                </tr>{{/each}}
                 {{/each}}
               </tbody>
           </table>

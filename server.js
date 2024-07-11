@@ -106,15 +106,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.get('/reservations', async (req, res) =>{
-    try {
-        const reservations = await Andrew.find();
-        res.render('reservations', { reservations });
-    }catch (err){
-        res.status(500).send(err);
-    }
-});
-
 
 app.get('/Andrew', async (req, res) => {
     try {
@@ -280,8 +271,14 @@ app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
-app.get('/CT-View-Edit', function(req, res) {
+/*app.get('/CT-View-Edit', function(req, res) {
     res.render('CT-View-Edit.hbs');
+});*/
+
+app.get('/CT-View-Edit', async(req,res) =>{
+    const reservations = await Andrew.find();
+    console.log('Retrieved Reservations:', reservations);
+    res.render('CT-View-Edit', { reservations });
 });
 
 app.get('/CT-View-Edit_reservation-details', function(req, res) {
