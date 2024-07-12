@@ -163,6 +163,10 @@ app.get('/CT-Reservation_success', function(req, res) {
     res.render('CT-Reservation_success', data);
 });
 
+app.get('/addReservation', function(req, res) {
+    res.render('CT-Reservation_success',reservationData);
+});
+
 app.post('/addReservation', async (req, res) => {
     const data = req.body;
 
@@ -188,21 +192,34 @@ app.post('/addReservation', async (req, res) => {
                 }
             };
 
-            return Andrew.findOneAndUpdate(filter, update, { new: true });
+            let updatePromise;
+            if (data.dblab === "Andrew") {
+                updatePromise = Andrew.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Goks") {
+                updatePromise = Goks.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Velasco") {
+                updatePromise = Velasco.findOneAndUpdate(filter, update, { new: true });
+            } else {
+                throw new Error(`Unsupported dblab value: ${data.dblab}`);
+            }
+
+            return updatePromise;
         });
 
-        const updatedAndrews = await Promise.all(updatePromises);
+        const updatedResults = await Promise.all(updatePromises);
 
-        if (updatedAndrews.some(updatedAndrew => updatedAndrew !== null)) {
+        if (updatedResults.some(updatedResult => updatedResult !== null)) {
+            reservationData = data;
             return res.status(200).send('Reservation data received and updated successfully');
         } else {
             return res.status(404).send('Seats not found or reservations not updated');
         }
     } catch (err) {
-        console.error(err);
-        return res.status(500).send('An error occurred');
+        console.error('Error in adding reservation:', err);
+        return res.status(500).send('An error occurred while adding reservation');
     }
 });
+
 /*
 // Example endpoint for handling reservations
 app.post('/reserve', async (req, res) => {
@@ -769,6 +786,63 @@ app.get('/LT-Reservation_success', function(req, res) {
     res.render('LT-Reservation_success', data);
 });
 
+
+app.get('/LaddReservation', function(req, res) {
+    res.render('LT-Reservation_success',reservationData);
+});
+
+app.post('/LaddReservation', async (req, res) => {
+    const data = req.body;
+
+    if (!Array.isArray(data.seatNames)) {
+        return res.status(400).send('seatNames should be an array');
+    }
+
+    try {
+        const updatePromises = data.seatNames.map(seat => {
+            const filter = { seat: seat };
+            const update = {
+                $push: {
+                    reservations: {
+                        name: data.reserverName,
+                        reservedby: data.fullName,
+                        anonymous: data.anonymous,
+                        dateofrequest: data.dateofrequest,
+                        timeofrequest: data.timeofrequest,
+                        dateofreservation: data.dateofreservation,
+                        timeofreservation: data.timeofreservation,
+                        value: 1
+                    }
+                }
+            };
+
+            let updatePromise;
+            if (data.dblab === "Andrew") {
+                updatePromise = Andrew.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Goks") {
+                updatePromise = Goks.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Velasco") {
+                updatePromise = Velasco.findOneAndUpdate(filter, update, { new: true });
+            } else {
+                throw new Error(`Unsupported dblab value: ${data.dblab}`);
+            }
+
+            return updatePromise;
+        });
+
+        const updatedResults = await Promise.all(updatePromises);
+
+        if (updatedResults.some(updatedResult => updatedResult !== null)) {
+            reservationData = data;
+            return res.status(200).send('Reservation data received and updated successfully');
+        } else {
+            return res.status(404).send('Seats not found or reservations not updated');
+        }
+    } catch (err) {
+        console.error('Error in adding reservation:', err);
+        return res.status(500).send('An error occurred while adding reservation');
+    }
+});
 
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
