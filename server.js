@@ -4,25 +4,28 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 /* Initialize express */
 const express = require('express');
 const session = require('express-session');
-const fileUpload = require('express-fileupload')
 const app = express();
 const port = 3000; 
 
+/* For file uplods */
+const fileUpload = require('express-fileupload')
+
 /* Initialize our post */
+
 const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
 const Velasco = require("./database/models/Velasco")
-const path = require('path') 
+const path = require('path') // our path directory
 
-app.use(express.json()) 
-app.use(express.urlencoded( {extended: true})); 
-app.use(express.static('public')) 
-app.use(fileUpload())
+app.use(express.json()) // use json
+app.use(express.urlencoded( {extended: true})); // files consist of more than strings
+app.use(express.static('public')) // we'll add a static directory named "public"
+app.use(fileUpload()) // for fileuploads
 
 // Configure session middleware
 app.use(session({
-    secret: 'tinkerlab',
+    secret: 'yourSecretKey', // Replace with your own secret
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
@@ -50,6 +53,62 @@ app.get('/content', async(req,res) => {
     res.render('content',{posts})
 })
 */
+
+/*-----------------------      SIGNUP      --------------------------*/ 
+
+app.post('/signup', async (req, res) => {
+    const { fullName, email, password, title } = req.body;
+
+    try { 
+        // This part is to check if an email already exists.
+        const existingEmail = await Users.findOne({ email });
+        //If email exists, send alert that there already exists a user with an email.
+        if (existingEmail){
+            //return res.status(400).send('User Already Exists!');
+            return res.status(400).json({ error: 'User already exists!' });
+        }
+        //create the user
+        const newUser = new Users({fullName, email, password, title});
+        await newUser.save();
+
+        req.session.message='User has been created!';
+        return res.redirect('/login-page');
+        //res.status(201).send('User registered successfully!');
+    }catch (err){
+        console.error(err);
+        //Send an error if it is not working.
+        res.status(500).send('Server Error!');
+    }
+});
+
+/*-----------------------      LOGIN      --------------------------*/ 
+app.post('/login', async (req, res) => {
+    const { email, password }  = req.body;
+
+    try{
+        //See if user does exist in the database
+        const user = await Users.findOne({ email });
+        if (!user){
+            return res.render('login-page', { error: 'User does not exist! '});
+        }
+
+        if(user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password! '});
+        }
+
+        if (user.title === 'Lab Technician'){
+            res.redirect('/LT-homepage');
+        } else if (user.title === 'Student'){
+            res.redirect('/CT-homepage');
+        }else{
+           return res.render('login-page',{ error: 'Unknown role!'});
+        }
+    }catch(err){
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
+});
+
 
 app.get('/Andrew', async (req, res) => {
     try {
@@ -116,10 +175,107 @@ app.get('/Velasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
+        
         res.render('CT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
+    }
+});
+
+// POST route to receive reservation data
+app.post('/CT-Reservation_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
+
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// GET route to render reservation details
+app.get('/CT-Reservation_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-Reservation_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+app.post('/CT-Reservation_success', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
+
+app.get('/CT-Reservation_success', function(req, res) {
+    res.render('CT-Reservation_success', data);
+});
+
+app.get('/addReservation', function(req, res) {
+    res.render('CT-Reservation_success',reservationData);
+});
+
+app.post('/addReservation', async (req, res) => {
+    const data = req.body;
+
+    if (!Array.isArray(data.seatNames)) {
+        return res.status(400).send('seatNames should be an array');
+    }
+
+    try {
+        const updatePromises = data.seatNames.map(seat => {
+            const filter = { seat: seat };
+            const update = {
+                $push: {
+                    reservations: {
+                        name: data.reserverName,
+                        reservedby: data.reserverName,
+                        anonymous: data.anonymous,
+                        dateofrequest: data.dateofrequest,
+                        timeofrequest: data.timeofrequest,
+                        dateofreservation: data.dateofreservation,
+                        timeofreservation: data.timeofreservation,
+                        value: 1
+                    }
+                }
+            };
+
+            let updatePromise;
+            if (data.dblab === "Andrew") {
+                updatePromise = Andrew.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Goks") {
+                updatePromise = Goks.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Velasco") {
+                updatePromise = Velasco.findOneAndUpdate(filter, update, { new: true });
+            } else {
+                throw new Error(`Unsupported dblab value: ${data.dblab}`);
+            }
+
+            return updatePromise;
+        });
+
+        const updatedResults = await Promise.all(updatePromises);
+
+        if (updatedResults.some(updatedResult => updatedResult !== null)) {
+            reservationData = data;
+            return res.status(200).send('Reservation data received and updated successfully');
+        } else {
+            return res.status(404).send('Seats not found or reservations not updated');
+        }
+    } catch (err) {
+        console.error('Error in adding reservation:', err);
+        return res.status(500).send('An error occurred while adding reservation');
     }
 });
 
@@ -200,20 +356,23 @@ const VelascosReservationModel = require('./database/models/Velasco');
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, title } = req.body;
-
+    console.log(req.body);
     try { 
         const existingEmail = await Users.findOne({ email });
         if (existingEmail){
-            return res.status(400).json({ message: 'User Already Exists!' });
+            //return res.status(400).json({ error: 'User already exists!' });
+            return res.render('login-page', { error: 'User does not exist!' });
         }
 
         const newUser = new Users({ fullName, email, password, title });
         await newUser.save();
+            return res.render('login-page', { message: 'User has been created!' });
+        //return res.status(201).json({ message: 'User has been created!', redirectUrl: '/login-page' });
 
-        res.status(201).json({ message:'User registered successfully!' });
     } catch (err) {
+        console.log(req.body);
         console.error(err);
-        res.status(500).json({ message:'Server Error!' });
+        return res.status(500).json({ error: 'Server Error!' });
     }
 });
 
@@ -238,10 +397,11 @@ app.post('/login', async (req, res) => {
         } else if (user.title === 'Student'){
             res.redirect('/CT-homepage');
         } else {
+            console.log(req.body);
             res.status(400).json({ message: 'Unknown role!' });
         }
     } catch(err) {
-        console.error(err);
+        console.log(err);
         res.status(500).send('Server Error!');
     }
 });
@@ -276,34 +436,60 @@ app.get('/login-page', function(req, res) {
 });
 
 app.get('/signup-student', function(req, res) {
-    res.sendFile(__dirname + '/START/signup-student.html');
+    res.render('signup-student');
 });
 
 app.get('/signup-labtechnician', function(req, res) {
-    res.sendFile(__dirname + '/START/signup-labtechnician.html');
+    res.render('signup-labtechnician');
 });
 
 
-/*--------------------------   CT  MENU    ---------------------------*/ 
+/*-----------------------      CT      --------------------------*/ 
+// CT-Menu
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
-app.get('/CT-View-Edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+/*app.get('/CT-View-Edit', function(req, res) {
+    res.render('CT-View-Edit.hbs');
+});*/
+
+app.get('/CT-View-Edit', async(req,res) =>{
+    const reservations = await Andrew.find();
+    console.log('Retrieved Reservations:', reservations);
+    res.render('CT-View-Edit', { reservations });
 });
 
-let reservationData = {}; 
-let data = {}; 
+// POST route to receive reservation data
+app.post('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
 
-app.post('/CT-View-Edit_reservation-details', (req, res) => {
-    reservationData = req.body;
-    res.status(200).send('Reservation data received');
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
-app.get('/CT-View-Edit_reservation-details', (req, res) => {
-    res.render('CT-View-Edit_reservation-details', reservationData);
+// GET route to render reservation details
+app.get('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-View-Edit_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
+
+
 
 app.post('/CT-View-Edit_success-edit', (req, res) => {
     data = req.body;
@@ -423,58 +609,6 @@ app.post('/CT-Profile_edit', async (req, res) => {
     }
 });
 
-/*-----------------------    CT RESERVATIONS  --------------------------*/ 
-
-app.post('/add-reservation', async (req, res) => {
-    const { fullName, email, password, title } = req.body;
-
-    try { 
-        const existingEmail = await Users.findOne({ email });
-        if (existingEmail){
-            return res.status(400).json({ message: 'User Already Exists!' });
-        }
-
-        const newUser = new Users({ fullName, email, password, title });
-        await newUser.save();
-
-        res.status(201).json({ message:'User registered successfully!' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message:'Server Error!' });
-    }
-});
-
-app.post('/addReservation', async (req, res) => {
-    try {
-        const userId = req.session.userId;
-        if (!userId) {
-            return res.status(401).json({ error:'Unauthorized'});
-        }
-
-        const user = await Users.findById(userId);
-        if (!user) {
-            return res.status(404).json({ error:'User not found'});
-        }
-
-        const newReservation = {
-            seatNo,
-            computerLab,
-            dateOfRequest,
-            timeOfRequest,
-            dateOfReservation,
-            timeOfReservation
-        };
-
-        user.reservations.push(newReservation);
-        await user.save();
-
-        res.status(201).json(user); 
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
-    }
-});
-
 // CT-Reservations
 app.get('/CT-Reservation_Goks', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Goks.html');
@@ -494,6 +628,16 @@ app.get('/CT-Reservation_search-goks', function(req, res) {
 
 app.get('/CT-Reservation_search-andrew', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_search-andrew.html');
+});
+
+
+// CT-Reservation_details & Profile
+app.get('/CT-Reservation_reservation-details', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Reservation_reservation-details.html');
+});
+
+app.get('/CT-Profile_view-only', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only.html');
 });
 
 app.get('/CT-Profile_view-only_Liam', function(req, res) {
@@ -574,73 +718,83 @@ app.get('/LT-Profile', async (req, res) => {
     }
 });
 
-/*-----------------------    LT PROFILE EDIT   --------------------------*/ 
-app.get('/LT-Profile_edit', async (req, res) => {
+
+
+app.get('/LAndrew', async (req, res) => {
     try {
-        const userId = req.session.userId; // Assuming userId is stored in session
-        const user = await Users.findById(userId).lean(); // Fetch user data
+        const { date, time } = req.query;
 
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
+        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        res.render('LT-Profile_edit', { user });
+        const andrews2 = await Andrew.aggregate([{ $match: { seat: { $in: ['A06', 'A07', 'A08', 'A09', 'A10'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews3 = await Andrew.aggregate([{ $match: { seat: { $in: ['A11', 'A12', 'A13', 'A14', 'A15'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews4 = await Andrew.aggregate([{ $match: { seat: { $in: ['A16', 'A17', 'A18', 'A19', 'A20'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews5 = await Andrew.aggregate([{ $match: { seat: { $in: ['A21', 'A22', 'A23', 'A24', 'A25'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews6 = await Andrew.aggregate([{ $match: { seat: { $in: ['A26', 'A27', 'A28', 'A29', 'A30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        // Render your Handlebars template with the data
+        res.render('LT-Reservation_Andrew', { andrews, andrews2, andrews3, andrews4, andrews5, andrews6 });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Server Error');
+        res.status(500).send('An error occurred');
     }
 });
 
-app.post('/LT-Profile_edit', async (req, res) => {
+
+
+app.get('/LGoks', async (req, res) => {
     try {
-        const userId = req.session.userId;
-        const { description } = req.body;
+        const { date, time } = req.query;
 
-        // Update user's description in the database
-        await Users.findByIdAndUpdate(userId, { description });
+        const goks = await Goks.aggregate([{ $match: { seat: { $in: ['GK01', 'GK02', 'GK03', 'GK04', 'GK05'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-        // Handle file upload if profile photo is changed
-        if (req.files && req.files.profilePhoto) {
-            const profilePhoto = req.files.profilePhoto;
-            const uploadPath = path.join(__dirname, 'images', profilePhoto.name);
+        const goks2 = await Goks.aggregate([{ $match: { seat: { $in: ['GK06', 'GK07', 'GK08', 'GK09', 'GK10'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-            console.log(`Uploading file to: ${uploadPath}`);
+        const goks3 = await Goks.aggregate([{ $match: { seat: { $in: ['GK11', 'GK12', 'GK13', 'GK14', 'GK15'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-            // Move the uploaded file to the designated path
-            profilePhoto.mv(uploadPath, async (err) => {
-                if (err) {
-                    console.error('File upload error:', err);
-                    return res.status(500).send('File upload failed');
-                }
+        const goks4 = await Goks.aggregate([{ $match: { seat: { $in: ['GK16', 'GK17', 'GK18', 'GK19', 'GK20'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-                // Update user's profile photo path in the database
-                await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
+        const goks5 = await Goks.aggregate([{ $match: { seat: { $in: ['GK21', 'GK22', 'GK23', 'GK24', 'GK25'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
 
-                console.log('File uploaded and user updated successfully');
-                res.redirect('/LT-Profile'); 
-            });
-        } else {
-            res.redirect('/LT-Profile'); // Redirect to profile page if no file upload
-        }
+        const goks6 = await Goks.aggregate([{ $match: { seat: { $in: ['GK26', 'GK27', 'GK28', 'GK29', 'GK30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        // Render your Handlebars template with the data
+        res.render('LT-Reservation_Goks', { goks , goks2, goks3, goks4, goks5, goks6 });
     } catch (error) {
-        console.error('Server error:', error);
-        res.status(500).send('Server Error');
+        console.error(error);
+        res.status(500).send('An error occurred');
     }
 });
+
+
+app.get('/LVelasco', async (req, res) => {
+    try {
+        const { date, time } = req.query;
+
+        const velasco = await Velasco.aggregate([{ $match: { seat: { $in: ['VL01', 'VL02', 'VL03', 'VL04', 'VL05'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco2 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL06', 'VL07', 'VL08', 'VL09', 'VL10'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco3 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL11', 'VL12', 'VL13', 'VL14', 'VL15'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco4 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL16', 'VL17', 'VL18', 'VL19', 'VL20'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco5 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL21', 'VL22', 'VL23', 'VL24', 'VL25'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        // Render your Handlebars template with the data
+        
+        res.render('LT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
 
 // LT-Reservations
-app.get('/LT-Reservation_Goks', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_Goks.html');
-});
-
-app.get('/LT-Reservation_Velasco', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_Velasco.html');
-});
-
-app.get('/LT-Reservation_Andrew', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_Andrew.html');
-});
-
 app.get('/LT-Reservation_search-goks', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
 });
@@ -654,20 +808,114 @@ app.get('/LT-Reservation_search-andrew', function(req, res) {
 });
 
 
-// LT-Reservation_details & Profile
-app.get('/LT-Reservation_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_reservation-details.html');
+
+// POST route to receive reservation data
+app.post('/LT-Reservation_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
+
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 
-app.get('/LT-View-Edit_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-View-Edit_reservation-details.html');
+// GET route to render reservation details
+app.get('/LT-Reservation_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('LT-Reservation_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
+
+
+
+app.post('/LT-Reservation_success', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
+
+app.get('/LT-Reservation_success', function(req, res) {
+    res.render('LT-Reservation_success', data);
+});
+
+
+app.get('/LaddReservation', function(req, res) {
+    res.render('LT-Reservation_success',reservationData);
+});
+
+app.post('/LaddReservation', async (req, res) => {
+    const data = req.body;
+
+    if (!Array.isArray(data.seatNames)) {
+        return res.status(400).send('seatNames should be an array');
+    }
+
+    try {
+        const updatePromises = data.seatNames.map(seat => {
+            const filter = { seat: seat };
+            const update = {
+                $push: {
+                    reservations: {
+                        name: data.reserverName,
+                        reservedby: data.fullName,
+                        anonymous: data.anonymous,
+                        dateofrequest: data.dateofrequest,
+                        timeofrequest: data.timeofrequest,
+                        dateofreservation: data.dateofreservation,
+                        timeofreservation: data.timeofreservation,
+                        value: 1
+                    }
+                }
+            };
+
+            let updatePromise;
+            if (data.dblab === "Andrew") {
+                updatePromise = Andrew.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Goks") {
+                updatePromise = Goks.findOneAndUpdate(filter, update, { new: true });
+            } else if (data.dblab === "Velasco") {
+                updatePromise = Velasco.findOneAndUpdate(filter, update, { new: true });
+            } else {
+                throw new Error(`Unsupported dblab value: ${data.dblab}`);
+            }
+
+            return updatePromise;
+        });
+
+        const updatedResults = await Promise.all(updatePromises);
+
+        if (updatedResults.some(updatedResult => updatedResult !== null)) {
+            reservationData = data;
+            return res.status(200).send('Reservation data received and updated successfully');
+        } else {
+            return res.status(404).send('Seats not found or reservations not updated');
+        }
+    } catch (err) {
+        console.error('Error in adding reservation:', err);
+        return res.status(500).send('An error occurred while adding reservation');
+    }
+});
+
+
 
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
+
+
 
 // Handle form submission and respond with a success message
 app.post('/submit-student-data', function(req, res) {

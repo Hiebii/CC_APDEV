@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css-main/CT-Reservation.css">
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssmainwebsite_reserve.css">
-    <script src="../js-main/search.js"></script>
+
     <link rel="icon" href="images/icon.png">
     <title>tinkerlab.</title>
 
@@ -44,13 +44,8 @@
         </div>
         <div class="searchdivider">
             <div class="searchfield">
-                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
+                <button class="searchbutton"><img src="images/searchglass.png" class="imgbtn" alt="Search"></button>
                 <input class="searchinput" type="text" placeholder="Search...">
-            </div>
-            <div class="suggestions-div">
-                <div class="suggestion-card">   
-                    
-                </div>
             </div>
         </div>
     </div>
@@ -368,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showPrompt(seatName, occupant) {
         const profileLink = "/CT-Profile_view-only";
-        promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> ${occupant}</span></span></span>`;
+        promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
         dialog.style.display = "block";
     }
 
