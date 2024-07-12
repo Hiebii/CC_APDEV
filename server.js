@@ -116,6 +116,7 @@ app.get('/Velasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
+        
         res.render('CT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
@@ -293,17 +294,36 @@ app.get('/CT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
 });
 
-let reservationData = {}; 
-let data = {}; 
+// POST route to receive reservation data
+app.post('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
 
-app.post('/CT-View-Edit_reservation-details', (req, res) => {
-    reservationData = req.body;
-    res.status(200).send('Reservation data received');
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
-app.get('/CT-View-Edit_reservation-details', (req, res) => {
-    res.render('CT-View-Edit_reservation-details', reservationData);
+// GET route to render reservation details
+app.get('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-View-Edit_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
+
+
 
 app.post('/CT-View-Edit_success-edit', (req, res) => {
     data = req.body;
