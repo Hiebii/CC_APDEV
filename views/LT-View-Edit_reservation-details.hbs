@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html>
+    <head>
+      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tinkerlab.</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
@@ -10,8 +11,8 @@
     <link rel="stylesheet" href="css-main/CT_LT-Main.css">
     <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
     <link rel="icon" href="images/icon.png">
-    
-    <script>
+
+          <script>
     // JavaScript for submitting form data
     function collectAndSendData() {
         const fullName = "{{user.fullName}}"; // Assuming user.fullName is a variable accessible here
@@ -40,7 +41,7 @@
         })
         .then(response => {
             if (response.ok) {
-                window.location.href = '/CT-View-Edit_success-edit'; // Redirect to confirmation page
+                window.location.href = '/LT-Reservation_success'; // Redirect to confirmation page
             } else {
                 console.error('Failed to send data');
             }
@@ -48,9 +49,9 @@
         .catch(error => console.error('Error:', error));
     }
     </script>
-</head>
-<body>
-    <header class="header">
+    </head>
+    <body>
+  <header class="header">
         <img class="imglogo" src="images/tinkerlablogo.png" alt="TinkerLab Logo">
     </header>
     <nav class="taskbar">
