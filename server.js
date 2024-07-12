@@ -184,19 +184,21 @@ app.get('/Velasco', async (req, res) => {
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, title } = req.body;
-
+    console.log(req.body);
     try { 
         const existingEmail = await Users.findOne({ email });
         if (existingEmail){
-            return res.status(400).json({ error: 'User already exists!' });
+            //return res.status(400).json({ error: 'User already exists!' });
+            return res.render('login-page', { error: 'User does not exist!' });
         }
 
         const newUser = new Users({ fullName, email, password, title });
         await newUser.save();
-
-        return res.status(201).json({ message: 'User has been created!', redirectUrl: '/login-page' });
+            return res.render('login-page', { message: 'User has been created!' });
+        //return res.status(201).json({ message: 'User has been created!', redirectUrl: '/login-page' });
 
     } catch (err) {
+        console.log(req.body);
         console.error(err);
         return res.status(500).json({ error: 'Server Error!' });
     }
