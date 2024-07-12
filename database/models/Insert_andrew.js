@@ -3,19 +3,19 @@ const Andrew = require('./Andrew'); // Ensure the path is correct
 
 mongoose.connect('mongodb://localhost:27017/tinkerlab', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// run this in cmd (e.g node Users_insert.js)
+// run this in cmd (e.g node Insert_andrew.js)
 const sampleAndrew = [ {
     seat: "A01",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Mari Santos",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
+        anonymous: 0,
+        dateofrequest: "2024-07-10",
         dateofreservation: "2024-07-12",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Mari Santos"
       }
     ]
   },
@@ -23,14 +23,14 @@ const sampleAndrew = [ {
     seat: "A02",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Carlos Bautista",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
+        anonymous: 0,
+        dateofrequest: "2024-07-10",
         dateofreservation: "2024-07-12",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofrequest: "9:00 AM",
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Carlos Bautista"
       }
     ]
   },
@@ -38,14 +38,14 @@ const sampleAndrew = [ {
     seat: "A03",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Andres Hidalgo",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
+        anonymous: 0,
+        dateofrequest: "2024-07-10",
         dateofreservation: "2024-07-12",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Andres Hidalgo"
       }
     ]
   },
@@ -53,14 +53,14 @@ const sampleAndrew = [ {
     seat: "A04",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Stephen Go",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
+        dateofrequest: "2024-07-10",
         dateofreservation: "2024-07-12",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Stephen Go"
       }
     ]
   },
@@ -68,14 +68,14 @@ const sampleAndrew = [ {
     seat: "A05",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Japeth Aguilar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
+        dateofrequest: "2024-07-10",
         dateofreservation: "2024-07-12",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Japeth Aguilar"
       }
     ]
   },
@@ -83,14 +83,14 @@ const sampleAndrew = [ {
     seat: "A06",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Marie Espiritu",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
+        dateofrequest: "2024-07-10",
         dateofreservation: "2024-07-12",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofrequest: "10:00 AM",
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Marie Espiritu"
       }
     ]
   },
@@ -98,14 +98,14 @@ const sampleAndrew = [ {
     seat: "A07",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Claudette Escobar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
+        dateofrequest: "2024-07-10",
         dateofreservation: "2024-07-12",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Claudette Escobar"
       }
     ]
   },
@@ -113,14 +113,14 @@ const sampleAndrew = [ {
     seat: "A08",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Mari Santos",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        anonymous: 0,
+        dateofrequest: "2024-07-10",
+        dateofreservation: "2024-07-15",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Mari Santos"
       }
     ]
   },
@@ -128,14 +128,14 @@ const sampleAndrew = [ {
     seat: "A09",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Carlos Bautista",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        anonymous: 0,
+        dateofrequest: "2024-07-10",
+        dateofreservation: "2024-07-15",
+        timeofrequest: "9:00 AM",
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Carlos Bautista"
       }
     ]
   },
@@ -143,14 +143,14 @@ const sampleAndrew = [ {
     seat: "A10",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Andres Hidalgo",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        anonymous: 0,
+        dateofrequest: "2024-07-10",
+        dateofreservation: "2024-07-15",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Andres Hidalgo"
       }
     ]
   },
@@ -158,14 +158,14 @@ const sampleAndrew = [ {
     seat: "A11",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Stephen Go",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-10",
+        dateofreservation: "2024-07-15",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Stephen Go"
       }
     ]
   },
@@ -173,14 +173,14 @@ const sampleAndrew = [ {
     seat: "A12",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Japeth Aguilar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-10",
+        dateofreservation: "2024-07-15",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Japeth Aguilar"
       }
     ]
   },
@@ -188,14 +188,14 @@ const sampleAndrew = [ {
     seat: "A13",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Marie Espiritu",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        dateofrequest: "2024-07-10",
+        dateofreservation: "2024-07-15",
+        timeofrequest: "10:00 AM",
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Marie Espiritu"
       }
     ]
   },
@@ -203,14 +203,14 @@ const sampleAndrew = [ {
     seat: "A14",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Claudette Escobar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-10",
+        dateofreservation: "2024-07-15",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Claudette Escobar"
       }
     ]
   },
@@ -218,14 +218,14 @@ const sampleAndrew = [ {
     seat: "A15",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Mari Santos",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        anonymous: 0,
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-16",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Mari Santos"
       }
     ]
   },
@@ -233,14 +233,14 @@ const sampleAndrew = [ {
     seat: "A16",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Carlos Bautista",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        anonymous: 0,
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-16",
+        timeofrequest: "9:00 AM",
+        timeofreservation: "7:30AM-8:00AM",
+        reservedby: "Carlos Bautista"
       }
     ]
   },
@@ -248,14 +248,14 @@ const sampleAndrew = [ {
     seat: "A17",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Andres Hidalgo",
         value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        anonymous: 0,
+        dateofrequest: "2024-07-16",
+        dateofreservation: "2024-07-16",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Andres Hidalgo"
       }
     ]
   },
@@ -263,14 +263,14 @@ const sampleAndrew = [ {
     seat: "A18",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Stephen Go",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-16",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Stephen Go"
       }
     ]
   },
@@ -278,14 +278,14 @@ const sampleAndrew = [ {
     seat: "A19",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Japeth Aguilar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-16",
         timeofrequest: "8:00 AM",
         timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        reservedby: "Japeth Aguilar"
       }
     ]
   },
@@ -293,14 +293,14 @@ const sampleAndrew = [ {
     seat: "A20",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Marie Espiritu",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-18",
+        timeofrequest: "10:00 AM",
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Marie Espiritu"
       }
     ]
   },
@@ -308,14 +308,14 @@ const sampleAndrew = [ {
     seat: "A21",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Claudette Escobar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-18",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Claudette Escobar"
       }
     ]
   },
@@ -323,14 +323,14 @@ const sampleAndrew = [ {
     seat: "A22",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Carlos Bautista",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-18",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Irina Solarez"
       }
     ]
   },
@@ -338,14 +338,14 @@ const sampleAndrew = [ {
     seat: "A23",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Carlos Bautista",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-19",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Irina Solzarez"
       }
     ]
   },
@@ -353,14 +353,14 @@ const sampleAndrew = [ {
     seat: "A24",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Andres Hidalgo",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-18",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Irish Solarez"
       }
     ]
   },
@@ -368,14 +368,14 @@ const sampleAndrew = [ {
     seat: "A25",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Stephen Go",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-18",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Irish Solarez"
       }
     ]
   },
@@ -383,14 +383,14 @@ const sampleAndrew = [ {
     seat: "A26",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Japeth Aguilar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-18",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Irish Solarez"
       }
     ]
   },
@@ -398,14 +398,14 @@ const sampleAndrew = [ {
     seat: "A27",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Marie Espiritu",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-15",
+        dateofreservation: "2024-07-18",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Eli Lopez"
       }
     ]
   },
@@ -413,14 +413,14 @@ const sampleAndrew = [ {
     seat: "A28",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Claudette Escobar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-17",
+        dateofreservation: "2024-07-22",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Eli Lopez"
       }
     ]
   },
@@ -428,14 +428,14 @@ const sampleAndrew = [ {
     seat: "A29",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Claudette Escobar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-17",
+        dateofreservation: "2024-07-23",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Eli Lopez"
       }
     ]
   },
@@ -443,17 +443,17 @@ const sampleAndrew = [ {
     seat: "A30",
     reservations: [
       {
-        name: "Fredrick Tario",
+        name: "Claudette Escobar",
         value: 1,
         anonymous: 1,
-        dateofrequest: "2024-07-12",
-        dateofreservation: "2024-07-12",
+        dateofrequest: "2024-07-17",
+        dateofreservation: "2024-07-24",
         timeofrequest: "8:00 AM",
-        timeofreservation: "9:30AM-10:00AM",
-        reservedby: "Fredrick Tario"
+        timeofreservation: "10:00AM-10:30AM",
+        reservedby: "Eli Lopez"
       }
     ]
-  },
+  }
 
 ];
 

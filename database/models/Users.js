@@ -6,6 +6,7 @@ const UsersSchema = new mongoose.Schema({
     description: String,
     title: String,
     password: String,
+    profilePhoto: { type: String, default: '/images/defaultpfp.png' },
     reservations: [
         {
             seatNo: String,

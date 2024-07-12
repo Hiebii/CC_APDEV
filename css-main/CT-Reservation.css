@@ -138,7 +138,7 @@
     font-size: 2.3em;
     line-height: 22px;
     text-align: center;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.11em;
     color: #000000;
     margin-top: 70px;
     padding-right: 15px;
@@ -557,4 +557,18 @@ option{
 
 .back-button:hover {
     background-color: white;
+}
+
+#submit-button{
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    background-color: #951ABE; 
+    color: white;
+    padding: 10px 30px; 
+    border: none;
+    border-radius: 10px;
+    font-size: 25px; 
+    box-shadow: 3px 3px 0px 0px black; 
+    text-decoration: none;
 }

@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     reserveButton.addEventListener("click", function() {
         if (numSelected > 0) {
-            window.location.href = "/CT-View-Edit_reservation-details";
+            window.location.href = "/CT-Reservation_reservation-details";
         } else {
             showPrompt2();
         }
