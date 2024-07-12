@@ -258,7 +258,7 @@ const sampleUsers = [
     description: "God-fearing and string-willed human being.",
     title: "Student",
     password: "password4",
-    profilePhoto: "/images/defaultpfp.png",
+    profilePhoto: "/images/stephen.png",
     reservations: [
       {
         seatNo: "A04",
@@ -348,7 +348,7 @@ const sampleUsers = [
   description: "Interested in any sports, especially basketball.",
   title: "Student",
   password: "password5",
-  profilePhoto: "/images/defaultpfp.png",
+  profilePhoto: "/images/japeth.png",
   reservations: [
     {
       seatNo: "A05",
@@ -430,7 +430,7 @@ const sampleUsers = [
   description: "Alway striving for Gold.",
   title: "Student",
   password: "password6",
-  profilePhoto: "/images/defaultpfp.png",
+  profilePhoto: "/images/marie.png",
   reservations: [
     {
       seatNo: "A06",
@@ -512,7 +512,7 @@ const sampleUsers = [
   description: "Invulnerable to stress and anxiety.",
   title: "Student",
   password: "password7",
-  profilePhoto: "/images/defaultpfp.png",
+  profilePhoto: "/images/claudette.png",
   reservations: [
     {
       seatNo: "A07",
@@ -758,7 +758,6 @@ const sampleUsers = [
     description: "Expert in the field of networking.",
     title: "Lab Technician",
     password: "password10",
-    profilePhoto: "/images/defaultpfp.png",
     reservations: [
       {
         seatNo: "A24",
