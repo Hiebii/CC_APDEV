@@ -50,13 +50,11 @@
           <div class = "lab-button">
               <p class = "sort-text">COMPUTER LAB:</p>
               <div class="custom-select-wrapper">
-                <form method="GET" action="/CT-View-Edit" id="LabForm">
-                  <select class="lab-dropdown" name="labchoices" onchange="document.getElementById('LabForm').submit();">
-                      <option value="GK01" {{#if ("GK01")}}selected{{/if}}>GK01</option>
-                      <option value="VL01" {{#if ("VL01")}}selected{{/if}}>VL01</option>
-                      <option value="AG101"{{#if ("AG101")}}selected{{/if}}>AG101</option>
+                  <select class="lab-dropdown">
+                      <option value="GK01">GK01</option>
+                      <option value="VL01">VL01</option>
+                      <option value="AG101">AG101</option>
                   </select>
-                </form>
               </div>
           </div>
 
