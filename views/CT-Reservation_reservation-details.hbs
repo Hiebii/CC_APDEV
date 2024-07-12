@@ -4,9 +4,9 @@
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
-         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
         <link rel="stylesheet" href="css-main/cssmainwebsite.css">
-        <link rel="stylesheet" href="css-main/CT_LT-homepage.css">
+        <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
+        <link rel="stylesheet" href="css-main/CT_LT-Main.css">
         <link rel="icon" href="images/icon.png">
         <script src="../js-main/search.js"></script>
         <title>tinkerlab.</title>
@@ -23,7 +23,7 @@
                 </a>
             </div>
             <div class="btndivider">
-                <a href="/Andrew">
+                <a href="/CT-Reservation_Goks">
                 <button class="btndesign" id="reservationbtn">Reservation</button>
                </a>
             </div>
@@ -39,39 +39,52 @@
             </div>
             
             <div class="searchdivider">
-                <div class="searchfield">
-                    <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
-                    <input class="searchinput" type="text" placeholder="Search...">
-                </div>
-                <div class="suggestions-div">
-                    <div class="suggestion-card">   
-                        <div class="card"> 
-                        </div>
+            <div class="searchfield">
+                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
+                <input class="searchinput" type="text" placeholder="Search...">
+            </div>
+            <div class="suggestions-div">
+                <div class="suggestion-card">   
+                    <div class="card"> 
                     </div>
                 </div>
             </div>
-           
         </div>
-        <div class="body-container">
-            <div class="home-signboard">
-                <div class="pushleft">
-                    <img src="images/tinkerlablogo.png" class="signboard-image">
-                    <img src="images/teacher-home.png" class="image-teacher">
-                    <div class="signboard-divider"></div>                    
-                    <div class="signboard-content">
-                        At TinkerLab, we've created the perfect solution for <div class="spacing-between-lines"></div>
-                        securing your seat in your favorite computer lab <div class="spacing-between-lines"></div>
-                        hassle-free! With our intuitive platform, students can <div class="spacing-between-lines"></div>
-                        easily reserve their spots, check availability, and manage their <div class="spacing-between-lines"></div>
-                        reservations with just a few clicks. Whether you're working on a project, <div class="spacing-between-lines"></div>
-                        studying, or diving into creativity, TinkerLab ensures you always have the space <div class="spacing-between-lines"></div>
-                        you need. Join us today, and let's make the most of your lab time together!" <div class="spacing-between-lines"></div>
-                    </div>
-                    <a href="/CT-Reservation_Goks"><button class="button-reserve">RESERVE</button></a>
-                </div>
+        </div>
+        <div class = "title-1">
+            RESERVATION DETAILS
+        </div>
+
+        <div class="outer-box">
+            <ul class="details">
+                <li><span class = "bold">Name:{{user.fullName}}</li>
+                <li><input type="checkbox"><span class = "anon-text">Anonymous</span></li>
+                <li><span class = "bold">Computer Lab: {{this.computerLab}}</li>
+                <li><span class = "bold">Seat No.:{{this.seatNo}}</li>
+                <li><span class = "bold">Date of Request: {{this.dateOfRequest}}</li>
+                <li><span class = "bold">Time of Request: {{this.timeOfRequest}}</li>
+                <li><span class = "bold">Date of Reservation: {{this.dateOfReservation}}</li>
+                <li><span class = "bold">Time of Reservation: {{this.timeOfReservation}}</li>
+            </ul> 
+        </div>
+        
+        <div class="button-container">
+            <button class="back-button"><a href="/CT-Reservation_Andrew">Back</a></button>
+            <button class="purple-button" onclick="showPrompt()">Submit</button>
+        </div>
+        
+        <!-- Hidden confirmation dialog -->
+        <script src="js/prompt.js"></script>
+        <div id="dialog-1" class="dialog-1">
+            <div class="dialog-header"></div>
+            <p class="prompt-text">DO YOU CONFIRM TO <br>RESERVE <span class ="green-text">A04, A05, A06</span> SEAT?</p>
+            <div class="button-container">
+                <button class="back-button" onclick="hidePrompt()">Back</button>
+                <button class="purple-button" onclick="confirmReservation()">Confirm</button>
             </div>
         </div>
     </body>
+
     <footer>
         <div class="footer-container">
             <div class="footer-column-1">
