@@ -332,6 +332,25 @@ app.get('/CT-Profile', async (req, res) => {
     }
 });
 
+/*-----------------------      CT PROFILE  VIEW    --------------------------*/ 
+app.get('/CT-Profile_view-only', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('CT-Profile_view-only', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
 /*-----------------------    CT PROFILE EDIT   --------------------------*/ 
 app.get('/CT-Profile_edit', async (req, res) => {
     try {
