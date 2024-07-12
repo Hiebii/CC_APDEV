@@ -102,7 +102,6 @@
         function updateFormData() {
             const selectedTime = timeDropdown.value;
             const selectedDate = dateInput.value;
-            
             selectedTimeInput.value = selectedTime;
             
             const url = `/Andrew?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
@@ -174,7 +173,7 @@
                 {{#each andrews}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}" data-user-id="{{this.[0].userId}}>data-seat</div><br>
                  {{/each}}
                  {{/each}}  
             </div>
@@ -186,7 +185,7 @@
                 {{#each andrews2}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}" data-user-id="{{this.[0].userId}}>data-seat</div><br>
                  {{/each}}
                  {{/each}}  
         
@@ -197,7 +196,7 @@
                 {{#each andrews3}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
+               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}" data-user-id="{{this.[0].userId}}>data-seat</div><br>
                  {{/each}}
                  {{/each}}  
             </div>
@@ -208,7 +207,7 @@
                 {{#each andrews4}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
+               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}" data-user-id="{{this.[0].userId}}>data-seat</div><br>
                  {{/each}}
                  {{/each}}  
     
@@ -218,7 +217,7 @@
                 {{#each andrews5}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
+               <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}" data-user-id="{{this.[0].userId}}>data-seat</div><br>
                  {{/each}}
                  {{/each}}  
 
@@ -230,7 +229,7 @@
                  {{#each andrews6}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
-                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
+                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}" data-user-id"{{this.[0].userId}}"">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
     
@@ -288,12 +287,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const value = this.getAttribute("data-value");
         const seatName = this.getAttribute("data-seat");
         const occupant = this.getAttribute("data-value-name");
-
+        const occupantId = this.getAttribute("data-user-id");
         if (value === "1") {
             if (occupant === "Anonymous") {
                 showPrompt3(seatName, occupant);
             } else {
-                showPrompt(seatName, occupant);
+                showPrompt(seatName, occupant, occupantId);
             }
         } else if (value === "0") {
             this.classList.toggle('selected');
@@ -366,8 +365,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function showPrompt(seatName, occupant) {
-        const profileLink = "/CT-Profile_view-only";
+    function showPrompt(seatName, occupant, occupantId) {
+        const profileLink = '/CT-Profile_view-only?userId=${occupantId}';
         promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
         dialog.style.display = "block";
     }
