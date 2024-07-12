@@ -116,12 +116,88 @@ app.get('/Velasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
+        
         res.render('CT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
     }
 });
+
+/*
+// Example endpoint for handling reservations
+app.post('/reserve', async (req, res) => {
+    const { dateofreservation, timeofreservation, seatNames, Collection } = req.body;
+
+    // Validate Collection and determine Roomname
+    let Roomname;
+    switch (Collection) {
+        case 'CT-Reservation_Andrew':
+            Roomname = "AG101";
+            break;
+        case 'CT-Reservation_Goks':
+            Roomname = "GK101";
+            break;
+        case 'CT-Reservation_Velascos':
+            Roomname = "VL101";
+            break;
+        default:
+            return res.status(400).send('Invalid Collection');
+    }
+
+    try {
+        // Example of a function to get model for the given Collection
+        const ReservationModel = getModelForCollection(Collection);
+
+        // Iterate over each seatName to save reservations
+        for (const seatName of seatNames) {
+            const newReservation = {
+                name: 'Fredrick Tario',
+                value: 1,
+                anonymous: 1,
+                dateofrequest: new Date().toISOString().split('T')[0],
+                dateofreservation,
+                timeofrequest: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                timeofreservation,
+                reservedby: 'Fredrick Tario'
+            };
+
+            // Update or create reservation for the seat
+            await ReservationModel.updateOne(
+                { seat: seatName },
+                { $push: { reservations: newReservation } },
+                { upsert: true } // Creates a new document if seatName doesn't exist
+            );
+        }
+
+        res.status(201).send('Reservations created successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// Example function to get appropriate model for the Collection
+function getModelForCollection(Collection) {
+    // Example implementation based on your logic
+    switch (Collection) {
+        case 'CT-Reservation_Andrew':
+            return AndrewReservationModel; // Replace with your actual model
+        case 'CT-Reservation_Goks':
+            return GoksReservationModel; // Replace with your actual model
+        case 'CT-Reservation_Velascos':
+            return VelascosReservationModel; // Replace with your actual model
+        default:
+            throw new Error('Invalid Collection');
+    }
+}
+
+// Example reservation models (replace with your actual Mongoose models)
+const AndrewReservationModel = require('./database/models/Andrew');
+const GoksReservationModel = require('./database/models/Goks');
+const VelascosReservationModel = require('./database/models/Velasco');
+*/
+
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, title } = req.body;
@@ -218,12 +294,44 @@ app.get('/CT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
 });
 
-app.get('/CT-View-Edit_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/views/CT-View-Edit_reservation-details.html');
+// POST route to receive reservation data
+app.post('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
+
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// GET route to render reservation details
+app.get('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-View-Edit_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+
+app.post('/CT-View-Edit_success-edit', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
 });
 
 app.get('/CT-View-Edit_success-edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit_success-edit.html');
+    res.render('CT-View-Edit_success-edit', data);
 });
 /*-----------------------      CT PROFILE      --------------------------*/ 
 app.get('/CT-Profile', async (req, res) => {

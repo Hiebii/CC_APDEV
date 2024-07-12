@@ -12,6 +12,7 @@
     <script src="../js-main/search.js"></script>
     <link rel="icon" href="images/icon.png">
     <title>tinkerlab.</title>
+
 </head>
 <body>
     <div class="header">
@@ -267,6 +268,127 @@
         </div>
     </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const reserveButton = document.getElementById('reserve-button');
+    const labDropdown = document.getElementById('lab-dropdown');
+    const seatElements = document.querySelectorAll('.seat-name');
+    const dialog = document.getElementById("dialog-1");
+    const promptText = document.querySelector(".prompt-text");
+    let numSelected = 0;
+    let selectedSeats = []; // Array to store selected seat names
+
+    // Debug: Ensure elements exist
+    console.log("Reserve Button:", reserveButton);
+    console.log("Lab Dropdown:", labDropdown);
+    console.log("Seat Elements:", seatElements);
+
+    // Function to handle seat click events
+    function handleSeatClick() {
+        const value = this.getAttribute("data-value");
+        const seatName = this.getAttribute("data-seat");
+        const occupant = this.getAttribute("data-value-name");
+
+        if (value === "1") {
+            if (occupant === "Anonymous") {
+                showPrompt3(seatName, occupant);
+            } else {
+                showPrompt(seatName, occupant);
+            }
+        } else if (value === "0") {
+            this.classList.toggle('selected');
+            if (this.classList.contains("selected")) {
+                this.style.backgroundColor = "#951ABE";
+                this.style.color = "white";
+                numSelected++;
+                selectedSeats.push(seatName); // Add selected seat to array
+            } else {
+                this.style.backgroundColor = "green";
+                this.style.color = "black";
+                numSelected--;
+                selectedSeats = selectedSeats.filter(name => name !== seatName); // Remove deselected seat from array
+            }
+        }
+    }
+
+    // Add event listener to each seat element
+    seatElements.forEach(function(seat) {
+        seat.addEventListener('click', handleSeatClick);
+    });
+
+    // Add event listener to reserve button for final reservation submission
+    reserveButton.addEventListener('click', async function() {
+        if (selectedSeats.length > 0) {
+            const selectedLab = labDropdown.value;
+
+            console.log("Selected Lab:", selectedLab);
+            console.log("Selected Seats:", selectedSeats);
+
+            const dateofreservation = document.getElementById('dateInput').value;
+            const timeofreservation = document.getElementById('time-dropdown').value;
+
+            const now = new Date();
+            const dateofrequest = now.toISOString().split('T')[0];
+            const timeofrequest = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            const reservationData = {
+                lab: "AG101",
+                dateofreservation,
+                timeofreservation,
+                timeofrequest,
+                dateofrequest,
+                seatNames: selectedSeats
+            };
+
+            console.log("Reservation Data:", reservationData);
+
+            try {
+                const response = await fetch('/CT-View-Edit_reservation-details', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reservationData)
+                });
+
+                if (response.ok) {
+                    // Redirect to the reservation details page
+                    window.location.href = '/CT-View-Edit_reservation-details';
+                } else {
+                    alert('Failed to reserve seats. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        } else {
+            showPrompt2();
+        }
+    });
+
+    function showPrompt(seatName, occupant) {
+        const profileLink = "/CT-Profile_view-only";
+        promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
+        dialog.style.display = "block";
+    }
+
+    function showPrompt2() {
+        promptText.innerHTML = '<br><br><span class="prompt-class"> <span class="js_note">Please<span class="js_seat"> select</span> <br> at least 1 seat!</span></span>';
+        dialog.style.display = "block";
+    }
+
+    function showPrompt3(seatName, occupant) {
+        promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> ${occupant}</span></span>`;
+        dialog.style.display = "block";
+    }
+
+    window.hidePrompt = function() {
+        dialog.style.display = "none";
+    };
+});
+</script>
+
+
      <!-- Hidden confirmation dialog -->
      <div id="dialog-1" class="dialog-1">
         <div class="dialog-header"></div>
@@ -279,7 +401,7 @@
 </div>
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js-main/lab_reserve.js"></script>
-    <script src="js-main/CT-Reservation_OnClick.js"></script>
+    <!--<script src="js-main/CT-Reservation_OnClick.js"></script>-->
     <script src="js-main/CT-Reservation_hoverseats.js"></script>
     <script src="js-main/CT-Reservation_DateRestrict.js"></script>
 </body>
