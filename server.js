@@ -182,22 +182,24 @@ app.get('/Velasco', async (req, res) => {
     }
 });
 /*-----------------------      SIGNUP      --------------------------*/ 
-app.post('/signup-student', async (req, res) => {
+app.post('/signup', async (req, res) => {
+    console.log(req.body + "a")
     const { fullName, email, password, title } = req.body;
 
     try { 
         const existingEmail = await Users.findOne({ email });
         if (existingEmail){
-            return res.render('signup-student', { message: 'Student Already Exists!' });
+            return res.status(400).json({ error: 'User already exists!' });
         }
 
         const newUser = new Users({ fullName, email, password, title });
         await newUser.save();
 
-        return res.render('login-page', { message:'User registered successfully!' });
+        return res.status(201).json({ message: 'User has been created!', redirectUrl: '/login-page' });
+
     } catch (err) {
         console.error(err);
-        return res.render('login-page',{ message:'Server Error!' });
+        return res.status(500).json({ error: 'Server Error!' });
     }
 });
 
