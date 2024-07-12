@@ -519,13 +519,31 @@ app.get('/CT-Profile', async (req, res) => {
 });
 
 /*-----------------------      CT PROFILE  VIEW    --------------------------*/ 
+app.get('/CT-Profile_view-content', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+        const currentUserId = req.session.userId;
+        const users = await Users.find({ _id: { $ne: currentUserId } }).lean();
+        if (!users) {
+            return res.status(404).send('User not found');
+        }
+
+        res.json(users); // Return users data as JSON
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
 app.get('/CT-Profile_view-only', async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.status(401).send('Unauthorized');
         }
 
-        const user = await Users.findById(req.session.userId).lean();
+        const user = await Users.findById(req.query.userId).lean();
         if (!user) {
             return res.status(404).send('User not found');
         }
