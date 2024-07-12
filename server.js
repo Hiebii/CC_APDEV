@@ -219,10 +219,11 @@ app.post('/login', async (req, res) => {
         } else if (user.title === 'Student'){
             res.redirect('/CT-homepage');
         } else {
+            console.log(req.body);
             res.status(400).json({ message: 'Unknown role!' });
         }
     } catch(err) {
-        console.error(err);
+        console.log(err);
         res.status(500).send('Server Error!');
     }
 });
