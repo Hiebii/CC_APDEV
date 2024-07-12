@@ -102,7 +102,7 @@
             const passwordInitial = document.getElementById('student-password');
             const passwordConfirm = document.getElementById('confirm-student-password');
            
-            document.getElementById('signupForm').onsubmit = async (event) => {
+            document.getElementById('signupForm').onsubmit = async (event) =>{
                 event.preventDefault();
                 const formData = new FormData(event.target);
                 try {
@@ -115,11 +115,11 @@
                     if (!response.ok){
                         alert(result.message);
                     } else {
-                        window.location.href = '/login-page';
+                        window.location.href = 'result.redirectUrl';
                     }
                 } catch (error) {
-                    console.error('Error during login: ', error);
-                    alert('Server error, please try again!');
+                   console.error('Error during login: ', error);
+                   alert('Server error, please try again!');
                 }
             };
 
