@@ -256,33 +256,35 @@ html, body {
 /* SEARCH SUGGESTION CSS */
 
 .suggestions-div {
-    background-color: #fff;  
     width: 500px;
-    height: 300px;
+    max-height: 300px;
     overflow: auto;
     position: relative;
     border-radius: 40px;
     border: 2px solid #000;
+    position: relative;
+    background-color: #fff;
     display: none;
     z-index: 1;
 }
 
-.suggestion-card {
+.suggestions-ul {
     background-color: #fff;  
+    border-radius: 40px;
     font-size: 25px;
+    list-style-type: none;
     border-collapse: collapse;
+    margin-top: -5px;
+    padding-top: 20px;
+    padding-left: 0px;
 }
 
-.card {
-    font-family: "Montserrat", sans-serif;
-    background-color: #fff;
-    border: 1px solid #000;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 20px;
+.suggestions-li {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-.card:hover{
+.suggestions-li:hover{
     background: #efefef;   
     padding-left: 10px;
     transition: 0.3s; 
@@ -295,8 +297,4 @@ html, body {
 .clearlink {
     color: #000;
     text-decoration: none;
-}
-
-.hide {
-    display: none;
 }
