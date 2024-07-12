@@ -163,6 +163,46 @@ app.get('/CT-Reservation_success', function(req, res) {
     res.render('CT-Reservation_success', data);
 });
 
+app.post('/addReservation', async (req, res) => {
+    const data = req.body;
+
+    if (!Array.isArray(data.seatNames)) {
+        return res.status(400).send('seatNames should be an array');
+    }
+
+    try {
+        const updatePromises = data.seatNames.map(seat => {
+            const filter = { seat: seat };
+            const update = {
+                $push: {
+                    reservations: {
+                        name: data.reserverName,
+                        reservedby: data.reserverName,
+                        anonymous: data.anonymous,
+                        dateofrequest: data.dateofrequest,
+                        timeofrequest: data.timeofrequest,
+                        dateofreservation: data.dateofreservation,
+                        timeofreservation: data.timeofreservation,
+                        value: 1
+                    }
+                }
+            };
+
+            return Andrew.findOneAndUpdate(filter, update, { new: true });
+        });
+
+        const updatedAndrews = await Promise.all(updatePromises);
+
+        if (updatedAndrews.some(updatedAndrew => updatedAndrew !== null)) {
+            return res.status(200).send('Reservation data received and updated successfully');
+        } else {
+            return res.status(404).send('Seats not found or reservations not updated');
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send('An error occurred');
+    }
+});
 /*
 // Example endpoint for handling reservations
 app.post('/reserve', async (req, res) => {
@@ -689,7 +729,7 @@ app.get('/LT-Reservation_search-andrew', function(req, res) {
 
 
 // POST route to receive reservation data
-app.post('/LT-View-Edit_reservation-details', async (req, res) => {
+app.post('/LT-Reservation_reservation-details', async (req, res) => {
     try {
         reservationData = req.body;
         user = req.session.userId;
@@ -703,7 +743,7 @@ app.post('/LT-View-Edit_reservation-details', async (req, res) => {
 
 
 // GET route to render reservation details
-app.get('/LT-View-Edit_reservation-details', async (req, res) => {
+app.get('/LT-Reservation_reservation-details', async (req, res) => {
     try {
         const userId = req.session.userId; // Assuming userId is stored in session
 
@@ -711,7 +751,7 @@ app.get('/LT-View-Edit_reservation-details', async (req, res) => {
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
 
         // Render the reservation details page with user and reservationData
-        res.render('LT-View-Edit_reservation-details', {user, reservationData});
+        res.render('LT-Reservation_reservation-details', {user, reservationData});
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
