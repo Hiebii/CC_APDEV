@@ -275,8 +275,21 @@ app.get('/CT-homepage', function(req, res) {
     res.render('CT-View-Edit.hbs');
 });*/
 
+/*-----------------------      CT VIEW EDIT      --------------------------*/ 
 app.get('/CT-View-Edit', async(req,res) =>{
-    const reservations = await Andrew.find();
+    const lab = req.query.labchoices || 'GK01'; 
+    let reservations = [];
+    if (lab==='GK01'){
+        console.log('Retrieved Reservations for Goks:', reservations);
+        reservations = await Goks.find();
+    }else if (lab==='AG101'){
+        console.log('Retrieved Reservations for Andrew:', reservations);
+        reservations = await Andrew.find();
+    }else if(lab==='VL01'){
+        console.log('Retrieved Reservations for Velasco:', reservations);
+        reservations = await Velasco.find();
+    }
+    console.log(lab);
     console.log('Retrieved Reservations:', reservations);
     res.render('CT-View-Edit', { reservations });
 });
