@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="css-main/cssprofilepage.css">
     <link rel="stylesheet" href="css-main/CT_LT-Main.css">
     <link rel="icon" href="images/icon.png">
-    <script src="../js-main/search.js"></script>
     <title>tinkerlab.</title>
    </head> 
    <body>
@@ -48,10 +47,11 @@
                 <input class="searchinput" type="text" placeholder="Search...">
             </div>
             <div class="suggestions-div">
-                <div class="suggestion-card">   
-                    <div class="card"> 
-                    </div>
-                </div>
+                <ul class="suggestions-ul">
+                    <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only">Ava</a></li>    
+                    <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only_Liam">Liam</a></li>    
+                    <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only_Benjamin">Benjamin</a></li>
+                </ul>
             </div>
         </div>
 
@@ -64,7 +64,7 @@
     <div class="profilediv1">
         <div id="photo-div">
             <div class="profileborder">
-                <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
+                <img class="profilephoto" src="images/defaultpfp.png" alt="Profile Photo">
             </div>
         </div>
         <br>
@@ -117,6 +117,7 @@
         </div>
     </div>  
 </div>
+
 
 
     <!-- Hidden confirmation dialog -->

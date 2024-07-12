@@ -38,16 +38,16 @@
                     </div> 
                     <div class="container">
 
-                        {{#if error}}
-                              <div class="error-text">{{error}}</div>
-                        {{/if}}
+                            {{#if error}}
+                                <div class="error-text">{{error}}</div>
+                            {{/if}}
                             <div class="header">
                                 WELCOME BACK
                                 <div class="subtitle">Enter your credentials to log in.</div>
                                 
                             </div>
                             <div class="contents">
-                                <form action ="/login" method="POST">
+                                <form id = "loginForm" action ="/login" method="POST">
                                 <div class="textcontainer-login">
                                     <img src="images/email-icon.png" class="texticon-email-login">
                                     <input type="text" class="textbox-login" id="login-email" name="email" placeholder="Email Address">

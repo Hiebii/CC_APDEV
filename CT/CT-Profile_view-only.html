@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="css-main/cssprofilepage.css">
     <link rel="stylesheet" href="css-main/CT_LT-Main.css">
     <link rel="icon" href="images/icon.png">
-    <script src="../js-main/search.js"></script>
     <title>tinkerlab.</title>
    </head> 
    <body>
@@ -34,9 +33,7 @@
             </a>
         </div>
         <div class="btndivider">     
-            <a href ="/CT-Profile">
-                <button class="btndesign" id="profilebtn">Profile</button>
-            </a>
+            <a href ="/CT-Profile"><button class="btndesign" id="profilebtn">Profile</button></a>
                 <div class="dropdown">
                     <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
                 </div>
@@ -48,74 +45,83 @@
                 <input class="searchinput" type="text" placeholder="Search...">
             </div>
             <div class="suggestions-div">
-                <div class="suggestion-card">   
-                    <div class="card"> 
-                    </div>
-                </div>
+                <ul class="suggestions-ul">
+                    <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only">Ava</a></li>    
+                    <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only_Liam">Liam</a></li>    
+                    <li class="suggestions-li"><a class="clearlink" href="/CT-Profile_view-only_Benjamin">Benjamin</a></li>
+                </ul>
             </div>
         </div>
        
     </div>
     <!-- profile body -->
     <div class="profilediv">
+
         <!-- left profile side -->
         <div class="profilediv1">
-            <form id="profileForm" action="/CT-Profile_edit" method="POST" enctype="multipart/form-data">
-                <div id="photo-div">
-                    <div class="profileborder">
-                        <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
-                    </div>
+            <div id="photo-div">
+                <div class="profileborder">
+                    <img class="profilephoto" src="images/defaultpfp.png">
                 </div>
-                <div class="addphoto-div">
-                    <input type="file" id="profilePhotoInput" name="profilePhoto" accept="images/*">
-                </div>
-                <br>
-                <div id="role-div">
-                    <h1 class="role">{{user.title}}</h1>
-                </div>
-                <br>
-                <div id="editprofilebtn-div">
-                    <button type="submit" class="purple-button">SAVE CHANGES</button>
-                </div>
+            </div>
+            <br>
+            <div id="role-div">
+                <h1 class="role">Student</h1>
+            </div>
         </div>
 
         <hr class="vl"> 
 
         <!-- right profile side -->
         <div class="profilediv2">
-            <h2 class="profileheader">{{user.fullName}}</h2>
-            <textarea name="description" class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
-        </form>
+            <h2 class="profileheader">Ava Watson</h2>
+
+            <textarea class="profiledesc" rows="7" cols="80" readonly>I challenge society's expectations for women in Regency-era London.</textarea>
+
             <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
             <div class="scheddiv">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Seat No.</th>
-                            <th>Computer Lab</th>
-                            <th>Date of Request</th>
-                            <th>Time of Request</th>
-                            <th>Date of Reservation</th>
-                            <th>Time of Reservation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each user.reservations}}
-                        <tr>
-                            <td>{{this.seatNo}}</td>
-                            <td>{{this.computerLab}}</td>
-                            <td>{{this.dateOfRequest}}</td>
-                            <td>{{this.timeOfRequest}}</td>
-                            <td>{{this.dateOfReservation}}</td>
-                            <td>{{this.timeOfReservation}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Seat No.</th>
+                    <th>Computer Lab</th>
+                    <th>Date of Request</th>
+                    <th>Time of Request</th>
+                    <th>Date of Reservation</th>
+                    <th>Time of Reservation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A04</td>
+                        <td>AG101</td>
+                        <td>05/20/2024</td>
+                        <td>9:35AM</td>
+                        <td>05/21/2024</td>
+                        <td>9:00AM - 9:30AM</td>
+                    </tr>
+                    <tr>
+                        <td>A05</td>
+                        <td>AG101</td>
+                        <td>05/20/2024</td>
+                        <td>9:35AM</td>
+                        <td>05/21/2024</td>
+                        <td>9:00AM - 9:30AM</td>
+                    </tr>
+                    <tr>
+                        <td>A06</td>
+                        <td>AG101</td>
+                        <td>05/20/2024</td>
+                        <td>9:35AM</td>
+                        <td>05/21/2024</td>
+                        <td>9:00AM - 9:30AM</td>
+                    </tr>
+                </tbody>
+            </table>
             </div>
         </div>  
-    </div>
 
+    </div>    
     <!-- Hidden confirmation dialog -->
     <script src="js/prompt.js"></script>
     <div id="dialog-1" class="dialog-1">
@@ -144,7 +150,7 @@
        <div class="button-container">
            <button class="purple-button" onclick="toLoginpage()">Confirm</button>
        </div>
-   </div>    
+   </div>
    </body>
    <footer>
     <div class="footer-container">

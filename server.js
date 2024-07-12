@@ -4,25 +4,28 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 /* Initialize express */
 const express = require('express');
 const session = require('express-session');
-const fileUpload = require('express-fileupload')
 const app = express();
 const port = 3000; 
 
+/* For file uplods */
+const fileUpload = require('express-fileupload')
+
 /* Initialize our post */
+
 const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
 const Velasco = require("./database/models/Velasco")
-const path = require('path') 
+const path = require('path') // our path directory
 
-app.use(express.json()) 
-app.use(express.urlencoded( {extended: true})); 
-app.use(express.static('public')) 
-app.use(fileUpload())
+app.use(express.json()) // use json
+app.use(express.urlencoded( {extended: true})); // files consist of more than strings
+app.use(express.static('public')) // we'll add a static directory named "public"
+app.use(fileUpload()) // for fileuploads
 
 // Configure session middleware
 app.use(session({
-    secret: 'tinkerlab',
+    secret: 'yourSecretKey', // Replace with your own secret
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
@@ -50,6 +53,62 @@ app.get('/content', async(req,res) => {
     res.render('content',{posts})
 })
 */
+
+/*-----------------------      SIGNUP      --------------------------*/ 
+
+app.post('/signup', async (req, res) => {
+    const { fullName, email, password, title } = req.body;
+
+    try { 
+        // This part is to check if an email already exists.
+        const existingEmail = await Users.findOne({ email });
+        //If email exists, send alert that there already exists a user with an email.
+        if (existingEmail){
+            //return res.status(400).send('User Already Exists!');
+            return res.status(400).json({ error: 'User already exists!' });
+        }
+        //create the user
+        const newUser = new Users({fullName, email, password, title});
+        await newUser.save();
+
+        req.session.message='User has been created!';
+        return res.redirect('/login-page');
+        //res.status(201).send('User registered successfully!');
+    }catch (err){
+        console.error(err);
+        //Send an error if it is not working.
+        res.status(500).send('Server Error!');
+    }
+});
+
+/*-----------------------      LOGIN      --------------------------*/ 
+app.post('/login', async (req, res) => {
+    const { email, password }  = req.body;
+
+    try{
+        //See if user does exist in the database
+        const user = await Users.findOne({ email });
+        if (!user){
+            return res.render('login-page', { error: 'User does not exist! '});
+        }
+
+        if(user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password! '});
+        }
+
+        if (user.title === 'Lab Technician'){
+            res.redirect('/LT-homepage');
+        } else if (user.title === 'Student'){
+            res.redirect('/CT-homepage');
+        }else{
+           return res.render('login-page',{ error: 'Unknown role!'});
+        }
+    }catch(err){
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
+});
+
 
 app.get('/Andrew', async (req, res) => {
     try {
@@ -297,20 +356,23 @@ const VelascosReservationModel = require('./database/models/Velasco');
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, title } = req.body;
-
+    console.log(req.body);
     try { 
         const existingEmail = await Users.findOne({ email });
         if (existingEmail){
-            return res.status(400).json({ message: 'User Already Exists!' });
+            //return res.status(400).json({ error: 'User already exists!' });
+            return res.render('login-page', { error: 'User does not exist!' });
         }
 
         const newUser = new Users({ fullName, email, password, title });
         await newUser.save();
+            return res.render('login-page', { message: 'User has been created!' });
+        //return res.status(201).json({ message: 'User has been created!', redirectUrl: '/login-page' });
 
-        res.status(201).json({ message:'User registered successfully!' });
     } catch (err) {
+        console.log(req.body);
         console.error(err);
-        res.status(500).json({ message:'Server Error!' });
+        return res.status(500).json({ error: 'Server Error!' });
     }
 });
 
@@ -335,10 +397,11 @@ app.post('/login', async (req, res) => {
         } else if (user.title === 'Student'){
             res.redirect('/CT-homepage');
         } else {
+            console.log(req.body);
             res.status(400).json({ message: 'Unknown role!' });
         }
     } catch(err) {
-        console.error(err);
+        console.log(err);
         res.status(500).send('Server Error!');
     }
 });
@@ -373,21 +436,28 @@ app.get('/login-page', function(req, res) {
 });
 
 app.get('/signup-student', function(req, res) {
-    res.sendFile(__dirname + '/START/signup-student.html');
+    res.render('signup-student');
 });
 
 app.get('/signup-labtechnician', function(req, res) {
-    res.sendFile(__dirname + '/START/signup-labtechnician.html');
+    res.render('signup-labtechnician');
 });
 
 
-/*--------------------------   CT  MENU    ---------------------------*/ 
+/*-----------------------      CT      --------------------------*/ 
+// CT-Menu
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
-app.get('/CT-View-Edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+/*app.get('/CT-View-Edit', function(req, res) {
+    res.render('CT-View-Edit.hbs');
+});*/
+
+app.get('/CT-View-Edit', async(req,res) =>{
+    const reservations = await Andrew.find();
+    console.log('Retrieved Reservations:', reservations);
+    res.render('CT-View-Edit', { reservations });
 });
 
 // POST route to receive reservation data
@@ -442,6 +512,25 @@ app.get('/CT-Profile', async (req, res) => {
         }
 
         res.render('CT-Profile', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+/*-----------------------      CT PROFILE  VIEW    --------------------------*/ 
+app.get('/CT-Profile_view-only', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.session.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('CT-Profile_view-only', { user });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -523,6 +612,16 @@ app.get('/CT-Reservation_search-andrew', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_search-andrew.html');
 });
 
+
+// CT-Reservation_details & Profile
+app.get('/CT-Reservation_reservation-details', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Reservation_reservation-details.html');
+});
+
+app.get('/CT-Profile_view-only', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only.html');
+});
+
 app.get('/CT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
 });
@@ -601,59 +700,6 @@ app.get('/LT-Profile', async (req, res) => {
     }
 });
 
-/*-----------------------    LT PROFILE EDIT   --------------------------*/ 
-app.get('/LT-Profile_edit', async (req, res) => {
-    try {
-        const userId = req.session.userId; // Assuming userId is stored in session
-        const user = await Users.findById(userId).lean(); // Fetch user data
-
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        res.render('LT-Profile_edit', { user });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
-    }
-});
-
-app.post('/LT-Profile_edit', async (req, res) => {
-    try {
-        const userId = req.session.userId;
-        const { description } = req.body;
-
-        // Update user's description in the database
-        await Users.findByIdAndUpdate(userId, { description });
-
-        // Handle file upload if profile photo is changed
-        if (req.files && req.files.profilePhoto) {
-            const profilePhoto = req.files.profilePhoto;
-            const uploadPath = path.join(__dirname, 'images', profilePhoto.name);
-
-            console.log(`Uploading file to: ${uploadPath}`);
-
-            // Move the uploaded file to the designated path
-            profilePhoto.mv(uploadPath, async (err) => {
-                if (err) {
-                    console.error('File upload error:', err);
-                    return res.status(500).send('File upload failed');
-                }
-
-                // Update user's profile photo path in the database
-                await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
-
-                console.log('File uploaded and user updated successfully');
-                res.redirect('/LT-Profile'); 
-            });
-        } else {
-            res.redirect('/LT-Profile'); // Redirect to profile page if no file upload
-        }
-    } catch (error) {
-        console.error('Server error:', error);
-        res.status(500).send('Server Error');
-    }
-});
 
 
 app.get('/LAndrew', async (req, res) => {
@@ -844,10 +890,14 @@ app.post('/LaddReservation', async (req, res) => {
     }
 });
 
+
+
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
+
+
 
 // Handle form submission and respond with a success message
 app.post('/submit-student-data', function(req, res) {
