@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Reservation Data:", reservationData);
 
             try {
-                const response = await fetch('/LT-View-Edit_reservation-details', {
+                const response = await fetch('/LT-Reservation_reservation-details', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     // Redirect to the reservation details page
-                    window.location.href = '/LT-View-Edit_reservation-details';
+                    window.location.href = '/LT-Reservation_reservation-details';
                 } else {
                     alert('Failed to reserve seats. Please try again.');
                 }
