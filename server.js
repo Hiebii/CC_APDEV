@@ -298,6 +298,9 @@ app.get('/CT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
 });
 
+let reservationData = {}; 
+let data = {}; 
+
 app.post('/CT-View-Edit_reservation-details', (req, res) => {
     reservationData = req.body;
     res.status(200).send('Reservation data received');
@@ -307,9 +310,13 @@ app.get('/CT-View-Edit_reservation-details', (req, res) => {
     res.render('CT-View-Edit_reservation-details', reservationData);
 });
 
+app.post('/CT-View-Edit_success-edit', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
 
 app.get('/CT-View-Edit_success-edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit_success-edit.html');
+    res.render('CT-View-Edit_success-edit', data);
 });
 /*-----------------------      CT PROFILE      --------------------------*/ 
 app.get('/CT-Profile', async (req, res) => {
