@@ -64,13 +64,16 @@ app.post('/signup', async (req, res) => {
         const existingEmail = await Users.findOne({ email });
         //If email exists, send alert that there already exists a user with an email.
         if (existingEmail){
-            return res.status(400).send('User Already Exists!');
+            //return res.status(400).send('User Already Exists!');
+            return res.status(400).json({ error: 'User already exists!' });
         }
         //create the user
         const newUser = new Users({fullName, email, password, title});
         await newUser.save();
 
-        res.status(201).send('User registered successfully!');
+        req.session.message='User has been created!';
+        return res.redirect('/login-page');
+        //res.status(201).send('User registered successfully!');
     }catch (err){
         console.error(err);
         //Send an error if it is not working.
@@ -93,12 +96,12 @@ app.post('/login', async (req, res) => {
             return res.render('login-page', { error: 'Invalid Password! '});
         }
 
-        if (user.title === 'labtechnician'){
+        if (user.title === 'Lab Technician'){
             res.redirect('/LT-homepage');
-        } else if (user.title === 'student'){
+        } else if (user.title === 'Student'){
             res.redirect('/CT-homepage');
         }else{
-            res.status(400).json({ message: 'Unknown role!'});
+           return res.render('login-page',{ error: 'Unknown role!'});
         }
     }catch(err){
         console.error(err);
@@ -179,22 +182,22 @@ app.get('/Velasco', async (req, res) => {
     }
 });
 /*-----------------------      SIGNUP      --------------------------*/ 
-app.post('/signup', async (req, res) => {
+app.post('/signup-student', async (req, res) => {
     const { fullName, email, password, title } = req.body;
 
     try { 
         const existingEmail = await Users.findOne({ email });
         if (existingEmail){
-            return res.status(400).json({ message: 'User Already Exists!' });
+            return res.render('signup-student', { message: 'Student Already Exists!' });
         }
 
         const newUser = new Users({ fullName, email, password, title });
         await newUser.save();
 
-        res.status(201).json({ message:'User registered successfully!' });
+        return res.render('login-page', { message:'User registered successfully!' });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message:'Server Error!' });
+        return res.render('login-page',{ message:'Server Error!' });
     }
 });
 
