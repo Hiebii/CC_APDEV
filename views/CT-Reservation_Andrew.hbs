@@ -333,6 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const reservationData = {
                 lab: "AG101",
+                dblab: "Andrew",
                 dateofreservation,
                 timeofreservation,
                 timeofrequest,
@@ -343,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Reservation Data:", reservationData);
 
             try {
-                const response = await fetch('/CT-View-Edit_reservation-details', {
+                const response = await fetch('/CT-Reservation_reservation-details', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -353,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     // Redirect to the reservation details page
-                    window.location.href = '/CT-View-Edit_reservation-details';
+                    window.location.href = '/CT-Reservation_reservation-details';
                 } else {
                     alert('Failed to reserve seats. Please try again.');
                 }

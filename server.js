@@ -116,6 +116,7 @@ app.get('/Velasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
+        
         res.render('CT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
@@ -123,6 +124,85 @@ app.get('/Velasco', async (req, res) => {
     }
 });
 
+// POST route to receive reservation data
+app.post('/CT-Reservation_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
+
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// GET route to render reservation details
+app.get('/CT-Reservation_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-Reservation_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+app.post('/CT-Reservation_success', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
+
+app.get('/CT-Reservation_success', function(req, res) {
+    res.render('CT-Reservation_success', data);
+});
+
+app.post('/addReservation', async (req, res) => {
+    const data = req.body;
+
+    if (!Array.isArray(data.seatNames)) {
+        return res.status(400).send('seatNames should be an array');
+    }
+
+    try {
+        const updatePromises = data.seatNames.map(seat => {
+            const filter = { seat: seat };
+            const update = {
+                $push: {
+                    reservations: {
+                        name: data.reserverName,
+                        reservedby: data.reserverName,
+                        anonymous: data.anonymous,
+                        dateofrequest: data.dateofrequest,
+                        timeofrequest: data.timeofrequest,
+                        dateofreservation: data.dateofreservation,
+                        timeofreservation: data.timeofreservation,
+                        value: 1
+                    }
+                }
+            };
+
+            return Andrew.findOneAndUpdate(filter, update, { new: true });
+        });
+
+        const updatedAndrews = await Promise.all(updatePromises);
+
+        if (updatedAndrews.some(updatedAndrew => updatedAndrew !== null)) {
+            return res.status(200).send('Reservation data received and updated successfully');
+        } else {
+            return res.status(404).send('Seats not found or reservations not updated');
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send('An error occurred');
+    }
+});
 /*
 // Example endpoint for handling reservations
 app.post('/reserve', async (req, res) => {
@@ -293,17 +373,36 @@ app.get('/CT-View-Edit', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
 });
 
-let reservationData = {}; 
-let data = {}; 
+// POST route to receive reservation data
+app.post('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
 
-app.post('/CT-View-Edit_reservation-details', (req, res) => {
-    reservationData = req.body;
-    res.status(200).send('Reservation data received');
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
-app.get('/CT-View-Edit_reservation-details', (req, res) => {
-    res.render('CT-View-Edit_reservation-details', reservationData);
+// GET route to render reservation details
+app.get('/CT-View-Edit_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-View-Edit_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
+
+
 
 app.post('/CT-View-Edit_success-edit', (req, res) => {
     data = req.body;
@@ -539,19 +638,82 @@ app.post('/LT-Profile_edit', async (req, res) => {
     }
 });
 
+
+app.get('/LAndrew', async (req, res) => {
+    try {
+        const { date, time } = req.query;
+
+        const andrews = await Andrew.aggregate([{ $match: { seat: { $in: ['A01', 'A02', 'A03', 'A04', 'A05'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews2 = await Andrew.aggregate([{ $match: { seat: { $in: ['A06', 'A07', 'A08', 'A09', 'A10'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews3 = await Andrew.aggregate([{ $match: { seat: { $in: ['A11', 'A12', 'A13', 'A14', 'A15'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews4 = await Andrew.aggregate([{ $match: { seat: { $in: ['A16', 'A17', 'A18', 'A19', 'A20'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews5 = await Andrew.aggregate([{ $match: { seat: { $in: ['A21', 'A22', 'A23', 'A24', 'A25'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const andrews6 = await Andrew.aggregate([{ $match: { seat: { $in: ['A26', 'A27', 'A28', 'A29', 'A30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        // Render your Handlebars template with the data
+        res.render('LT-Reservation_Andrew', { andrews, andrews2, andrews3, andrews4, andrews5, andrews6 });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+
+app.get('/LGoks', async (req, res) => {
+    try {
+        const { date, time } = req.query;
+
+        const goks = await Goks.aggregate([{ $match: { seat: { $in: ['GK01', 'GK02', 'GK03', 'GK04', 'GK05'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const goks2 = await Goks.aggregate([{ $match: { seat: { $in: ['GK06', 'GK07', 'GK08', 'GK09', 'GK10'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const goks3 = await Goks.aggregate([{ $match: { seat: { $in: ['GK11', 'GK12', 'GK13', 'GK14', 'GK15'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const goks4 = await Goks.aggregate([{ $match: { seat: { $in: ['GK16', 'GK17', 'GK18', 'GK19', 'GK20'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const goks5 = await Goks.aggregate([{ $match: { seat: { $in: ['GK21', 'GK22', 'GK23', 'GK24', 'GK25'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const goks6 = await Goks.aggregate([{ $match: { seat: { $in: ['GK26', 'GK27', 'GK28', 'GK29', 'GK30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        // Render your Handlebars template with the data
+        res.render('LT-Reservation_Goks', { goks , goks2, goks3, goks4, goks5, goks6 });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+app.get('/LVelasco', async (req, res) => {
+    try {
+        const { date, time } = req.query;
+
+        const velasco = await Velasco.aggregate([{ $match: { seat: { $in: ['VL01', 'VL02', 'VL03', 'VL04', 'VL05'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco2 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL06', 'VL07', 'VL08', 'VL09', 'VL10'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco3 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL11', 'VL12', 'VL13', 'VL14', 'VL15'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco4 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL16', 'VL17', 'VL18', 'VL19', 'VL20'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco5 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL21', 'VL22', 'VL23', 'VL24', 'VL25'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+
+        const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
+        // Render your Handlebars template with the data
+        
+        res.render('LT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
 // LT-Reservations
-app.get('/LT-Reservation_Goks', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_Goks.html');
-});
-
-app.get('/LT-Reservation_Velasco', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_Velasco.html');
-});
-
-app.get('/LT-Reservation_Andrew', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_Andrew.html');
-});
-
 app.get('/LT-Reservation_search-goks', function(req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
 });
@@ -565,15 +727,48 @@ app.get('/LT-Reservation_search-andrew', function(req, res) {
 });
 
 
-// LT-Reservation_details & Profile
-app.get('/LT-Reservation_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_reservation-details.html');
+
+// POST route to receive reservation data
+app.post('/LT-Reservation_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
+
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 
-app.get('/LT-View-Edit_reservation-details', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-View-Edit_reservation-details.html');
+// GET route to render reservation details
+app.get('/LT-Reservation_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('LT-Reservation_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
+
+
+
+app.post('/LT-Reservation_success', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
+
+app.get('/LT-Reservation_success', function(req, res) {
+    res.render('LT-Reservation_success', data);
+});
+
 
 // Profile
 app.get('/LT-Profile_view-only_Liam', function(req, res) {

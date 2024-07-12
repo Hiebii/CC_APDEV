@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css-main/CT-Reservation.css">
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssmainwebsite_reserve.css">
-    <script src="../js-main/search.js"></script>    
+
     <link rel="icon" href="images/icon.png">
     <title>tinkerlab.</title>
 </head>
@@ -19,38 +19,32 @@
     </div>
     <div class="taskbar">
         <div class="btndivider">
-            <a href="/CT-homepage">
+            <a href="/LT-homepage">
                 <button class="btndesign" id="homebtn">Home</button>
             </a>
         </div>
         <div class="btndivider">     
-            <a href ="/CT-Reservation_Goks">
+            <a href ="/LAndrew">
                 <button class="btndesign" id="reservationbtn">Reservation</button>
             </a>
                 <div class="dropdown-search">
-                    <a href="/CT-Reservation_search-goks" class="btndesign" id="searchbtn" href="">Search</a>
+                    <a href="/LT-Reservation_search-goks" class="btndesign" id="searchbtn" href="">Search</a>
                 </div>
         </div>
         <div class="btndivider">
-            <a href="/CT-View-Edit">
+            <a href="/LT-View-Edit">
             <button class="btndesign" id="vieweditbtn">View/Edit</button>
             </a>
         </div>
         <div class="btndivider">
-            <a href="/CT-Profile">
+            <a href="/LT-Profile">
                 <button class="btndesign" id="profilebtn">Profile</button>
             </a>
         </div>
         <div class="searchdivider">
             <div class="searchfield">
-                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
+                <button class="searchbutton"><img src="images/searchglass.png" class="imgbtn" alt="Search"></button>
                 <input class="searchinput" type="text" placeholder="Search...">
-            </div>
-            <div class="suggestions-div">
-                <div class="suggestion-card">   
-                    <div class="card"> 
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -62,7 +56,7 @@
                 <div id="left" class="full-height">
 
                    
-   <div class="time-button">
+       <div class="time-button">
     <h1 class="left-text">TIME</h1>
     <div class="custom-select-wrapper">
         <select id="time-dropdown" class="time-dropdown" name="time">
@@ -104,7 +98,7 @@
             
             selectedTimeInput.value = selectedTime;
             
-            const url = `/Goks?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
+            const url = `/LAndrew?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
             document.getElementById('dateForm').action = url;
         }
   
@@ -151,16 +145,15 @@
                     <div class="lab-button">
                         <div class="custom-select-wrapper">
                             <select id="lab-dropdown" class="lab-dropdown">
-                                  <option value="/Goks">GK101</option>
-                                <option value="/Andrew">AG101</option>
-                                <option value="/Velasco">VL101</option>
+                                <option value="/LVelasco">VL101</option>
+                                <option value="/LAndrew">AG101</option>
+                                <option value="/LGoks">GK101</option>
                             </select>
                         </div>
-                    </div>                    
+                    </div>          
 
                 </div>
             
-
     <div id="mid-right">
         <div class="container-mid">
             <div id="top">
@@ -168,32 +161,29 @@
                     <span id="teach-text">Teacher's table</span>
                 </div>
             </div>
-
+            
             <div class="colside col-md-1">
-                {{#each goks}}
+                {{#each velasco}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
             </div>
-
-
+    
             <div class="colmid col-md-1 border p-3"></div>
     
             <div class="colside col-md-1">
-                {{#each goks2}}
+                {{#each velasco2}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
-        
-               
             </div>
     
             <div class="colside col-md-1">
-                {{#each goks3}}
+                 {{#each velasco3}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -204,7 +194,7 @@
             <div class="colmid col-md-1 border p-3"></div>
     
             <div class="colside col-md-1">
-                {{#each goks4}}
+                {{#each velasco4}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -214,7 +204,7 @@
             </div>
     
             <div class="colside col-md-1">
-                {{#each goks5}}
+               {{#each velasco5}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
@@ -226,19 +216,17 @@
             <div class="colmid col-md-1 border p-3"></div>
     
             <div class="colside col-md-1">
-                 {{#each goks6}}
+                 {{#each velasco6}}
                 {{#each this.reservations}}
                      <img class="lab-student-icon" src="images/lab-student.png">
                 <div id="S01" class="seat-name" data-seat="{{../_id}}" data-value="{{#if this.[0].value}}{{this.[0].value}}{{else}}0{{/if}}" data-value-name="{{#if this.[0].anonymous}}Anonymous{{else}}{{#if this.[0].name}}{{this.[0].name}}{{else}}N/A{{/if}}{{/if}}">data-seat</div><br>
                  {{/each}}
                  {{/each}}  
-    
             </div>
         </div>
     </div>
     
-
-    <script>
+                      <script>
   // Select all elements with the class 'seat-name'
   const seatDivs = document.querySelectorAll('.seat-name');
 
@@ -251,23 +239,8 @@
     seatDiv.textContent = seatValue;
   });
 </script>
-
-                              
-
-                <div id="bot-right" >
-                    <a class="purple-button" id="reserve-button">Reserve</a>
-                    <div id="dialog-1" class="dialog-1">
-                        <div class="dialog-header"></div>
-                        <p class="prompt-text"></p>
-                        <div class="button-container">
-                            <button class="back-button" onclick="hidePrompt()">Back</button>
-                        </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    
+            
+            
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const reserveButton = document.getElementById('reserve-button');
@@ -332,8 +305,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const timeofrequest = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             const reservationData = {
-                lab: "GK101",
-                dblab: "Goks",
+                lab: "VL101",
+                dblab: "Velasco",
                 dateofreservation,
                 timeofreservation,
                 timeofrequest,
@@ -344,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Reservation Data:", reservationData);
 
             try {
-                const response = await fetch('/CT-Reservation_reservation-details', {
+                const response = await fetch('/LT-Reservation_reservation-details', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -354,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     // Redirect to the reservation details page
-                    window.location.href = '/CT-Reservation_reservation-details';
+                    window.location.href = '/LT-Reservation_reservation-details';
                 } else {
                     alert('Failed to reserve seats. Please try again.');
                 }
@@ -368,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function showPrompt(seatName, occupant) {
-        const profileLink = "/CT-Profile_view-only";
+        const profileLink = "/LT-Profile_view-only";
         promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
         dialog.style.display = "block";
     }
@@ -388,6 +361,19 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 </script>
+
+                <div id="bot-right" >
+                    <a class="purple-button" id="reserve-button">Reserve</a>
+                    <div id="dialog-1" class="dialog-1">
+                        <div class="dialog-header"></div>
+                        <p class="prompt-text"></p>
+                        <div class="button-container">
+                            <button class="back-button" onclick="hidePrompt()">Back</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
      <!-- Hidden confirmation dialog -->
      <div id="dialog-1" class="dialog-1">
@@ -437,5 +423,8 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </div>
+
     </footer>
+</footer>
+
 </html>
