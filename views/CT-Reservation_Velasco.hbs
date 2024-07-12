@@ -12,6 +12,7 @@
     <script src="../js-main/search.js"></script>
     <link rel="icon" href="images/icon.png">
     <title>tinkerlab.</title>
+
 </head>
 <body>
     <div class="header">
@@ -104,7 +105,7 @@
             
             selectedTimeInput.value = selectedTime;
             
-            const url = `/Velasco?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
+            const url = `/Andrew?time=${encodeURIComponent(selectedTime)}&date=${selectedDate}`;
             document.getElementById('dateForm').action = url;
         }
   
@@ -151,7 +152,7 @@
                     <div class="lab-button">
                         <div class="custom-select-wrapper">
                             <select id="lab-dropdown" class="lab-dropdown">
-                                <option value="/Velasco">VL101</option>
+                                 <option value="/Velasco">VL101</option>
                                 <option value="/Andrew">AG101</option>
                                 <option value="/Goks">GK101</option>
                             </select>
@@ -160,16 +161,6 @@
 
                 </div>
             
-<script>
-    // JavaScript to update the displayed lab based on selection
-    const labDropdown = document.getElementById('lab-dropdown');
-    const labText = document.getElementById('comp-lab-text');
-
-    labDropdown.addEventListener('change', function() {
-        const selectedOption = labDropdown.value;
-        labText.textContent = `COMPUTER LAB: ${selectedOption}`;
-    });
-</script>
 
     <div id="mid-right">
         <div class="container-mid">
@@ -277,7 +268,6 @@
         </div>
     </div>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const reserveButton = document.getElementById('reserve-button');
@@ -354,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Reservation Data:", reservationData);
 
             try {
-                const response = await fetch('/CT-View-Edit_reservation-details', {
+                const response = await fetch('/CT-Reservation_reservation-details', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -364,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     // Redirect to the reservation details page
-                    window.location.href = '/CT-View-Edit_reservation-details';
+                    window.location.href = '/CT-Reservation_reservation-details';
                 } else {
                     alert('Failed to reserve seats. Please try again.');
                 }
@@ -399,6 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
      <!-- Hidden confirmation dialog -->
      <div id="dialog-1" class="dialog-1">
         <div class="dialog-header"></div>
@@ -411,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
     <script src="js/bootstrap.bundle.js"></script>
     <script src="js-main/lab_reserve.js"></script>
-    <script src="js-main/CT-Reservation_OnClick.js"></script>
+    <!--<script src="js-main/CT-Reservation_OnClick.js"></script>-->
     <script src="js-main/CT-Reservation_hoverseats.js"></script>
     <script src="js-main/CT-Reservation_DateRestrict.js"></script>
 </body>
