@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/CT_LT-Main.css">
     <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
+    <script src="../js-main/search.js"></script>
     <link rel="icon" href="images/icon.png">
 
            <script>
@@ -19,13 +20,14 @@
         const isAnonymous = document.getElementById('anonymousCheckbox').checked ? 1 : 0;
         const isAnonyname = isAnonymous ? "Yes" : "No";
 
-const nameInput = document.getElementById('nameInput').value; // Fetching the value from the input field
-         const seatNamesString = "{{ reservationData.seatNames }}"; // Assuming this is a comma-separated string
-    const seatNamesArray = seatNamesString.split(',').map(seat => seat.trim());
+        const seatNamesString = "{{ reservationData.seatNames }}"; // Assuming this is a comma-separated string
+        const seatNamesArray = seatNamesString.split(',').map(seat => seat.trim());
+
+        const nameInput = document.getElementById("nameInput").value;
 
         const data = {
             fullName: fullName,
-            reserverName: nameInput, //DITO IBIBIGAY YTUNG IINPUT SA TEXTBOX
+            reserverName: nameInput,
             anonymous: isAnonymous,
             anonyname: isAnonyname,
             dblab: "{{ reservationData.dblab }}", // Assuming this value is static or from another source
@@ -37,7 +39,7 @@ const nameInput = document.getElementById('nameInput').value; // Fetching the va
             timeofreservation: "{{ reservationData.timeofreservation }}" 
         };
 
-        fetch('/LaddReservation', {
+        fetch('/addReservation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +48,7 @@ const nameInput = document.getElementById('nameInput').value; // Fetching the va
         })
         .then(response => {
             if (response.ok) {
-                window.location.href = '/LaddReservation'; // Redirect to confirmation page
+                window.location.href = '/addReservation'; // Redirect to confirmation page
             } else {
                 console.error('Failed to send data');
             }
@@ -82,8 +84,13 @@ const nameInput = document.getElementById('nameInput').value; // Fetching the va
         </div>
         <div class="searchdivider">
             <div class="searchfield">
-                <button class="searchbutton"><img src="images/searchglass.png" class="imgbtn" alt="Search"></button>
+                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
                 <input class="searchinput" type="text" placeholder="Search...">
+            </div>
+            <div class="suggestions-div">
+                <div class="suggestion-card">   
+                    
+                </div>
             </div>
         </div>
     </nav>
@@ -91,8 +98,8 @@ const nameInput = document.getElementById('nameInput').value; // Fetching the va
         <div class="title-1">RESERVATION DETAILS</div>
         <div class="outer-box">
             <ul class="details">
+                <!-- DITO YUNG TEXTBOX -->
                 <li><span class="bold">ReserverName:</span><input id="nameInput" type="text" ></input></li> 
-                <li><span class="bold">ReservedBy:</span> {{user.fullName}} </li>
                 <li><input type="checkbox" id="anonymousCheckbox"> <span>Anonymous</span></li>
                 <li><span class="bold">Computer Lab:</span> {{ reservationData.lab }}</li>
                 <li><span class="bold">Seat No.:</span> {{ reservationData.seatNames }}</li>

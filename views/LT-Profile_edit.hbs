@@ -19,22 +19,22 @@
     <!-- Taskbar div -->
     <div class="taskbar">
         <div class="btndivider">
-            <a href="/CT-homepage">
+            <a href="/LT-homepage">
                 <button class="btndesign" id="homebtn">Home</button>
             </a>
         </div>
         <div class="btndivider">
-            <a href="/CT-Reservation_Goks">
+            <a href="/LT-Reservation_Goks">
             <button class="btndesign" id="reservationbtn">Reservation</button>
            </a>
         </div>
         <div class="btndivider">
-            <a href="/CT-View-Edit">
+            <a href="/LT-View-Edit">
             <button class="btndesign" id="vieweditbtn">View/Edit</button>
             </a>
         </div>
         <div class="btndivider">     
-            <a href ="/CT-Profile">
+            <a href ="/LT-Profile">
                 <button class="btndesign" id="profilebtn">Profile</button>
             </a>
                 <div class="dropdown">
@@ -53,71 +53,67 @@
                 </div>
             </div>
         </div>
-
        
     </div>
-<!-- profile body -->
-<div class="profilediv">
+    <!-- profile body -->
+    <div class="profilediv">
+        <!-- left profile side -->
+        <div class="profilediv1">
+            <form id="profileForm" action="/LT-Profile_edit" method="POST" enctype="multipart/form-data">
+                <div id="photo-div">
+                    <div class="profileborder">
+                        <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
+                    </div>
+                </div>
+                <div class="addphoto-div">
+                    <input type="file" id="profilePhotoInput" name="profilePhoto" accept="images/*">
+                </div>
+                <br>
+                <div id="role-div">
+                    <h1 class="role">{{user.title}}</h1>
+                </div>
+                <br>
+                <div id="editprofilebtn-div">
+                    <button type="submit" class="purple-button">SAVE CHANGES</button>
+                </div>
+        </div>
 
-    <!-- left profile side -->
-    <div class="profilediv1">
-        <div id="photo-div">
-            <div class="profileborder">
-                <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
+        <hr class="vl"> 
+
+        <!-- right profile side -->
+        <div class="profilediv2">
+            <h2 class="profileheader">{{user.fullName}}</h2>
+            <textarea name="description" class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
+        </form>
+            <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
+            <div class="scheddiv">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seat No.</th>
+                            <th>Computer Lab</th>
+                            <th>Date of Request</th>
+                            <th>Time of Request</th>
+                            <th>Date of Reservation</th>
+                            <th>Time of Reservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each user.reservations}}
+                        <tr>
+                            <td>{{this.seatNo}}</td>
+                            <td>{{this.computerLab}}</td>
+                            <td>{{this.dateOfRequest}}</td>
+                            <td>{{this.timeOfRequest}}</td>
+                            <td>{{this.dateOfReservation}}</td>
+                            <td>{{this.timeOfReservation}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <br>
-        <div id="role-div">
-            <h1 class="role">{{user.title}}</h1>
-        </div>
-        <br>
-        <div id="editprofilebtn-div">
-            <button class="purple-button"><a class="linktoedit" href="/CT-Profile_edit">EDIT PROFILE</a></button>
-        </div>
-        <br><br>
-        <div id="deleteaccbtn-div">
-            <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
-        </div>
+        </div>  
     </div>
-
-    <hr class="vl"> 
-
-    <!-- right profile side -->
-    <div class="profilediv2">
-        <h2 class="profileheader">{{user.fullName}}</h2>
-        <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
-
-        <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
-        <div class="scheddiv">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Seat No.</th>
-                        <th>Computer Lab</th>
-                        <th>Date of Request</th>
-                        <th>Time of Request</th>
-                        <th>Date of Reservation</th>
-                        <th>Time of Reservation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each user.reservations}}
-                    <tr>
-                        <td>{{this.seatNo}}</td>
-                        <td>{{this.computerLab}}</td>
-                        <td>{{this.dateOfRequest}}</td>
-                        <td>{{this.timeOfRequest}}</td>
-                        <td>{{this.dateOfReservation}}</td>
-                        <td>{{this.timeOfReservation}}</td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-    </div>  
-</div>
-
-
 
     <!-- Hidden confirmation dialog -->
     <script src="js/prompt.js"></script>
@@ -131,24 +127,24 @@
     </div>
 
     <script src="js/prompt.js"></script>
-    <div id="dialog-2" class="dialog-2">
-        <div class="dialog-header"></div>
-        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
-        <div class="button-container">
-            <button class="back-button" onclick="hidePrompt2()">Back</button>
-            <button class="purple-button"  onclick="showPrompt3()">Confirm</button>
-        </div>
-    </div>
+   <div id="dialog-2" class="dialog-2">
+       <div class="dialog-header"></div>
+       <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
+       <div class="button-container">
+           <button class="back-button" onclick="hidePrompt2()">Back</button>
+           <button class="purple-button"  onclick="showPrompt3()">Confirm</button>
+       </div>
+   </div>
 
-    <script src="js/prompt.js"></script>
-    <div id="dialog-3" class="dialog-3">
-        <div class="dialog-header"></div>
-        <p class="prompt-text">PROCESS SUCCESSFUL.</p>
-        <div class="button-container">
-            <button class="purple-button" onclick="toLoginpage()">Confirm</button>
-        </div>
-    </div>    
-    </body>
+   <script src="js/prompt.js"></script>
+   <div id="dialog-3" class="dialog-3">
+       <div class="dialog-header"></div>
+       <p class="prompt-text">PROCESS SUCCESSFUL.</p>
+       <div class="button-container">
+           <button class="purple-button" onclick="toLoginpage()">Confirm</button>
+       </div>
+   </div>    
+   </body>
    <footer>
     <div class="footer-container">
         <div class="footer-column-1">
