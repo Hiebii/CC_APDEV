@@ -35,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const userLink = document.createElement("a");
                 userLink.href = `/CT-Profile_view-only?userId=${user._id}`; 
                 userLink.textContent = user.fullName; // Display Name in 'card'
+                // Apply styling directly
+                userLink.style.color = "black"; // Set link color to black
+                userLink.style.textDecoration = "none"; // Remove underline
                 card.appendChild(userLink); //  Append 'card' with link
                 userCardContainer.appendChild(card); // Append 'card' inside 'container'
                 return { fullName: user.fullName, element: card };
