@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="css-main/cssmainwebsite.css">
         <link rel="stylesheet" href="css-main/CT_LT-Main.css">
         <link rel="icon" href="images/icon.png">
+        <script src="../js-main/search.js"></script>
         <title>tinkerlab.</title>
     </head>
 
@@ -15,26 +16,44 @@
             <img class="imglogo" src="images/tinkerlablogo.png">
         </div>
         <div class="taskbar">
-          <div class="btndivider">
-                <button class="btndesign" id="homebtn" disabled>Home</button>
-          </div>
-          <div class="btndivider">
-              <button class="btndesign" id="reservationbtn" disabled>Reservation</button>
-          </div>
-          <div class="btndivider">
-              <button class="btndesign" id="vieweditbtn" disabled>View/Edit</button>
-          </div>
-          <div class="btndivider">
-              <button class="btndesign" id="profilebtn" disabled>Profile</button>
-        </div>
+            <div class="btndivider">
+                <a href="/CT-homepage">
+                    <button class="btndesign" id="homebtn">Home</button>
+                </a>
+            </div>
+            <div class="btndivider">
+                <a href="/CT-Reservation_Goks">
+                <button class="btndesign" id="reservationbtn">Reservation</button>
+               </a>
+            </div>
+            <div class="btndivider">
+                <a href="/CT-View-Edit">
+                <button class="btndesign" id="vieweditbtn">View/Edit</button>
+                </a>
+            </div>
+            <div class="btndivider">     
+                <a href ="/CT-Profile">
+                    <button class="btndesign" id="profilebtn">Profile</button>
+                </a>
+                    <div class="dropdown">
+                        <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
+                    </div>
+            </div>
             
             <div class="searchdivider">
-                <div class="searchfield" disabled>
-                    <img src="images/searchglass.png" style="padding-left:20px; cursor:not-allowed;">
-                    
-                    <input class="searchinput" type="text" placeholder="Search..." disabled>
+                <div class="searchfield">
+                    <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
+                    <input class="searchinput" type="text" placeholder="Search...">
+                </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">   
+                        <div class="card"> 
+                        </div>
+                    </div>
                 </div>
             </div>
+    
+           
         </div>
 
         <div class = "sort-container">
