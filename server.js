@@ -124,6 +124,45 @@ app.get('/Velasco', async (req, res) => {
     }
 });
 
+// POST route to receive reservation data
+app.post('/CT-Reservation_reservation-details', async (req, res) => {
+    try {
+        reservationData = req.body;
+        user = req.session.userId;
+
+        res.status(200).send('Reservation data received');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// GET route to render reservation details
+app.get('/CT-Reservation_reservation-details', async (req, res) => {
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-Reservation_reservation-details', {user, reservationData});
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+app.post('/CT-Reservation_success', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
+
+app.get('/CT-Reservation_success', function(req, res) {
+    res.render('CT-Reservation_success', data);
+});
+
 /*
 // Example endpoint for handling reservations
 app.post('/reserve', async (req, res) => {
