@@ -6,7 +6,7 @@
         <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
         <link rel="stylesheet" href="css-main/cssmainwebsite.css">
         <link rel="stylesheet" href="css-main/CT_LT-Main.css">
-        <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
+        <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
         <link rel="icon" href="images/icon.png">
         <title>tinkerlab.</title>
     </head>
@@ -17,22 +17,22 @@
         </div>
         <div class="taskbar">
           <div class="btndivider">
-            <a href="/LT-homepage">
+            <a href="/CT-homepage">
                 <button class="btndesign" id="homebtn">Home</button>
             </a>
           </div>
           <div class="btndivider">
-              <a href="/LAndrew">
+              <a href="/CT-Reservation_Goks">
               <button class="btndesign" id="reservationbtn">Reservation</button>
             </a>
           </div>
           <div class="btndivider">
-              <a href="/LT-View-Edit">
+              <a href="/CT-View-Edit">
               <button class="btndesign" id="vieweditbtn">View/Edit</button>
               </a>
           </div>
           <div class="btndivider">
-            <a href="/LT-Profile">
+            <a href="/CT-Profile">
               <button class="btndesign" id="profilebtn">Profile</button>
             </a>
         </div>
@@ -75,122 +75,68 @@
                   </select>
               </div>
           </div>
-
-          <script src="js-main/CT-Reservation_DateRestrict.js"></script>
+          
           <div class = "date-button">
               <p class = "sort-text">DATE:</p>
-            <input type="date" class="date-input" id="dateInput">
+              <input type="date" class="date-input">
           </div>
       </div>
 
       <div class="tablediv">
           <table>
-            <thead>
+              <thead>
                 <tr>
-                <th>Computer Lab</th>
-                <th>Time</th>
-                <th>Date</th>
-                <th>Available Seats</th>
-                <th> </th>
+                  <th>Seat No.</th>
+                  <th>Computer Lab</th>
+                  <th>Date of Request</th>
+                  <th>Time of Request</th>
+                  <th>Date of Reservation</th>
+                  <th>Time of Reservation</th>
+                  <th>Reserved By</th>
+                  <th> </th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
+                {{#each reservations}}
                 <tr>
-                <td>GK101</td>
-                <td>9:00AM - 9:30AM</td>
-                <td>05/18/2024</td>
-                <td>10</td>
-                <td>
-                    <button class="go-button"><a href="/LAndrew">Go</a></button>
-                </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GK101</td>
-                    <td>9:00AM - 9:30AM</td>
-                    <td>05/18/2024</td>
-                    <td>10</td>
-                    <td>
-                        <button class="go-button"><a href="/LAndrew">Go</a></button>
-                    </td>
-                </tr>
-            </tbody>
+                  
+                  <td>{{this.seat}}</td>
+                  {{#each this.reservations}}
+                  <td>AG101</td>
+                  <td>{{this.dateofrequest}}</td>
+                  <td>{{this.timeofrequest}}</td>
+                  <td>{{this.dateofreservation}}</td>
+                  <td>{{this.timeofreservation}}</td>
+                  <td>{{this.name}}</td>
+                  <td>
+                    <button class="edit-button"><a href="/CT-View-Edit_edit-reservation">Edit</a></button>
+                    <button class="cancel-button" onclick="showPrompt()">Cancel</button>
+                  </td>
+                </tr>{{/each}}
+                {{/each}}
+              </tbody>
           </table>
-      </div>
+    </div>
       <div class="button-container">
-        <button class="purple-button"><a href="/LT-Reservation_search-andrew">Search</a></button>
+        <button class="purple-button"><a href="/CT-homepage">Return Home</a></button>
     </div> 
+    
+    <!-- Clock -->
+    <script src="js/clock.js"></script>
+    <div id="clock">
+      <h1 id="date-time"></h1>
+    </div>
+    
+      <!-- Hidden confirmation dialog -->
+      <script src="js/prompt.js"></script>
+      <div id="dialog-1" class="dialog-1">
+        <div class="dialog-header"></div>
+          <p class="prompt-text">DO YOU CONFIRM TO <br>CANCEL RESERVATION?</p>
+          <div class="button-container">
+              <button class="back-button" onclick="hidePrompt()">Back</button>
+              <button class="purple-button" onclick="cancelReservation()">Confirm</button>
+          </div>
+      </div>
     </body>
     <footer>
       <div class="footer-container">
