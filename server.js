@@ -502,33 +502,41 @@ app.post('/CT-Profile_edit', async (req, res) => {
     }
 });
 
-// CT-Reservations
-app.get('/CT-Reservation_Goks', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Reservation_Goks.html');
+/*-----------------------   Profile Search/View   --------------------------*/ 
+app.get('/Profile_view-content', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+        const currentUserId = req.session.userId;
+        const users = await Users.find({ _id: { $ne: currentUserId } }).lean();
+        if (!users) {
+            return res.status(404).send('User not found');
+        }
+
+        res.json(users); 
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
-app.get('/CT-Reservation_Velasco', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Reservation_Velasco.html');
-});
+app.get('/Profile_view-only', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
 
-app.get('/CT-Reservation_Andrew', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Reservation_Andrew.html');
-});
+        const user = await Users.findById(req.query.userId).lean();
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
 
-app.get('/CT-Reservation_search-goks', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Reservation_search-goks.html');
-});
-
-app.get('/CT-Reservation_search-andrew', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Reservation_search-andrew.html');
-});
-
-app.get('/CT-Profile_view-only_Liam', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
-});
-
-app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
+        res.render('Profile_view-only', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 /* Example of serving a static page and handling dynamic content separately
@@ -567,6 +575,34 @@ app.get('/search', async (req, res) => {
     }
 });*/
 
+// CT-Reservations
+app.get('/CT-Reservation_Goks', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Reservation_Goks.html');
+});
+
+app.get('/CT-Reservation_Velasco', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Reservation_Velasco.html');
+});
+
+app.get('/CT-Reservation_Andrew', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Reservation_Andrew.html');
+});
+
+app.get('/CT-Reservation_search-goks', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Reservation_search-goks.html');
+});
+
+app.get('/CT-Reservation_search-andrew', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Reservation_search-andrew.html');
+});
+
+app.get('/CT-Profile_view-only_Liam', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
+});
+
+app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
+});
 
 /*-----------------------      LT      --------------------------*/ 
 // LT-Menu Bar

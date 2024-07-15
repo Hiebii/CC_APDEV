@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* Fetches the data */
-    fetch("CT-Profile_view-content")
+    fetch("Profile_view-content")
         .then(res => {
             console.log("Response status:", res.status); // Debug response status
             if (!res.ok) {
@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const card = document.createElement("div");
                 card.classList.add("card");
                 const userLink = document.createElement("a");
-                userLink.href = `/CT-Profile_view-only?userId=${user._id}`; 
+                userLink.href = `/Profile_view-only?userId=${user._id}`; 
                 userLink.textContent = user.fullName; // Display Name in 'card'
-                // Apply styling directly
+                
                 userLink.style.color = "black"; // Set link color to black
                 userLink.style.textDecoration = "none"; // Remove underline
                 card.appendChild(userLink); //  Append 'card' with link
