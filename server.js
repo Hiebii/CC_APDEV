@@ -427,6 +427,39 @@ app.get('/CT-View-Edit', async (req, res) => {
     }
 });
 
+app.delete('/cancel-reservation/:reservationId', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const { reservationId } = req.params;
+        // Find the seat that contains the reservation
+        const seatCollections = [Andrew, Goks, Velasco];
+        let seatFound = false;
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                // Remove the reservation
+                seat.reservations = seat.reservations.filter(reservation => reservation._id.toString() !== reservationId);
+                await seat.save();
+                seatFound = true;
+                break;
+            }
+        }
+
+        if (seatFound) {
+            res.status(200).send('Reservation canceled successfully');
+        } else {
+            res.status(404).send('Reservation not found');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
 // POST route to receive reservation data
 app.post('/CT-View-Edit_reservation-details', async (req, res) => {
     try {

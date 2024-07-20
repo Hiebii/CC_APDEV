@@ -32,15 +32,6 @@
       });
     });
   </script>
-
-  <script>
-    // JavaScript for removing reservation data
-    function findAndCancelData(reservationId) {
-
-  }
-
-
-  </script>
 </head>
 
 <body>
@@ -124,7 +115,7 @@
   </thead>
   <tbody>
     {{#each reservations}}
-    <tr>
+    <tr data-reservations-id="{{this._id}}">
       <td>{{this.seat}}</td>
       <td class="comp-lab" data-seat="{{this.seat}}"></td>
       <td>{{this.dateofrequest}}</td>
@@ -133,8 +124,8 @@
       <td>{{this.timeofreservation}}</td>
       <td>{{this.reservedby}}</td>
       <td>
-        <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this.reservationId}}">Edit</a></button>
-        <button class="cancel-button" onclick="findAndCancelData('{{this.reservationId}}')">Cancel</button>
+        <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
+        <button class="cancel-button" onclick="findAndCancelData('{{this._id}}')">Cancel</button>
       </td>
     </tr>
     {{/each}}
@@ -145,6 +136,7 @@
   <div class="button-container">
     <button class="purple-button"><a href="/CT-homepage">Return Home</a></button>
   </div>
+
   <!--  Filter script -->
   <script src="../js-main/filter.js"></script> 
   <!-- Clock -->
@@ -152,6 +144,32 @@
   <div id="clock">
     <h1 id="date-time"></h1>
   </div>
+
+  <!-- Cancel Reservation script  -->
+  <script>
+  async function findAndCancelData(reservationId) {
+    try {
+        const response = await fetch(`/cancel-reservation/${reservationId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            alert('Reservation canceled successfully');
+            // Remove the row from the table
+            document.querySelector(`tr[data-reservation-id="${reservationId}"]`).remove();
+            
+        } else {
+            const errorText = await response.text();
+            alert(`Failed to cancel reservation: ${errorText}`);
+        }
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  }
+</script>
 
   <!-- Hidden confirmation dialog -->
   <script src="js/prompt.js"></script>
