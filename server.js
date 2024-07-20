@@ -6,18 +6,18 @@ const express = require('express');
 const session = require('express-session');
 const fileUpload = require('express-fileupload')
 const app = express();
-const port = 3000; 
+const port = 3000;
 
 /* Initialize our post */
 const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
 const Velasco = require("./database/models/Velasco")
-const path = require('path') 
+const path = require('path')
 
-app.use(express.json()) 
-app.use(express.urlencoded( {extended: true})); 
-app.use(express.static('public')) 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'))
 app.use(fileUpload())
 
 // Configure session middleware
@@ -30,7 +30,7 @@ app.use(session({
 
 //handlebar
 var hbs = require('hbs')
-app.set('view engine','hbs');
+app.set('view engine', 'hbs');
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -92,7 +92,7 @@ app.get('/Goks', async (req, res) => {
 
         const goks6 = await Goks.aggregate([{ $match: { seat: { $in: ['GK26', 'GK27', 'GK28', 'GK29', 'GK30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        res.render('CT-Reservation_Goks', { goks , goks2, goks3, goks4, goks5, goks6 });
+        res.render('CT-Reservation_Goks', { goks, goks2, goks3, goks4, goks5, goks6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -116,8 +116,8 @@ app.get('/Velasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        
-        res.render('CT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
+
+        res.render('CT-Reservation_Velasco', { velasco, velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -146,7 +146,7 @@ app.get('/CT-Reservation_reservation-details', async (req, res) => {
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
 
         // Render the reservation details page with user and reservationData
-        res.render('CT-Reservation_reservation-details', {user, reservationData});
+        res.render('CT-Reservation_reservation-details', { user, reservationData });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -159,12 +159,12 @@ app.post('/CT-Reservation_success', (req, res) => {
     res.status(200).send('Reservation data received');
 });
 
-app.get('/CT-Reservation_success', function(req, res) {
+app.get('/CT-Reservation_success', function (req, res) {
     res.render('CT-Reservation_success', data);
 });
 
-app.get('/addReservation', function(req, res) {
-    res.render('CT-Reservation_success',reservationData);
+app.get('/addReservation', function (req, res) {
+    res.render('CT-Reservation_success', reservationData);
 });
 
 app.post('/addReservation', async (req, res) => {
@@ -294,56 +294,56 @@ const GoksReservationModel = require('./database/models/Goks');
 const VelascosReservationModel = require('./database/models/Velasco');
 */
 
-/*-----------------------      SIGNUP      --------------------------*/ 
+/*-----------------------      SIGNUP      --------------------------*/
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, title } = req.body;
 
-    try { 
+    try {
         const existingEmail = await Users.findOne({ email });
-        if (existingEmail){
+        if (existingEmail) {
             return res.status(400).json({ message: 'User Already Exists!' });
         }
 
         const newUser = new Users({ fullName, email, password, title });
         await newUser.save();
 
-        res.status(201).json({ message:'User registered successfully!' });
+        res.status(201).json({ message: 'User registered successfully!' });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message:'Server Error!' });
+        res.status(500).json({ message: 'Server Error!' });
     }
 });
 
-/*-----------------------      LOGIN      --------------------------*/ 
+/*-----------------------      LOGIN      --------------------------*/
 app.post('/login', async (req, res) => {
-    const { email, password }  = req.body;
+    const { email, password } = req.body;
 
     try {
         const user = await Users.findOne({ email });
-        if (!user){
+        if (!user) {
             return res.render('login-page', { error: 'User does not exist!' });
         }
 
-        if (user.password !== password){
+        if (user.password !== password) {
             return res.render('login-page', { error: 'Invalid Password!' });
         }
 
         req.session.userId = user._id; // Store user ID in session
 
-        if (user.title === 'Lab Technician'){
+        if (user.title === 'Lab Technician') {
             res.redirect('/LT-homepage');
-        } else if (user.title === 'Student'){
+        } else if (user.title === 'Student') {
             res.redirect('/CT-homepage');
         } else {
             res.status(400).json({ message: 'Unknown role!' });
         }
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         res.status(500).send('Server Error!');
     }
 });
 
-/*-----------------------      ROUTES      --------------------------*/ 
+/*-----------------------      ROUTES      --------------------------*/
 // Serve the /login-page.html file at the root route
 /*app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/login-page.hbs');
@@ -351,36 +351,36 @@ app.post('/login', async (req, res) => {
 
 //Login Start Route
 
-app.get('/', (req, res) =>{
+app.get('/', (req, res) => {
     res.render('login-page');
 });
 
 //Login & Sign Up Page
-app.get('/signup-initial', function(req, res) {
+app.get('/signup-initial', function (req, res) {
     res.sendFile(__dirname + '/START/signup-initial.html');
 });
 
-app.get('/CT-Reservation_search_view-only', function(req, res) {
+app.get('/CT-Reservation_search_view-only', function (req, res) {
     res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
 });
 
-app.get('/CT-Reservation_search_view-only', function(req, res) {
+app.get('/CT-Reservation_search_view-only', function (req, res) {
     res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
 });
 
-app.get('/login-page', function(req, res) {
+app.get('/login-page', function (req, res) {
     res.render('login-page');
 });
 
-app.get('/signup-student', function(req, res) {
+app.get('/signup-student', function (req, res) {
     res.sendFile(__dirname + '/START/signup-student.html');
 });
 
-app.get('/signup-labtechnician', function(req, res) {
+app.get('/signup-labtechnician', function (req, res) {
     res.sendFile(__dirname + '/START/signup-labtechnician.html');
 });
 
-app.get('/CT-homepage', function(req, res) {
+app.get('/CT-homepage', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
@@ -438,7 +438,7 @@ app.get('/CT-View-Edit_reservation-details', async (req, res) => {
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
 
         // Render the reservation details page with user and reservationData
-        res.render('CT-View-Edit_reservation-details', {user, reservationData});
+        res.render('CT-View-Edit_reservation-details', { user, reservationData });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -452,10 +452,10 @@ app.post('/CT-View-Edit_success-edit', (req, res) => {
     res.status(200).send('Reservation data received');
 });
 
-app.get('/CT-View-Edit_success-edit', function(req, res) {
+app.get('/CT-View-Edit_success-edit', function (req, res) {
     res.render('CT-View-Edit_success-edit', data);
 });
-/*-----------------------      CT PROFILE      --------------------------*/ 
+/*-----------------------      CT PROFILE      --------------------------*/
 app.get('/CT-Profile', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -474,7 +474,33 @@ app.get('/CT-Profile', async (req, res) => {
     }
 });
 
-/*-----------------------    CT PROFILE EDIT   --------------------------*/ 
+app.delete('/deleteAccount', async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        if (!userId) {
+            return res.status(401).send({ message: 'User not authenticated' });
+        }
+
+        const user = await Users.findByIdAndDelete(userId).lean();
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+        // Destroy session after deleting the account
+        req.session.destroy(err => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).send({ message: 'Failed to delete account' });
+            }
+
+            res.status(200).send({ message: 'Account deleted successfully' });
+        });
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).send('Server Error');
+    }
+});
+
+/*-----------------------    CT PROFILE EDIT   --------------------------*/
 app.get('/CT-Profile_edit', async (req, res) => {
     try {
         const userId = req.session.userId; // Assuming userId is stored in session
@@ -517,7 +543,7 @@ app.post('/CT-Profile_edit', async (req, res) => {
                 await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
 
                 console.log('File uploaded and user updated successfully');
-                res.redirect('/CT-Profile'); 
+                res.redirect('/CT-Profile');
             });
         } else {
             res.redirect('/CT-Profile'); // Redirect to profile page if no file upload
@@ -528,7 +554,7 @@ app.post('/CT-Profile_edit', async (req, res) => {
     }
 });
 
-/*-----------------------   Profile Search/View   --------------------------*/ 
+/*-----------------------   Profile Search/View   --------------------------*/
 app.get('/Profile_view-content', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -540,7 +566,7 @@ app.get('/Profile_view-content', async (req, res) => {
             return res.status(404).send('User not found');
         }
 
-        res.json(users); 
+        res.json(users);
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -602,49 +628,49 @@ app.get('/search', async (req, res) => {
 });*/
 
 // CT-Reservations
-app.get('/CT-Reservation_Goks', function(req, res) {
+app.get('/CT-Reservation_Goks', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Goks.html');
 });
 
-app.get('/CT-Reservation_Velasco', function(req, res) {
+app.get('/CT-Reservation_Velasco', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Velasco.html');
 });
 
-app.get('/CT-Reservation_Andrew', function(req, res) {
+app.get('/CT-Reservation_Andrew', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Andrew.html');
 });
 
-app.get('/CT-Reservation_search-goks', function(req, res) {
+app.get('/CT-Reservation_search-goks', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_search-goks.html');
 });
 
-app.get('/CT-Reservation_search-andrew', function(req, res) {
+app.get('/CT-Reservation_search-andrew', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_search-andrew.html');
 });
 
-app.get('/CT-Profile_view-only_Liam', function(req, res) {
+app.get('/CT-Profile_view-only_Liam', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
 });
 
-app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
+app.get('/CT-Profile_view-only_Benjamin', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
 
-/*-----------------------      LT      --------------------------*/ 
+/*-----------------------      LT      --------------------------*/
 // LT-Menu Bar
-app.get('/LT-homepage', function(req, res) {
+app.get('/LT-homepage', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-homepage.html');
 });
 
-app.get('/LT-Reservation_Goks', function(req, res) {
+app.get('/LT-Reservation_Goks', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_Goks.html');
 });
 
-app.get('/LT-View-Edit', function(req, res) {
+app.get('/LT-View-Edit', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit.html');
 });
 
-/*-----------------------      LT PROFILE      --------------------------*/ 
+/*-----------------------      LT PROFILE      --------------------------*/
 app.get('/LT-Profile', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -663,7 +689,7 @@ app.get('/LT-Profile', async (req, res) => {
     }
 });
 
-/*-----------------------    LT PROFILE EDIT   --------------------------*/ 
+/*-----------------------    LT PROFILE EDIT   --------------------------*/
 app.get('/LT-Profile_edit', async (req, res) => {
     try {
         const userId = req.session.userId; // Assuming userId is stored in session
@@ -706,7 +732,7 @@ app.post('/LT-Profile_edit', async (req, res) => {
                 await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
 
                 console.log('File uploaded and user updated successfully');
-                res.redirect('/LT-Profile'); 
+                res.redirect('/LT-Profile');
             });
         } else {
             res.redirect('/LT-Profile'); // Redirect to profile page if no file upload
@@ -759,7 +785,7 @@ app.get('/LGoks', async (req, res) => {
 
         const goks6 = await Goks.aggregate([{ $match: { seat: { $in: ['GK26', 'GK27', 'GK28', 'GK29', 'GK30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        res.render('LT-Reservation_Goks', { goks , goks2, goks3, goks4, goks5, goks6 });
+        res.render('LT-Reservation_Goks', { goks, goks2, goks3, goks4, goks5, goks6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -783,8 +809,8 @@ app.get('/LVelasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        
-        res.render('LT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
+
+        res.render('LT-Reservation_Velasco', { velasco, velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -793,15 +819,15 @@ app.get('/LVelasco', async (req, res) => {
 
 
 // LT-Reservations
-app.get('/LT-Reservation_search-goks', function(req, res) {
+app.get('/LT-Reservation_search-goks', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
 });
 
-app.get('/LT-Reservation_search-goks', function(req, res) {
+app.get('/LT-Reservation_search-goks', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
 });
 
-app.get('/LT-Reservation_search-andrew', function(req, res) {
+app.get('/LT-Reservation_search-andrew', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-andrew.html');
 });
 
@@ -830,7 +856,7 @@ app.get('/LT-Reservation_reservation-details', async (req, res) => {
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
 
         // Render the reservation details page with user and reservationData
-        res.render('LT-Reservation_reservation-details', {user, reservationData});
+        res.render('LT-Reservation_reservation-details', { user, reservationData });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -844,13 +870,13 @@ app.post('/LT-Reservation_success', (req, res) => {
     res.status(200).send('Reservation data received');
 });
 
-app.get('/LT-Reservation_success', function(req, res) {
+app.get('/LT-Reservation_success', function (req, res) {
     res.render('LT-Reservation_success', data);
 });
 
 
-app.get('/LaddReservation', function(req, res) {
-    res.render('LT-Reservation_success',reservationData);
+app.get('/LaddReservation', function (req, res) {
+    res.render('LT-Reservation_success', reservationData);
 });
 
 app.post('/LaddReservation', async (req, res) => {
@@ -907,12 +933,12 @@ app.post('/LaddReservation', async (req, res) => {
 });
 
 // Profile
-app.get('/LT-Profile_view-only_Liam', function(req, res) {
+app.get('/LT-Profile_view-only_Liam', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
 
 // Handle form submission and respond with a success message
-app.post('/submit-student-data', function(req, res) {
+app.post('/submit-student-data', function (req, res) {
     var name = req.body.firstName + ' ' + req.body.lastName;
     res.send(name + ' Submitted Successfully');
 });
