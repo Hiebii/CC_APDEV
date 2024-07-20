@@ -70,6 +70,8 @@
     font-size: 28px;
     color: blue;
     text-decoration: underline;
+    border: none;
+    background-color: transparent;
 }
 
 
