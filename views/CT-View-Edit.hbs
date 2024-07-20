@@ -1,177 +1,211 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
-        <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
-        <link rel="stylesheet" href="css-main/cssmainwebsite.css">
-        <link rel="stylesheet" href="css-main/CT_LT-Main.css">
-        <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
-        <link rel="icon" href="images/icon.png">
-        <title>tinkerlab.</title>
-    </head>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+  <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+  <link rel="stylesheet" href="css-main/cssmainwebsite.css">
+  <link rel="stylesheet" href="css-main/CT_LT-Main.css">
+  <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
+  <link rel="icon" href="images/icon.png">
+  <script src="../js-main/search.js"></script>  
+  <title>tinkerlab.</title>
+  <script>
+    // script to assign computer lab cells based on their seat number
+    document.addEventListener('DOMContentLoaded', () => {
+      const compLabCells = document.querySelectorAll('.comp-lab');
 
-    <body>
-      <div class="header">
-        <img class="imglogo" src="images/tinkerlablogo.png">
-      </div>
-      <div class="taskbar">
-        <div class="btndivider">
-          <a href="/CT-homepage">
-            <button class="btndesign" id="homebtn">Home</button>
-          </a>
-          </div>
-        <div class="btndivider">
-          <a href="/Andrew">
-          <button class="btndesign" id="reservationbtn">Reservation</button>
-        </a>
-        </div>
-        <div class="btndivider">
-          <a href="/CT-View-Edit">
-          <button class="btndesign" id="vieweditbtn">View/Edit</button>
-          </a>
-        </div>
-        <div class="btndivider">
-          <a href="/CT-Profile">
-            <button class="btndesign" id="profilebtn">Profile</button>
-          </a>
-        </div>
-        <div class="searchdivider">
-          <div class="searchfield">
-            <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
-              <input class="searchinput" type="text" placeholder="Search...">
-            </div>
-          <div class="suggestions-div">
-            <div class="suggestion-card">   
-                    
-            </div>
-          </div>
-        </div>
-      </div>
+      compLabCells.forEach(cell => {
+        const seatNumber = cell.getAttribute('data-seat');
 
-        <div class = "sort-container">
-          <div class = "lab-button">
-              <p class = "sort-text">COMPUTER LAB:</p>
-              <div class="custom-select-wrapper">
-                  <select class="lab-dropdown">
-                      <option value="GK01">GK01</option>
-                      <option value="VL01">VL01</option>
-                      <option value="AG101">AG101</option>
-                  </select>
-              </div>
-          </div>
+        // If statement to match seat no. value to its room
+        let lab;
+        if (seatNumber.startsWith('A')) {
+          lab = 'AG101';
+        } else if (seatNumber.startsWith('G')) {
+          lab = 'GK101';
+        } else if (seatNumber.startsWith('V')) {
+          lab = 'VL101';
+        }
+        // Insert value of computer lab cells accordingly
+        cell.textContent = lab;
+      });
+    });
+  </script>
 
-          <div class = "time-button">
-              <p class = "sort-text">TIME:</p>
-              <div class="custom-select-wrapper">
-                  <select class="time-dropdown">
-                      <option value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
-                      <option value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
-                      <option value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
-                      <option value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
-                      <option value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
-                      <option value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
-                      <option value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
-                      <option value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
-                      <option value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
-                      <option value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
-                  </select>
-              </div>
-          </div>
-          
-          <div class = "date-button">
-              <p class = "sort-text">DATE:</p>
-              <input type="date" class="date-input">
-          </div>
-      </div>
+  <script>
+    // JavaScript for removing reservation data
+    function findAndCancelData(reservationId) {
 
-      <div class="tablediv">
-          <table>
-              <thead>
-                <tr>
-                  <th>Seat No.</th>
-                  <th>Computer Lab</th>
-                  <th>Date of Request</th>
-                  <th>Time of Request</th>
-                  <th>Date of Reservation</th>
-                  <th>Time of Reservation</th>
-                  <th>Reserved By</th>
-                  <th> </th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each reservations}}
-                <tr>
-                  
-                  <td>{{this.seat}}</td>
-                  {{#each this.reservations}}
-                  <td>AG101</td>
-                  <td>{{this.dateofrequest}}</td>
-                  <td>{{this.timeofrequest}}</td>
-                  <td>{{this.dateofreservation}}</td>
-                  <td>{{this.timeofreservation}}</td>
-                  <td>{{this.name}}</td>
-                  <td>
-                    <button class="edit-button"><a href="/CT-View-Edit_edit-reservation">Edit</a></button>
-                    <button class="cancel-button" onclick="showPrompt()">Cancel</button>
-                  </td>
-                </tr>{{/each}}
-                {{/each}}
-              </tbody>
-          </table>
+    }
+  </script>
+</head>
+
+<body>
+  <div class="header">
+    <img class="imglogo" src="images/tinkerlablogo.png">
+  </div>
+  <div class="taskbar">
+    <div class="btndivider">
+      <a href="/CT-homepage">
+        <button class="btndesign" id="homebtn">Home</button>
+      </a>
     </div>
-      <div class="button-container">
-        <button class="purple-button"><a href="/CT-homepage">Return Home</a></button>
-    </div> 
-    
-    <!-- Clock -->
-    <script src="js/clock.js"></script>
-    <div id="clock">
-      <h1 id="date-time"></h1>
+    <div class="btndivider">
+      <a href="/Andrew">
+        <button class="btndesign" id="reservationbtn">Reservation</button>
+      </a>
     </div>
-    
-      <!-- Hidden confirmation dialog -->
-      <script src="js/prompt.js"></script>
-      <div id="dialog-1" class="dialog-1">
-        <div class="dialog-header"></div>
-          <p class="prompt-text">DO YOU CONFIRM TO <br>CANCEL RESERVATION?</p>
-          <div class="button-container">
-              <button class="back-button" onclick="hidePrompt()">Back</button>
-              <button class="purple-button" onclick="cancelReservation()">Confirm</button>
-          </div>
+    <div class="btndivider">
+      <a href="/CT-View-Edit">
+        <button class="btndesign" id="vieweditbtn">View/Edit</button>
+      </a>
+    </div>
+    <div class="btndivider">
+      <a href="/CT-Profile">
+        <button class="btndesign" id="profilebtn">Profile</button>
+      </a>
+    </div>
+    <div class="searchdivider">
+      <div class="searchfield">
+        <button class="searchbutton"><img src="images/searchglass.png" class="imgbtn"></button>
+        <input class="searchinput" type="text" placeholder="Search...">
       </div>
-    </body>
-    <footer>
-      <div class="footer-container">
-          <div class="footer-column-1">
-              <img class="footer-logo" src="images/tinkerlablogo.png">
-              <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
-          </div>
-          <div class="footer-column-2">
-              <h3>About</h3>
-              <p class = "footer-about">an intuitive platform that allows students to easily<br> 
-                  reserve, check availability, and manage their computer<br> 
-                  lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
-          </div>
-          <div class="footer-column-3">
-              <h3>Contact</h3>
-              <div class="contact-info">
-                  <img class="email-logo" src="images/email-logo.png">
-                  <a class="dlsu-email" href="mailto:charlemagne_craw@dlsu.edu.ph">charlemagne_craw@dlsu.edu.ph</a>
-              </div>
-              <div class="contact-info">
-                  <img class="email-logo" src="images/email-logo.png">
-                  <a class="dlsu-email" href="mailto:rafael_debelen@dlsu.edu.ph">rafael_debelen@dlsu.edu.ph</a>
-              </div>
-              <div class="contact-info">
-                  <img class="email-logo" src="images/email-logo.png">
-                  <a class="dlsu-email" href="mailto:monica_santiago@dlsu.edu.ph">monica_santiago@dlsu.edu.ph</a>
-              </div>
-              <div class="contact-info">
-                  <img class="email-logo" src="images/email-logo.png">
-                  <a class="dlsu-email" href="mailto:john_fredrick_tario@dlsu.edu.ph">john_fredrick_tario@dlsu.edu.ph</a>
-              </div>
-          </div>
+      <div class="suggestions-div">
+        <div class="suggestion-card">
+
+        </div>
       </div>
-  </footer>
+    </div>
+  </div>
+
+  <div class="sort-container">
+    <div class="lab-button">
+      <p class="sort-text">COMPUTER LAB:</p>
+      <div class="custom-select-wrapper">
+        <select class="lab-dropdown table-filter" data-col-index="2">
+          <option value="all">All</option>
+          <option value="GK01">GK01</option>
+          <option value="VL01">VL01</option>
+          <option value="AG101">AG101</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="time-button">
+      <p class="sort-text">TIME:</p>
+      <div class="custom-select-wrapper">
+        <select class="time-dropdown table-filter" data-col-index="6">
+          <option value="default" selected="selected">All</option>
+          <option value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
+          <option value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
+          <option value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
+          <option value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
+          <option value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
+          <option value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
+          <option value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
+          <option value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
+          <option value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
+          <option value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="date-button">
+      <p class="sort-text">DATE:</p>
+      <input type="date" class="date-input table-filter" data-col-index="5">
+    </div>
+  </div>
+
+  <div class="tablediv">
+    <table id="reservations-table">
+      <thead>
+        <tr>
+          <th>Seat No.</th>
+          <th>Computer Lab</th>
+          <th>Date of Request</th>
+          <th>Time of Request</th>
+          <th>Date of Reservation</th>
+          <th>Time of Reservation</th>
+          <th>Reserved By</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each reservations}}
+        <tr>
+          <td>{{this.seat}}</td>
+          <td class="comp-lab" data-seat="{{this.seat}}"></td>
+          {{#each this.reservations}}
+          <td>{{this.dateofrequest}}</td>
+          <td>{{this.timeofrequest}}</td>
+          <td>{{this.dateofreservation}}</td>
+          <td>{{this.timeofreservation}}</td>
+          <td>{{this.reservedby}}</td>
+          <td>
+            <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
+            <button class="cancel-button" onclick="findAndCancelData('{{this._id}}')">Cancel</button>
+          </td>
+          {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div class="button-container">
+    <button class="purple-button"><a href="/CT-homepage">Return Home</a></button>
+  </div>
+  <!--  Filter script -->
+  <script src="../js-main/filter.js"></script>
+  <!-- Clock -->
+  <script src="js/clock.js"></script>
+  <div id="clock">
+    <h1 id="date-time"></h1>
+  </div>
+
+  <!-- Hidden confirmation dialog -->
+  <script src="js/prompt.js"></script>
+  <div id="dialog-1" class="dialog-1">
+    <div class="dialog-header"></div>
+    <p class="prompt-text">DO YOU CONFIRM TO <br>CANCEL RESERVATION?</p>
+    <div class="button-container">
+      <button class="back-button" onclick="hidePrompt()">Back</button>
+      <button class="purple-button" onclick="cancelReservation()">Confirm</button>
+    </div>
+  </div>
+</body>
+<footer>
+  <div class="footer-container">
+    <div class="footer-column-1">
+      <img class="footer-logo" src="images/tinkerlablogo.png">
+      <p><span class="tagline">Reserve in a Blink, then Explore and Think!</span></p>
+    </div>
+    <div class="footer-column-2">
+      <h3>About</h3>
+      <p class="footer-about">an intuitive platform that allows students to easily<br>
+        reserve, check availability, and manage their computer<br>
+        lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
+    </div>
+    <div class="footer-column-3">
+      <h3>Contact</h3>
+      <div class="contact-info">
+        <img class="email-logo" src="images/email-logo.png">
+        <a class="dlsu-email" href="mailto:charlemagne_craw@dlsu.edu.ph">charlemagne_craw@dlsu.edu.ph</a>
+      </div>
+      <div class="contact-info">
+        <img class="email-logo" src="images/email-logo.png">
+        <a class="dlsu-email" href="mailto:rafael_debelen@dlsu.edu.ph">rafael_debelen@dlsu.edu.ph</a>
+      </div>
+      <div class="contact-info">
+        <img class="email-logo" src="images/email-logo.png">
+        <a class="dlsu-email" href="mailto:monica_santiago@dlsu.edu.ph">monica_santiago@dlsu.edu.ph</a>
+      </div>
+      <div class="contact-info">
+        <img class="email-logo" src="images/email-logo.png">
+        <a class="dlsu-email" href="mailto:john_fredrick_tario@dlsu.edu.ph">john_fredrick_tario@dlsu.edu.ph</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </html>

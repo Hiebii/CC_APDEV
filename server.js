@@ -380,14 +380,40 @@ app.get('/signup-labtechnician', function(req, res) {
     res.sendFile(__dirname + '/START/signup-labtechnician.html');
 });
 
-
-/*--------------------------   CT  MENU    ---------------------------*/ 
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
-app.get('/CT-View-Edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+//app.get('/CT-View-Edit', function(req, res) {
+//   res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+//});
+
+/*--------------------------   CT  MENU    ---------------------------*/
+app.get('/CT-View-Edit', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+        // Fetch all seat data from Andrew, Goks, and Velasco collection
+        const [andrewSeats, goksSeats, velascoSeats] = await Promise.all([
+            Andrew.find().lean(),
+            Goks.find().lean(),
+            Velasco.find().lean()
+        ]);
+
+        // Format the data for the template
+        const combinedReservations = [
+            ...andrewSeats.map(seat => ({ seat: seat.seat, reservations: seat.reservations })),
+            ...goksSeats.map(seat => ({ seat: seat.seat, reservations: seat.reservations })),
+            ...velascoSeats.map(seat => ({ seat: seat.seat, reservations: seat.reservations }))
+        ];
+
+        // Render the template with the formatted data
+        res.render('CT-View-Edit', { reservations: combinedReservations });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 // POST route to receive reservation data
@@ -532,7 +558,7 @@ app.get('/Profile_view-only', async (req, res) => {
             return res.status(404).send('User not found');
         }
 
-        res.render('Profile_view-only', { user });
+        res.render('CT-Profile_view-only', { user });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
