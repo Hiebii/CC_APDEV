@@ -394,18 +394,29 @@ app.get('/CT-View-Edit', async (req, res) => {
         if (!req.session.userId) {
             return res.status(401).send('Unauthorized');
         }
-        // Fetch all seat data from Andrew, Goks, and Velasco collection
+
+        // Fetch all seat data from Andrew, Goks, and Velasco collections
         const [andrewSeats, goksSeats, velascoSeats] = await Promise.all([
             Andrew.find().lean(),
             Goks.find().lean(),
             Velasco.find().lean()
         ]);
 
-        // Format the data for the template
+        // Flatten the reservations data
+        const flattenReservations = (seats) => {
+            return seats.flatMap(seat => 
+                seat.reservations.map(reservation => ({
+                    seat: seat.seat,
+                    ...reservation
+                }))
+            );
+        };
+
+        // Combine and flatten all reservations
         const combinedReservations = [
-            ...andrewSeats.map(seat => ({ seat: seat.seat, reservations: seat.reservations })),
-            ...goksSeats.map(seat => ({ seat: seat.seat, reservations: seat.reservations })),
-            ...velascoSeats.map(seat => ({ seat: seat.seat, reservations: seat.reservations }))
+            ...flattenReservations(andrewSeats),
+            ...flattenReservations(goksSeats),
+            ...flattenReservations(velascoSeats)
         ];
 
         // Render the template with the formatted data

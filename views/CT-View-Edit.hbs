@@ -37,8 +37,8 @@
     // JavaScript for removing reservation data
     function findAndCancelData(reservationId) {
 
-    }
-}
+  }
+
 
   </script>
 </head>
@@ -87,9 +87,7 @@
       <div class="custom-select-wrapper">
         <select class="lab-dropdown table-filter" data-col-index="2">
           <option value="all">All</option>
-          <option value="GK01">GK01</option>
-          <option value="VL01">VL01</option>
-          <option value="AG101">AG101</option>
+          <!--  options populated by filter.js -->
         </select>
       </div>
     </div>
@@ -99,16 +97,7 @@
       <div class="custom-select-wrapper">
         <select class="time-dropdown table-filter" data-col-index="6">
           <option value="default" selected="selected">All</option>
-          <option value="7:30AM - 8:00AM">7:30AM - 8:00AM</option>
-          <option value="8:00AM - 8:30AM">8:00AM - 8:30AM</option>
-          <option value="8:30AM - 9:00AM">8:30AM - 9:00AM</option>
-          <option value="9:00AM - 9:30AM">9:00AM - 9:30AM</option>
-          <option value="9:30AM - 10:00AM">9:30AM - 10:00AM</option>
-          <option value="10:00AM - 10:30AM">10:00AM - 10:30AM</option>
-          <option value="10:30AM - 11:00AM">10:30AM - 11:00AM</option>
-          <option value="11:00AM - 11:30AM">11:00AM - 11:30AM</option>
-          <option value="11:30AM - 12:00PM">11:30AM - 12:00PM</option>
-          <option value="12:00PM - 12:30PM">12:00PM - 12:30PM</option>
+          <!--  options populated by filter.js -->
         </select>
       </div>
     </div>
@@ -121,44 +110,43 @@
 
   <div class="tablediv">
     <table id="reservations-table">
-      <thead>
-        <tr>
-          <th>Seat No.</th>
-          <th>Computer Lab</th>
-          <th>Date of Request</th>
-          <th>Time of Request</th>
-          <th>Date of Reservation</th>
-          <th>Time of Reservation</th>
-          <th>Reserved By</th>
-          <th> </th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each reservations}}
-        <tr>
-          <td>{{this.seat}}</td>
-          <td class="comp-lab" data-seat="{{this.seat}}"></td>
-          {{#each this.reservations}}
-          <td>{{this.dateofrequest}}</td>
-          <td>{{this.timeofrequest}}</td>
-          <td>{{this.dateofreservation}}</td>
-          <td>{{this.timeofreservation}}</td>
-          <td>{{this.reservedby}}</td>
-          <td>
-            <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
-            <button class="cancel-button" onclick="findAndCancelData('{{this._id}}')">Cancel</button>
-          </td>
-          {{/each}}
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+  <thead>
+    <tr>
+      <th>Seat No.</th>
+      <th>Computer Lab</th>
+      <th>Date of Request</th>
+      <th>Time of Request</th>
+      <th>Date of Reservation</th>
+      <th>Time of Reservation</th>
+      <th>Reserved By</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each reservations}}
+    <tr>
+      <td>{{this.seat}}</td>
+      <td class="comp-lab" data-seat="{{this.seat}}"></td>
+      <td>{{this.dateofrequest}}</td>
+      <td>{{this.timeofrequest}}</td>
+      <td>{{this.dateofreservation}}</td>
+      <td>{{this.timeofreservation}}</td>
+      <td>{{this.reservedby}}</td>
+      <td>
+        <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this.reservationId}}">Edit</a></button>
+        <button class="cancel-button" onclick="findAndCancelData('{{this.reservationId}}')">Cancel</button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
   </div>
   <div class="button-container">
     <button class="purple-button"><a href="/CT-homepage">Return Home</a></button>
   </div>
   <!--  Filter script -->
-  <script src="../js-main/filter.js"></script>
+  <script src="../js-main/filter.js"></script> 
   <!-- Clock -->
   <script src="js/clock.js"></script>
   <div id="clock">

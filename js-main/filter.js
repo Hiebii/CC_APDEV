@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const allFilters = document.querySelectorAll(".table-filter"); // Select all filter elements
         allFilters.forEach(filter => {
             const colIndex = filter.getAttribute("data-col-index"); // Get column index from filter; Computer Lab, Date of Reservation, and Time of Reservation
-            const colIndexNumber = Number(colIndex); // Convert column index to a number
+            const colIndexNumber = Number(colIndex); 
 
             const rows = document.querySelectorAll("#reservations-table > tbody > tr"); // Select reservations-table rows
 
@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to update the filter options with unique values from the table columns
     function updateSelectOptions(unique_col_values) {
-        const allFilters = document.querySelectorAll(".table-filter"); // Select all filter elements
+        const allFilters = document.querySelectorAll(".table-filter"); 
         allFilters.forEach(filter => {
-            const colIndex = filter.getAttribute('data-col-index'); // Get column index from filter
+            const colIndex = filter.getAttribute('data-col-index'); 
             if (unique_col_values[colIndex]) {
-                let optionsHTML = '<option value="all">All</option>'; // Default option for 'All'
+                let optionsHTML = '<option value="all">All</option>'; 
                 unique_col_values[colIndex].forEach(value => {
                     optionsHTML += `\n<option value="${value}">${value}</option>`; // Add unique values as options
                 });
@@ -44,13 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to filter table rows based on selected filter criteria
     function filter_rows() {
-        const allFilters = document.querySelectorAll(".table-filter"); // Select all filter elements
-        const dateFilter = document.querySelector(".date-input"); // Select date filter input
+        const allFilters = document.querySelectorAll(".table-filter"); 
+        const dateFilter = document.querySelector(".date-input"); 
         const filter_values = {}; // Object to store selected filter values
 
         allFilters.forEach(filter => {
             const colIndex = filter.getAttribute('data-col-index'); // Get column index from filter
-            const value = filter.value; // Get selected value from filter
+            const value = filter.value; 
             if (value !== "all") {
                 filter_values[colIndex] = value; // Store selected value if it's not 'all'
             }
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // check for the date filter
             if (display_row && dateFilter.value) {
-                const dateColIndex = dateFilter.getAttribute('data-col-index'); // Get column index for the date
+                const dateColIndex = dateFilter.getAttribute('data-col-index');
                 const row_date_value = row.querySelector(`td:nth-child(${dateColIndex})`).textContent.trim();
                 if (row_date_value !== dateFilter.value) {
                     display_row = false; // If date doesn't match, hide the row
@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const allFilters = document.querySelectorAll(".table-filter"); // Select all filter elements
     allFilters.forEach(filter => {
-        filter.addEventListener('change', filter_rows); // Add event listener to filter elements
+        filter.addEventListener('change', filter_rows); 
     });
 
     const dateFilter = document.querySelector(".date-input"); // Select date filter input
-    dateFilter.addEventListener('change', filter_rows); // Add event listener to date filter input
+    dateFilter.addEventListener('change', filter_rows); 
 });
