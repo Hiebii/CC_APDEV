@@ -36,6 +36,9 @@
                     </div>
                 </div>
             <div class="container-studentlab"> <!---This one was obtained from cssloginsignup.css-->
+                {{#if error}}
+                     <div class="error-text">{{{error}}}</div>
+                {{/if}}
                     <div class="header-studentlab"><!---Header for the text box-->
                         REGISTER AS A LAB TECHNICIAN
               
@@ -64,7 +67,7 @@
 
                         <div class="textcontainer-studentlab">
                             <img src="images/lock-password.png" class="texticon-password-studentlab">
-                            <input type="password" class="textbox-studentlab" id="confirm-lab-technician-password" name="confirm-password" placeholder="Confirm Password">
+                            <input type="password" class="textbox-studentlab" id="confirmlab-technician-password" name="confirmpassword" placeholder="Confirm Password">
                         </div>
                         <input type="submit" id="submitcredentials" class="submitbuttonsignup" value="SIGN UP">
                     </form>  
@@ -102,7 +105,8 @@
             const submitButton = document.getElementById('submitcredentials');
             const passwordInitial = document.getElementById('lab-technician-password');
             const passwordConfirm = document.getElementById('confirm-lab-technician-password');
-           
+
+        /*   
         document.getElementById('signupForm').onsubmit = async (event) => {
                 event.preventDefault();
                 const formData = new FormData(event.target);
@@ -124,7 +128,7 @@
                 }
             };
 
-            /*submitButton.addEventListener("click", function(event){
+            submitButton.addEventListener("click", function(event){
             const emailCheckValue = emailCheck.value.trim();
             const passwordInitialValue=passwordInitial.value.trim();
             const passwordConfirmValue=passwordConfirm.value.trim();

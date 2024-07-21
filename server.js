@@ -296,32 +296,57 @@ const VelascosReservationModel = require('./database/models/Velasco');
 
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
-    const { fullName, email, password, title } = req.body;
+    const { fullName, email, password, confirmpassword, title } = req.body;
     console.log('Received Data:', req.body);
 
     try { 
-
-        if (!fullName || !email || !password || !title) {
-            console.error('Missing fields:', { fullName, email, password, title });
-            return res.status(400).json({ error: 'All fields are required!' });
+        if (!fullName || !email || !password && title === 'Student'){
+            console.error('Missing Fields: ', { fullName, email, password });
+            return res.render('signup-student', { error: 'All fields are required!' });
+            //return res.status(400).json({ error: 'All fields are required!', redirectUrl: '/signup-student'  });
+            
+        }
+        else if (!fullName || !email || !password || !confirmpassword && title === 'Lab Technician'){
+            console.error('Missing Fields: ', { fullName, email, password });
+            return res.render('signup-labtechnician', { error: 'All fields are required!' });
+            //return res.status(400).json({ error: 'All fields are required!', redirectUrl: '/signup-labtechnician'  });
         }
         
         const existingEmail = await Users.findOne({ email });
-        if (existingEmail && title === 'Student'){
+        if (existingEmail && password===confirmpassword && title === 'Student'){
             
             //return res.render('signup-student', { error: 'User already exists!' });
-            return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-student' });
+            return res.render('signup-student', { error: 'User already exists!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-student' });
         }
-        else if (existingEmail && title === 'Lab Technician'){
-            return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        else if (existingEmail && password===confirmpassword && title === 'Lab Technician'){
+            return res.render('signup-labtechnician', { error: 'User already exists!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (existingEmail && password!==confirmpassword && title === 'Student'){
+            return res.render('signup-student', { error: 'User already exists! <br> Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (existingEmail && password!==confirmpassword && title === 'Lab Technician'){
+            return res.render('signup-labtechnician', { error: 'User already exists! <br> Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (!existingEmail && password!==confirmpassword && title === 'Student'){
+            return res.render('signup-student', { error: 'Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (!existingEmail && password!==confirmpassword && title === 'Lab Technician'){
+            return res.render('signup-labtechnician', { error: 'Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
         else{
             const newUser = new Users({ fullName, email, password, title });
             await newUser.save();
-            //return res.render('login-page', { message: 'User registered successfully!' });
-             return res.status(201).json({ message: 'User registered successfully!', redirectUrl: '/login-page' });
+            return res.render('login-page', { message: 'User registered successfully!' });
+            // return res.status(201).json({ message: 'User registered successfully!', redirectUrl: '/login-page' });
         }
-
+        
+        
     } catch (err) {
         console.error(err);
         res.status(500).json({ message:'Server Error!' });

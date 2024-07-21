@@ -39,7 +39,7 @@
                     <div class="container">
 
                         {{#if message}}
-                              <div class="error-text">{{message}}</div>
+                              <div class="success-text">{{message}}</div>
                         {{/if}}
                         {{#if error}}
                               <div class="error-text">{{error}}</div>
@@ -94,7 +94,7 @@
             const disabledButton = document.querySelector(".buttons-menu[disabled]");
 
             disabledButton.classList.add('buttons-menu-disabled');
-            
+            /*
             document.getElementById('loginForm').onsubmit = async (event) => {
                 event.preventDefault();
                 const formData = new FormData(event.target);
@@ -116,7 +116,7 @@
                 }
             };
 
-            /*document.getElementById('login-button').addEventListener('click', function(){
+            document.getElementById('login-button').addEventListener('click', function(){
                 const emailCheck = document.getElementById('login-email').value.trim();
                 const emailDomain = "@dlsu.edu.ph";
 

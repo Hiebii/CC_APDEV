@@ -37,7 +37,7 @@
                 </div>
             <div class="container-studentlab"> <!---This one was obtained from cssloginsignup.css-->
                 {{#if error}}
-                     <div class="error-text">{{error}}</div>
+                     <div class="error-text">{{{error}}}</div>
                 {{/if}}
                     <div class="header-studentlab"><!---Header for the text box-->
                         REGISTER AS A STUDENT
@@ -47,9 +47,6 @@
                         Create your account.
                     </div>  
                     <div class="content-studentlab">
-                         {{#if error}}
-                                <div class="error-text">{{error}}</div>
-                            {{/if}}
                         <form id = "signupForm" action="/signup" method="POST">
                         <div class="textcontainer-studentlab">
                             <img src="images/name.png" class="texticon-email-studentlab">
@@ -69,7 +66,7 @@
 
                         <div class="textcontainer-studentlab">
                             <img src="images/lock-password.png" class="texticon-password-studentlab">
-                            <input type="password" class="textbox-studentlab" id="confirm-student-password" name="passwordConfirm" placeholder="Confirm Password">
+                            <input type="password" class="textbox-studentlab" id="confirm-student-password" name="confirmpassword" placeholder="Confirm Password">
                         </div>
                         <input type="submit" id="submitcredentials" class="submitbuttonsignup" value="SIGN UP">
                     </div>
@@ -100,25 +97,33 @@
 
             disabledButton.classList.add('buttons-menu-disabled');
             
-            const emailCheck = document.getElementById('student-email')
+            /*const emailCheck = document.getElementById('student-email')
             const submitButton = document.getElementById('submitcredentials');
             const passwordInitial = document.getElementById('student-password');
-            const passwordConfirm = document.getElementById('confirm-student-password');
+            const passwordConfirm = document.getElementById('confirm-student-password');*/
            
-            document.getElementById('signupForm').onsubmit = async (event) =>{
+            /*document.getElementById('signupForm').onsubmit = async (event) =>{
                 event.preventDefault();
                 const formData = new FormData(event.target);
+                const JSONData = Object.fromEntries(formData.entries());
+
+                console.log('FormData:', JSONData);
+
                 try {
                     const response = await fetch('/signup', {
                         method: 'POST',
-                        body:formData
+                        headers:{
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(JSONData),
                     });
-                        const result = await response.json();
-
-                    if (!response.ok){
-                        console.log('FormData:', formData);
+                        console.log('Response Object:', response);
+                        const result = await response.text();
                         console.log('Server Response:', result);
 
+                    if (!response.ok){
+                    
+                        console.log(result.message);
                         alert(result.message);
                         //console.log(result.message);
                     } else {
@@ -129,7 +134,7 @@
                    console.error('Error during signup: ', error);
                    alert('Server error, please try again!');
                 }
-            };          
+            };      */    
         </script>
     </body>
 </html>
