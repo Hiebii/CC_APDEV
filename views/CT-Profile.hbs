@@ -1,6 +1,7 @@
 <html>
-   <head>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
+        rel="stylesheet">
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssprofilepage.css">
@@ -8,9 +9,8 @@
     <link rel="icon" href="images/icon.png">
     <script src="../js-main/search.js"></script>
     <title>tinkerlab.</title>
-   </head> 
-   <body>
-
+</head>
+<body>
     <!-- tinkerlab logo header -->
     <div class="header">
         <img class="imglogo" src="images/tinkerlablogo.png">
@@ -25,72 +25,74 @@
         </div>
         <div class="btndivider">
             <a href="/Andrew">
-            <button class="btndesign" id="reservationbtn">Reservation</button>
-           </a>
+                <button class="btndesign" id="reservationbtn">Reservation</button>
+            </a>
         </div>
         <div class="btndivider">
             <a href="/CT-View-Edit">
-            <button class="btndesign" id="vieweditbtn">View/Edit</button>
+                <button class="btndesign" id="vieweditbtn">View/Edit</button>
             </a>
         </div>
-        <div class="btndivider">     
-            <a href ="/CT-Profile">
+        <div class="btndivider">
+            <a href="/CT-Profile">
                 <button class="btndesign" id="profilebtn">Profile</button>
             </a>
-                <div class="dropdown">
-                    <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
-                </div>
-        </div>
-        
-        <div class="searchdivider">
-            <div class="searchfield">
-                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
-                <input class="searchinput" type="text" placeholder="Search...">
+            <div class="dropdown">
+                <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
             </div>
-            <div class="suggestions-div">
-                <div class="suggestion-card">   
-                    <div class="card"> 
+        </div>
+
+        <form id="searchForm" action="/search" method="GET" autocomplete="off">
+            <div class="searchdivider">
+                <div class="searchfield">
+                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
+                    <button class="searchbutton" type="submit">
+                        <img src="images/searchglass.png" class="imgbtn" alt="Search">
+                    </button>
+                </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">
+                        <!--  a href cards of users will be inserted here -->
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
 
-       
     </div>
-<!-- profile body -->
-<div class="profilediv">
+    <!-- profile body -->
+    <div class="profilediv">
 
-    <!-- left profile side -->
-    <div class="profilediv1">
-        <div id="photo-div">
-            <div class="profileborder">
-                <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
+        <!-- left profile side -->
+        <div class="profilediv1">
+            <div id="photo-div">
+                <div class="profileborder">
+                    <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
+                </div>
+            </div>
+            <br>
+            <div id="role-div">
+                <h1 class="role">{{user.title}}</h1>
+            </div>
+            <br>
+            <div id="editprofilebtn-div">
+                <button class="purple-button"><a class="linktoedit" href="/CT-Profile_edit">EDIT PROFILE</a></button>
+            </div>
+            <br><br>
+            <div id="deleteaccbtn-div">
+                <button class="deleteaccbtn" onclick="confirmDelete()">Delete Account</button>
             </div>
         </div>
-        <br>
-        <div id="role-div">
-            <h1 class="role">{{user.title}}</h1>
-        </div>
-        <br>
-        <div id="editprofilebtn-div">
-            <button class="purple-button"><a class="linktoedit" href="/CT-Profile_edit">EDIT PROFILE</a></button>
-        </div>
-        <br><br>
-        <div id="deleteaccbtn-div">
-            <button class="deleteaccbtn" onclick="confirmDelete()">Delete Account</button>
-        </div>
-    </div>
 
-    <hr class="vl"> 
+        <hr class="vl">
 
-    <!-- right profile side -->
-    <div class="profilediv2">
-        <h2 class="profileheader">{{user.fullName}}</h2>
-        <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
+        <!-- right profile side -->
+        <div class="profilediv2">
+            <h2 class="profileheader">{{user.fullName}}</h2>
+            <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
 
-        <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
-        <div class="scheddiv">
-            <table>
+            <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
+            <div class="scheddiv">
+                <table>
                     <thead>
                         <tr>
                             <th>Seat No.</th>
@@ -114,11 +116,11 @@
                         {{/each}}
                     </tbody>
                 </table>
+            </div>
         </div>
-    </div>  
-</div>
+    </div>
 
-<script>
+    <script>
         function confirmDelete() {
             if (confirm("Are you sure you want to delete your account?")) {
                 deleteAccount();
@@ -147,14 +149,13 @@
     </script>
 
     <!-- Hidden confirmation dialog -->
-
     <script src="js/prompt.js"></script>
     <div id="dialog-2" class="dialog-2">
         <div class="dialog-header"></div>
         <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
         <div class="button-container">
             <button class="back-button" onclick="hidePrompt2()">Back</button>
-            <button class="purple-button"  onclick="showPrompt3()">Confirm</button>
+            <button class="purple-button" onclick="showPrompt3()">Confirm</button>
         </div>
     </div>
 
@@ -163,20 +164,20 @@
         <div class="dialog-header"></div>
         <p class="prompt-text">PROCESS SUCCESSFUL.</p>
         <div class="button-container">
-            <button class="purple-button" onclick="toLoginpage()">Confirm</button>
+            <button class="purple-button" onclick="toLoginpage()">Go to Home</button>
         </div>
-    </div>    
-    </body>
-   <footer>
+    </div>
+</body>
+<footer>
     <div class="footer-container">
         <div class="footer-column-1">
             <img class="footer-logo" src="images/tinkerlablogo.png">
-            <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
+            <p><span class="tagline">Reserve in a Blink, then Explore and Think!</span></p>
         </div>
         <div class="footer-column-2">
             <h3>About</h3>
-            <p class = "footer-about">an intuitive platform that allows students to easily<br> 
-                reserve, check availability, and manage their computer<br> 
+            <p class="footer-about">an intuitive platform that allows students to easily<br>
+                reserve, check availability, and manage their computer<br>
                 lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
         </div>
         <div class="footer-column-3">

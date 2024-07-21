@@ -42,18 +42,21 @@
                 </div>
         </div>
         
-        <div class="searchdivider">
-            <div class="searchfield">
-                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
-                <input class="searchinput" type="text" placeholder="Search...">
+        <form id="searchForm" action="/search" method="GET" autocomplete="off">
+            <div class="searchdivider">
+                <div class="searchfield">
+                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
+                    <button class="searchbutton" type="submit">
+                        <img src="images/searchglass.png" class="imgbtn" alt="Search">
+                    </button>
+                </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">
+                        <!--  a href cards of users will be inserted here -->
+                    </div>
+                </div>
             </div>
-            <div class="suggestions-div">
-                <ul class="suggestions-ul">
-                    <li class="suggestions-li"><a class="clearlink" href="/LT-Profile_view-only">Mason</a></li>    
-                    <li class="suggestions-li"><a class="clearlink" href="/LT-Profile_view-only_Peter">Peter</a></li>    
-                </ul>
-            </div>
-        </div>
+        </form>
 
        
     </div>
