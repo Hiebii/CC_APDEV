@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css-main/CT_LT-Main.css">
   <link rel="stylesheet" href="css-main/CT_LT-View-Edit.css">
   <link rel="icon" href="images/icon.png">
-  <script src="../js-main/search.js"></script>  
+  <script src="../js-main/search.js"></script>
   <title>tinkerlab.</title>
   <script>
     // script to assign computer lab cells based on their seat number
@@ -59,17 +59,21 @@
         <button class="btndesign" id="profilebtn">Profile</button>
       </a>
     </div>
-    <div class="searchdivider">
-      <div class="searchfield">
-        <button class="searchbutton"><img src="images/searchglass.png" class="imgbtn"></button>
-        <input class="searchinput" type="text" placeholder="Search...">
-      </div>
-      <div class="suggestions-div">
-        <div class="suggestion-card">
-
-        </div>
-      </div>
-    </div>
+    <form id="searchForm" action="/search" method="GET" autocomplete="off">
+            <div class="searchdivider">
+                <div class="searchfield">
+                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
+                    <button class="searchbutton" type="submit">
+                        <img src="images/searchglass.png" class="imgbtn" alt="Search">
+                    </button>
+                </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">
+                        <!--  a href cards of users will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </form>
   </div>
 
   <div class="sort-container">
@@ -101,36 +105,36 @@
 
   <div class="tablediv">
     <table id="reservations-table">
-  <thead>
-    <tr>
-      <th>Seat No.</th>
-      <th>Computer Lab</th>
-      <th>Date of Request</th>
-      <th>Time of Request</th>
-      <th>Date of Reservation</th>
-      <th>Time of Reservation</th>
-      <th>Reserved By</th>
-      <th> </th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each reservations}}
-    <tr data-reservations-id="{{this._id}}">
-      <td>{{this.seat}}</td>
-      <td class="comp-lab" data-seat="{{this.seat}}"></td>
-      <td>{{this.dateofrequest}}</td>
-      <td>{{this.timeofrequest}}</td>
-      <td>{{this.dateofreservation}}</td>
-      <td>{{this.timeofreservation}}</td>
-      <td>{{this.reservedby}}</td>
-      <td>
-        <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
-        <button class="cancel-button" onclick="findAndCancelData('{{this._id}}')">Cancel</button>
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+      <thead>
+        <tr>
+          <th>Seat No.</th>
+          <th>Computer Lab</th>
+          <th>Date of Request</th>
+          <th>Time of Request</th>
+          <th>Date of Reservation</th>
+          <th>Time of Reservation</th>
+          <th>Reserved By</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each reservations}}
+        <tr data-reservations-id="{{this._id}}">
+          <td>{{this.seat}}</td>
+          <td class="comp-lab" data-seat="{{this.seat}}"></td>
+          <td>{{this.dateofrequest}}</td>
+          <td>{{this.timeofrequest}}</td>
+          <td>{{this.dateofreservation}}</td>
+          <td>{{this.timeofreservation}}</td>
+          <td>{{this.reservedby}}</td>
+          <td>
+            <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
+            <button class="cancel-button" onclick="findAndCancelData('{{this._id}}')">Cancel</button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
 
   </div>
   <div class="button-container">
@@ -138,7 +142,7 @@
   </div>
 
   <!--  Filter script -->
-  <script src="../js-main/filter.js"></script> 
+  <script src="../js-main/filter.js"></script>
   <!-- Clock -->
   <script src="js/clock.js"></script>
   <div id="clock">
@@ -147,29 +151,29 @@
 
   <!-- Cancel Reservation script  -->
   <script>
-  async function findAndCancelData(reservationId) {
-    try {
+    async function findAndCancelData(reservationId) {
+      try {
         const response = await fetch(`/cancel-reservation/${reservationId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
 
         if (response.ok) {
-            alert('Reservation canceled successfully');
-            // Remove the row from the table
-            document.querySelector(`tr[data-reservation-id="${reservationId}"]`).remove();
-            
+          alert('Reservation canceled successfully');
+          // Remove the row from the table
+          document.querySelector(`tr[data-reservation-id="${reservationId}"]`).remove();
+
         } else {
-            const errorText = await response.text();
-            alert(`Failed to cancel reservation: ${errorText}`);
+          const errorText = await response.text();
+          alert(`Failed to cancel reservation: ${errorText}`);
         }
-    } catch (err) {
-      console.error('Error:', err);
+      } catch (err) {
+        console.error('Error:', err);
+      }
     }
-  }
-</script>
+  </script>
 
   <!-- Hidden confirmation dialog -->
   <script src="js/prompt.js"></script>
@@ -215,5 +219,4 @@
     </div>
   </div>
 </footer>
-
 </html>

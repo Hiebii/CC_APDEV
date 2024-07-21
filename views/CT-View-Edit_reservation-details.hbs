@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/CT_LT-Main.css">
     <link rel="stylesheet" href="css-main/CT-Reservation-details.css">
-    <script src="../js-main/search.js"></script>
     <link rel="icon" href="images/icon.png">
-    
+    <script src="../js-main/search.js"></script>
     <script>
     // JavaScript for submitting form data
     function collectAndSendData() {
@@ -75,17 +74,21 @@
                 <button class="btndesign" id="profilebtn">Profile</button>
             </a>
         </div>
-        <div class="searchdivider">
-            <div class="searchfield">
-                <button class="searchbutton" ><img src="images/searchglass.png" class="imgbtn"></button>
-                <input class="searchinput" type="text" placeholder="Search...">
-            </div>
-            <div class="suggestions-div">
-                <div class="suggestion-card">   
-                    
+        <form id="searchForm" action="/search" method="GET" autocomplete="off">
+            <div class="searchdivider">
+                <div class="searchfield">
+                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
+                    <button class="searchbutton" type="submit">
+                        <img src="images/searchglass.png" class="imgbtn" alt="Search">
+                    </button>
+                </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">
+                        <!--  a href cards of users will be inserted here -->
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </nav>
     <main>
         <div class="title-1">RESERVATION DETAILS</div>
