@@ -371,10 +371,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function showPrompt(seatName, occupant) {
-        const profileLink = "/CT-Profile_view-only";
-        promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='${profileLink}'>${occupant}</a></span></span></span>`;
-        dialog.style.display = "block";
-    }
+    // Update prompt text to include the occupant's name with a click event
+    promptText.innerHTML = `<span class="prompt-class"> <span class="js_note">SORRY <span class="js_seat">${seatName}</span> IS <br> TAKEN ALREADY!</span> <br><br> <span class="js_username"><span class="js_occu">Occupied by:</span> <a href='#' id='profile-link'>${occupant}</a></span></span>`;
+    dialog.style.display = "block";
+
+    // Event listener to sets the values of the input field from the recycled search form to the occupant's name
+    const profileLinkElement = document.getElementById('profile-link');
+    profileLinkElement.addEventListener('click', function(event) {
+        event.preventDefault(); 
+
+        // Find the search form input and set to occupant name  
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = searchForm.querySelector('input[name="name"]');
+        searchInput.value = occupant; // Set the value to the occupant's name
+
+        // Submit the form  (same as sending a GET request to /search w/ 'occupant's name' as the 'name' query parameter)
+        searchForm.submit();
+    });
+}
 
     function showPrompt2() {
         promptText.innerHTML = '<br><br><span class="prompt-class"> <span class="js_note">Please<span class="js_seat"> select</span> <br> at least 1 seat!</span></span>';

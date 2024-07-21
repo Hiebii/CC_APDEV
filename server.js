@@ -621,9 +621,11 @@ app.get('/CT-Profile_view-only', async (req, res) => {
         res.status(500).send('An error occurred');
     }
 });
+
 // Searches a user by name. if found, redirect to user's profile page, otherwise, redirects to same page w/ error alert.
+// Note: the 'name' URL is passed to /search sending a GET request ('search?name=Mari%20Santos'), and extracts the 'name' query parameter from the URL
 app.get('/search', async (req, res) => {
-    const name = req.query.name.trim().toLowerCase(); 
+    const name = req.query.name.trim().toLowerCase();   // 'name' is trimmed and assigned to 'const name'
 
     try {
         // Fetch all users and search a match w/ user.fullName
