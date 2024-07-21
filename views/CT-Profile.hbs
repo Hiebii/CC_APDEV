@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
         rel="stylesheet">
@@ -10,11 +9,9 @@
     <link rel="icon" href="images/icon.png">
     <script src="../js-main/search.js"></script>
     <title>tinkerlab.</title>
-
 </head>
 
 <body>
-
     <!-- tinkerlab logo header -->
     <div class="header">
         <img class="imglogo" src="images/tinkerlablogo.png">
@@ -46,18 +43,21 @@
             </div>
         </div>
 
-        <div class="searchdivider">
-            <div class="searchfield">
-                <button class="searchbutton"><img src="images/searchglass.png" class="imgbtn"></button>
-                <input class="searchinput" type="text" placeholder="Search...">
-            </div>
-            <div class="suggestions-div">
-                <div class="suggestion-card">
-
+        <form id="searchForm" action="/search" method="GET" autocomplete="off">
+            <div class="searchdivider">
+                <div class="searchfield">
+                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
+                    <button class="searchbutton" type="submit">
+                        <img src="images/searchglass.png" class="imgbtn" alt="Search">
+                    </button>
+                </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">
+                        <!--  a href cards of users will be inserted here -->
+                    </div>
                 </div>
             </div>
-        </div>
-
+        </form>
 
     </div>
     <!-- profile body -->
@@ -202,5 +202,4 @@
         </div>
     </div>
 </footer>
-
 </html>

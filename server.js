@@ -599,25 +599,8 @@ app.post('/CT-Profile_edit', async (req, res) => {
 });
 
 /*-----------------------   Profile Search/View   --------------------------*/
-app.get('/Profile_view-content', async (req, res) => {
-    try {
-        if (!req.session.userId) {
-            return res.status(401).send('Unauthorized');
-        }
-        const currentUserId = req.session.userId;
-        const users = await Users.find({ _id: { $ne: currentUserId } }).lean();
-        if (!users) {
-            return res.status(404).send('User not found');
-        }
-
-        res.json(users);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred');
-    }
-});
-
-app.get('/Profile_view-only', async (req, res) => {
+// Fetches and renders user's profile based on their userId
+app.get('/CT-Profile_view-only', async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.status(401).send('Unauthorized');
@@ -625,10 +608,60 @@ app.get('/Profile_view-only', async (req, res) => {
 
         const user = await Users.findById(req.query.userId).lean();
         if (!user) {
-            return res.status(404).send('User not found');
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href); 
         }
 
         res.render('CT-Profile_view-only', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+// Searches a user by name. if found, redirect to user's profile page, otherwise, redirects to same page w/ error alert.
+app.get('/search', async (req, res) => {
+    const name = req.query.name.trim().toLowerCase(); 
+
+    try {
+        // Fetch all users and search a match w/ user.fullName
+        const allusers = await Users.find({}).lean();
+        const user = allusers.find(user => user.fullName.toLowerCase() === name); 
+        
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href); 
+        }
+        // Redirect to profile page with the found user's _id
+        res.redirect(`/CT-Profile_view-only?userId=${user._id}`);
+    } catch (error) {
+        console.error('Error searching for user:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Fetches all the users, except the current user in the session.
+app.get('/users-for-search', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+        const currentUserId = req.session.userId;
+        const user = await Users.find({ _id: { $ne: currentUserId } }).lean();
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href);
+        }
+
+        res.json(user);
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
