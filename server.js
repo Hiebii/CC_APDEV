@@ -427,7 +427,10 @@ app.get('/CT-View-Edit', async (req, res) => {
     }
 });
 
-app.delete('/cancel-reservation/:reservationId', async (req, res) => {
+/*--------------------------   CANCEL RESERVATION    ---------------------------*/
+// Searches for reservation in seatCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
+// Note: For LT, can delete any seat
+app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.status(401).send('Unauthorized');
@@ -456,6 +459,58 @@ app.delete('/cancel-reservation/:reservationId', async (req, res) => {
         }
     } catch (err) {
         console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// Searches for reservation in seatCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
+// Note: For CT, checks if 'seatCollections.seat.reservedby' === 'user.session.fullName'
+app.delete('/CT-cancel-reservation/:reservationId', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const userId = req.session.userId;
+        const user = await Users.findById(userId).lean();
+        const userName = user.fullName;
+
+        const { reservationId } = req.params;
+        let seatFound = false;
+
+        // Check all seat collections
+        const seatCollections = [Andrew, Goks, Velasco];
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                // Find the reservation in the seat
+                const reservation = seat.reservations.id(reservationId);
+
+                // console.log(`Found reservation: ${reservation}`);
+                // console.log(`User's name: ${userName}`);
+                // console.log(`Reservation's reservedby: ${reservation.reservedby}`);
+
+                // Check if the reservation's reservedby field matches the current user's name
+                if (reservation && reservation.reservedby === userName) {
+                    // Remove the reservation
+                    seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
+                    await seat.save();
+                    seatFound = true;
+                    break;
+                } else {
+                    return res.status(403).send('Unauthorized Cancellation.');
+                }
+            }
+        }
+
+        if (seatFound) {
+            res.status(200).send('Reservation canceled successfully');
+        } else {
+            res.status(404).send('Reservation not found');
+        }
+    } catch (err) {
+        console.error('Error:', err);
         res.status(500).send('An error occurred');
     }
 });
