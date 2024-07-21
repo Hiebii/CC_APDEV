@@ -36,6 +36,9 @@
                     </div>
                 </div>
             <div class="container-studentlab"> <!---This one was obtained from cssloginsignup.css-->
+                {{#if error}}
+                     <div class="error-text">{{error}}</div>
+                {{/if}}
                     <div class="header-studentlab"><!---Header for the text box-->
                         REGISTER AS A STUDENT
               
@@ -110,43 +113,23 @@
                         method: 'POST',
                         body:formData
                     });
-        
                         const result = await response.json();
+
                     if (!response.ok){
+                        console.log('FormData:', formData);
+                        console.log('Server Response:', result);
+
                         alert(result.message);
+                        //console.log(result.message);
                     } else {
                         window.location.href = result.redirectUrl;
+                        console.log(window.location.href);
                     }
                 } catch (error) {
                    console.error('Error during signup: ', error);
                    alert('Server error, please try again!');
                 }
-            };
-
-           /* submitButton.addEventListener("click", function(event){
-            /*submitButton.addEventListener("click", function(event){
-            const emailCheckValue = emailCheck.value.trim();
-            const passwordInitialValue=passwordInitial.value.trim();
-            const passwordConfirmValue=passwordConfirm.value.trim();
-                if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue === passwordConfirmValue && passwordInitialValue!=='' && passwordConfirmValue!==''){
-                    alert("Welcome to tinkerlab!");
-                    window.location.href="/login-page";
-                }
-                else if (emailCheckValue.endsWith('@dlsu.edu.ph') && (passwordInitialValue==='' || passwordConfirmValue==='')){
-                    alert("Invalid. You need to have a password.");
-                }
-                else if (emailCheckValue.endsWith('@dlsu.edu.ph') && passwordInitialValue!==passwordConfirmValue ){
-                    alert("Invalid. Passwords Must Match.");
-                }
-                else if(emailCheckValue==='' && passwordInitialValue==='' && passwordConfirmValue===''){
-                    alert("Input something before progressing.");
-                }
-                else if(!(emailCheckValue.endsWith('@dlsu.edu.ph'))){
-                    alert("Email must end in @dlsu.edu.ph");
-                }
-            });*/
-            
-            
+            };          
         </script>
     </body>
 </html>

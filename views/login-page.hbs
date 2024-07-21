@@ -38,6 +38,9 @@
                     </div> 
                     <div class="container">
 
+                        {{#if message}}
+                              <div class="error-text">{{message}}</div>
+                        {{/if}}
                         {{#if error}}
                               <div class="error-text">{{error}}</div>
                         {{/if}}
