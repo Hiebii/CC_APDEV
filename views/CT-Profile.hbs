@@ -23,7 +23,7 @@
             </a>
         </div>
         <div class="btndivider">
-            <a href="/CT-Reservation_Goks">
+            <a href="/Andrew">
             <button class="btndesign" id="reservationbtn">Reservation</button>
            </a>
         </div>
@@ -77,7 +77,7 @@
         </div>
         <br><br>
         <div id="deleteaccbtn-div">
-            <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
+            <button class="deleteaccbtn" onclick="confirmDelete()">Delete Account</button>
         </div>
     </div>
 
@@ -91,45 +91,63 @@
         <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
         <div class="scheddiv">
             <table>
-                <thead>
-                    <tr>
-                        <th>Seat No.</th>
-                        <th>Computer Lab</th>
-                        <th>Date of Request</th>
-                        <th>Time of Request</th>
-                        <th>Date of Reservation</th>
-                        <th>Time of Reservation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each user.reservations}}
-                    <tr>
-                        <td>{{this.seatNo}}</td>
-                        <td>{{this.computerLab}}</td>
-                        <td>{{this.dateOfRequest}}</td>
-                        <td>{{this.timeOfRequest}}</td>
-                        <td>{{this.dateOfReservation}}</td>
-                        <td>{{this.timeOfReservation}}</td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+                    <thead>
+                        <tr>
+                            <th>Seat No.</th>
+                            <th>Computer Lab</th>
+                            <th>Date of Request</th>
+                            <th>Time of Request</th>
+                            <th>Date of Reservation</th>
+                            <th>Time of Reservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each user.reservations}}
+                        <tr>
+                            <td>{{this.seatNo}}</td>
+                            <td>{{this.computerLab}}</td>
+                            <td>{{this.dateOfRequest}}</td>
+                            <td>{{this.timeOfRequest}}</td>
+                            <td>{{this.dateOfReservation}}</td>
+                            <td>{{this.timeOfReservation}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
         </div>
     </div>  
 </div>
 
+<script>
+        function confirmDelete() {
+            if (confirm("Are you sure you want to delete your account?")) {
+                deleteAccount();
+            }
+        }
+
+        function deleteAccount() {
+            fetch('/deleteAccount', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/';
+                    } else {
+                        alert("Failed to delete account. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Failed to delete account. Please try again.");
+                });
+        }
+    </script>
 
 
     <!-- Hidden confirmation dialog -->
-    <script src="js/prompt.js"></script>
-    <div id="dialog-1" class="dialog-1">
-        <div class="dialog-header"></div>
-        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">DELETE ACCOUNT</span>?</p>
-        <div class="button-container">
-            <button class="back-button" onclick="hidePrompt()">Back</button>
-            <button class="purple-button" onclick="showPrompt3()">Confirm</button>
-        </div>
-    </div>
 
     <script src="js/prompt.js"></script>
     <div id="dialog-2" class="dialog-2">

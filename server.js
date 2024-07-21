@@ -443,21 +443,84 @@ app.get('/signup-labtechnician', function(req, res) {
     res.render('signup-labtechnician');
 });
 
-
-/*-----------------------      CT      --------------------------*/ 
-// CT-Menu
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
-/*app.get('/CT-View-Edit', function(req, res) {
-    res.render('CT-View-Edit.hbs');
-});*/
+// app.get('/CT-View-Edit', function(req, res) {
+//     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+// });
 
-app.get('/CT-View-Edit', async(req,res) =>{
-    const reservations = await Andrew.find();
-    console.log('Retrieved Reservations:', reservations);
-    res.render('CT-View-Edit', { reservations });
+/*--------------------------   CT  MENU    ---------------------------*/
+app.get('/CT-View-Edit', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        // Fetch all seat data from Andrew, Goks, and Velasco collections
+        const [andrewSeats, goksSeats, velascoSeats] = await Promise.all([
+            Andrew.find().lean(),
+            Goks.find().lean(),
+            Velasco.find().lean()
+        ]);
+
+        // Flatten the reservations data
+        const flattenReservations = (seats) => {
+            return seats.flatMap(seat => 
+                seat.reservations.map(reservation => ({
+                    seat: seat.seat,
+                    ...reservation
+                }))
+            );
+        };
+
+        // Combine and flatten all reservations
+        const combinedReservations = [
+            ...flattenReservations(andrewSeats),
+            ...flattenReservations(goksSeats),
+            ...flattenReservations(velascoSeats)
+        ];
+
+        // Render the template with the formatted data
+        res.render('CT-View-Edit', { reservations: combinedReservations });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+app.delete('/cancel-reservation/:reservationId', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const { reservationId } = req.params;
+        // Find the seat that contains the reservation
+        const seatCollections = [Andrew, Goks, Velasco];
+        let seatFound = false;
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                // Remove the reservation
+                seat.reservations = seat.reservations.filter(reservation => reservation._id.toString() !== reservationId);
+                await seat.save();
+                seatFound = true;
+                break;
+            }
+        }
+
+        if (seatFound) {
+            res.status(200).send('Reservation canceled successfully');
+        } else {
+            res.status(404).send('Reservation not found');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 // POST route to receive reservation data
@@ -518,40 +581,29 @@ app.get('/CT-Profile', async (req, res) => {
     }
 });
 
-/*-----------------------      CT PROFILE  VIEW    --------------------------*/ 
-app.get('/CT-Profile_view-content', async (req, res) => {
+app.delete('/deleteAccount', async (req, res) => {
     try {
-        if (!req.session.userId) {
-            return res.status(401).send('Unauthorized');
-        }
-        const currentUserId = req.session.userId;
-        const users = await Users.find({ _id: { $ne: currentUserId } }).lean();
-        if (!users) {
-            return res.status(404).send('User not found');
+        const userId = req.session.userId;
+        if (!userId) {
+            return res.status(401).send({ message: 'User not authenticated' });
         }
 
-        res.json(users); // Return users data as JSON
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred');
-    }
-});
-
-app.get('/CT-Profile_view-only', async (req, res) => {
-    try {
-        if (!req.session.userId) {
-            return res.status(401).send('Unauthorized');
-        }
-
-        const user = await Users.findById(req.query.userId).lean();
+        const user = await Users.findByIdAndDelete(userId).lean();
         if (!user) {
-            return res.status(404).send('User not found');
+            return res.status(404).send({ message: 'User not found' });
         }
+        // Destroy session after deleting the account
+        req.session.destroy(err => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).send({ message: 'Failed to delete account' });
+            }
 
-        res.render('CT-Profile_view-only', { user });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred');
+            res.status(200).send({ message: 'Account deleted successfully' });
+        });
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).send('Server Error');
     }
 });
 
