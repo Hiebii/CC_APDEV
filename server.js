@@ -380,14 +380,84 @@ app.get('/signup-labtechnician', function(req, res) {
     res.sendFile(__dirname + '/START/signup-labtechnician.html');
 });
 
-
-/*--------------------------   CT  MENU    ---------------------------*/ 
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
-app.get('/CT-View-Edit', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+// app.get('/CT-View-Edit', function(req, res) {
+//     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
+// });
+
+/*--------------------------   CT  MENU    ---------------------------*/
+app.get('/CT-View-Edit', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        // Fetch all seat data from Andrew, Goks, and Velasco collections
+        const [andrewSeats, goksSeats, velascoSeats] = await Promise.all([
+            Andrew.find().lean(),
+            Goks.find().lean(),
+            Velasco.find().lean()
+        ]);
+
+        // Flatten the reservations data
+        const flattenReservations = (seats) => {
+            return seats.flatMap(seat => 
+                seat.reservations.map(reservation => ({
+                    seat: seat.seat,
+                    ...reservation
+                }))
+            );
+        };
+
+        // Combine and flatten all reservations
+        const combinedReservations = [
+            ...flattenReservations(andrewSeats),
+            ...flattenReservations(goksSeats),
+            ...flattenReservations(velascoSeats)
+        ];
+
+        // Render the template with the formatted data
+        res.render('CT-View-Edit', { reservations: combinedReservations });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+app.delete('/cancel-reservation/:reservationId', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const { reservationId } = req.params;
+        // Find the seat that contains the reservation
+        const seatCollections = [Andrew, Goks, Velasco];
+        let seatFound = false;
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                // Remove the reservation
+                seat.reservations = seat.reservations.filter(reservation => reservation._id.toString() !== reservationId);
+                await seat.save();
+                seatFound = true;
+                break;
+            }
+        }
+
+        if (seatFound) {
+            res.status(200).send('Reservation canceled successfully');
+        } else {
+            res.status(404).send('Reservation not found');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
 });
 
 // POST route to receive reservation data
@@ -445,6 +515,32 @@ app.get('/CT-Profile', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
+    }
+});
+
+app.delete('/deleteAccount', async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        if (!userId) {
+            return res.status(401).send({ message: 'User not authenticated' });
+        }
+
+        const user = await Users.findByIdAndDelete(userId).lean();
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+        // Destroy session after deleting the account
+        req.session.destroy(err => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).send({ message: 'Failed to delete account' });
+            }
+
+            res.status(200).send({ message: 'Account deleted successfully' });
+        });
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).send('Server Error');
     }
 });
 
