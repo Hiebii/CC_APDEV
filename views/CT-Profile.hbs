@@ -104,14 +104,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each user.reservations}}
+                        {{#each reservations}}
                         <tr>
-                            <td>{{this.seatNo}}</td>
-                            <td>{{this.computerLab}}</td>
-                            <td>{{this.dateOfRequest}}</td>
-                            <td>{{this.timeOfRequest}}</td>
-                            <td>{{this.dateOfReservation}}</td>
-                            <td>{{this.timeOfReservation}}</td>
+                            <td>{{this.seat}}</td>
+                            <td>{{this.lab}}</td>
+                            <td>{{this.dateofrequest}}</td>
+                            <td>{{this.timeofrequest}}</td>
+                            <td>{{this.dateofreservation}}</td>
+                            <td>{{this.timeofreservation}}</td>
                         </tr>
                         {{/each}}
                     </tbody>
