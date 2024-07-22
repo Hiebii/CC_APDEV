@@ -40,22 +40,22 @@
   </div>
   <div class="taskbar">
     <div class="btndivider">
-      <a href="/CT-homepage">
+      <a href="/LT-homepage">
         <button class="btndesign" id="homebtn">Home</button>
       </a>
     </div>
     <div class="btndivider">
-      <a href="/Andrew">
+      <a href="/LAndrew">
         <button class="btndesign" id="reservationbtn">Reservation</button>
       </a>
     </div>
     <div class="btndivider">
-      <a href="/CT-View-Edit">
+      <a href="/LT-View-Edit">
         <button class="btndesign" id="vieweditbtn">View/Edit</button>
       </a>
     </div>
     <div class="btndivider">
-      <a href="/CT-Profile">
+      <a href="/LT-Profile">
         <button class="btndesign" id="profilebtn">Profile</button>
       </a>
     </div>
@@ -128,7 +128,7 @@
           <td>{{this.timeofreservation}}</td>
           <td>{{this.reservedby}}</td>
           <td>
-            <button class="edit-button"><a href="/CT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
+            <button class="edit-button"><a href="/LT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
             <button class="cancel-button" onclick="findAndCancelData('{{this._id}}')">Cancel</button>
           </td>
         </tr>
@@ -138,7 +138,7 @@
 
   </div>
   <div class="button-container">
-    <button class="purple-button"><a href="/CT-homepage">Return Home</a></button>
+    <button class="purple-button"><a href="/LT-homepage">Return Home</a></button>
   </div>
 
   <!--  Filter script -->
@@ -153,7 +153,7 @@
   <script>
     async function findAndCancelData(reservationId) {
       try {
-        const response = await fetch(`/CT-cancel-reservation/${reservationId}`, {
+        const response = await fetch(`/LT-cancel-reservation/${reservationId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'

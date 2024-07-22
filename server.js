@@ -427,7 +427,10 @@ app.get('/CT-View-Edit', async (req, res) => {
     }
 });
 
-app.delete('/cancel-reservation/:reservationId', async (req, res) => {
+/*--------------------------   CANCEL RESERVATION    ---------------------------*/
+// Searches for reservation in seatCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
+// Note: For LT, can delete any seat
+app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.status(401).send('Unauthorized');
@@ -456,6 +459,58 @@ app.delete('/cancel-reservation/:reservationId', async (req, res) => {
         }
     } catch (err) {
         console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// Searches for reservation in seatCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
+// Note: For CT, checks if 'seatCollections.seat.reservedby' === 'user.session.fullName'
+app.delete('/CT-cancel-reservation/:reservationId', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const userId = req.session.userId;
+        const user = await Users.findById(userId).lean();
+        const userName = user.fullName;
+
+        const { reservationId } = req.params;
+        let seatFound = false;
+
+        // Check all seat collections
+        const seatCollections = [Andrew, Goks, Velasco];
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                // Find the reservation in the seat
+                const reservation = seat.reservations.id(reservationId);
+
+                // console.log(`Found reservation: ${reservation}`);
+                // console.log(`User's name: ${userName}`);
+                // console.log(`Reservation's reservedby: ${reservation.reservedby}`);
+
+                // Check if the reservation's reservedby field matches the current user's name
+                if (reservation && reservation.reservedby === userName) {
+                    // Remove the reservation
+                    seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
+                    await seat.save();
+                    seatFound = true;
+                    break;
+                } else {
+                    return res.status(403).send('Unauthorized Cancellation.');
+                }
+            }
+        }
+
+        if (seatFound) {
+            res.status(200).send('Reservation canceled successfully');
+        } else {
+            res.status(404).send('Reservation not found');
+        }
+    } catch (err) {
+        console.error('Error:', err);
         res.status(500).send('An error occurred');
     }
 });
@@ -598,6 +653,114 @@ app.post('/CT-Profile_edit', async (req, res) => {
     }
 });
 
+/*-----------------------   Profile Search/View   --------------------------*/
+// Fetches and renders user's profile based on their userId
+app.get('/CT-Profile_view-only', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.query.userId).lean();
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href); 
+        }
+
+        res.render('CT-Profile_view-only', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// Searches a user by name. if found, redirect to user's profile page, otherwise, redirects to same page w/ error alert.
+// Note: the 'name' URL is passed to /search sending a GET request ('search?name=Mari%20Santos'), and extracts the 'name' query parameter from the URL
+app.get('/search', async (req, res) => {
+    const name = req.query.name.trim().toLowerCase();   // 'name' is trimmed and assigned to 'const name'
+
+    try {
+        // Fetch all users and search a match w/ user.fullName
+        const allusers = await Users.find({}).lean();
+        const user = allusers.find(user => user.fullName.toLowerCase() === name); 
+        
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href); 
+        }
+        // Redirect to profile page with the found user's _id
+        res.redirect(`/CT-Profile_view-only?userId=${user._id}`);
+    } catch (error) {
+        console.error('Error searching for user:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Fetches all the users, except the current user in the session.
+app.get('/users-for-search', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+        const currentUserId = req.session.userId;
+        const user = await Users.find({ _id: { $ne: currentUserId } }).lean();
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href);
+        }
+
+        res.json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+/* Example of serving a static page and handling dynamic content separately
+app.get('/CT-Profile_view-only_Liam', async (req, res) => {
+    // Handle static file serving
+    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
+
+    // Handle dynamic content (assuming profile ID is passed in URL or query)
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Render the profile page with user data
+        res.render('profile', { user }); // Assuming 'profile' is your Handlebars template
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Example of handling search and redirect
+app.get('/search', async (req, res) => {
+    const name = req.query.name; // Get the name from query parameters
+    try {
+        const user = await User.findOne({ name }); // Query the database for the user
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Redirect to profile page with the found user data
+        res.redirect(`/CT-Profile_view-only_Liam/${user._id}`); // Redirect to the user's profile using their ID
+    } catch (error) {
+        console.error('Error searching for user:', error);
+        res.status(500).send('Internal server error');
+    }
+});*/
+
 // CT-Reservations
 app.get('/CT-Reservation_Goks', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Goks.html');
@@ -610,7 +773,6 @@ app.get('/CT-Reservation_Velasco', function(req, res) {
 app.get('/CT-Reservation_Andrew', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Andrew.html');
 });
-
 
 // CT Reservation Search
 app.get('/CT-Reservation_search-goks', function(req, res) {
@@ -974,43 +1136,6 @@ app.get('/CT-Profile_view-only_Liam', function(req, res) {
 app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
-
-/* Example of serving a static page and handling dynamic content separately
-app.get('/CT-Profile_view-only_Liam', async (req, res) => {
-    // Handle static file serving
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
-
-    // Handle dynamic content (assuming profile ID is passed in URL or query)
-    const userId = req.params.id;
-    try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        // Render the profile page with user data
-        res.render('profile', { user }); // Assuming 'profile' is your Handlebars template
-    } catch (error) {
-        console.error('Error fetching user profile:', error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-// Example of handling search and redirect
-app.get('/search', async (req, res) => {
-    const name = req.query.name; // Get the name from query parameters
-    try {
-        const user = await User.findOne({ name }); // Query the database for the user
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        // Redirect to profile page with the found user data
-        res.redirect(`/CT-Profile_view-only_Liam/${user._id}`); // Redirect to the user's profile using their ID
-    } catch (error) {
-        console.error('Error searching for user:', error);
-        res.status(500).send('Internal server error');
-    }
-});*/
-
 
 /*-----------------------      LT      --------------------------*/ 
 // LT-Menu Bar
