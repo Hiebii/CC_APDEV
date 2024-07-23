@@ -566,7 +566,28 @@ app.get('/CT-Profile', async (req, res) => {
             return res.status(404).send('User not found');
         }
 
-        res.render('CT-Profile', { user });
+        // Fetch and add lab property to reservations from each collection
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
+        );
+
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
+        );
+
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
+        );
+
+        // Combine all reservations
+        const allReservations = [
+            ...andrewReservations,
+            ...goksReservations,
+            ...velascoReservations,
+        ];
+
+        // Pass user and all reservations to the template
+        res.render('CT-Profile', { user, reservations: allReservations });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -1163,7 +1184,28 @@ app.get('/LT-Profile', async (req, res) => {
             return res.status(404).send('User not found');
         }
 
-        res.render('LT-Profile', { user });
+        // Fetch and add lab property to reservations from each collection
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
+        );
+
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
+        );
+
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
+        );
+
+        // Combine all reservations
+        const allReservations = [
+            ...andrewReservations,
+            ...goksReservations,
+            ...velascoReservations,
+        ];
+
+        // Pass user and all reservations to the template
+        res.render('LT-Profile', { user, reservations: allReservations });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');

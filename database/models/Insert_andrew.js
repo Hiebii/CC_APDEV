@@ -15,7 +15,7 @@ const sampleAndrew = [ {
         dateofreservation: "2024-07-12",
         timeofrequest: "8:00 AM",
         timeofreservation: "7:30AM-8:00AM",
-        reservedby: "Mari Santos"
+        reservedby: "Irina Solarez"
       }
     ]
   },
@@ -30,7 +30,7 @@ const sampleAndrew = [ {
         dateofreservation: "2024-07-12",
         timeofrequest: "9:00 AM",
         timeofreservation: "7:30AM-8:00AM",
-        reservedby: "Carlos Bautista"
+        reservedby: "Irina Solarez"
       }
     ]
   },

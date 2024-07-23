@@ -300,3 +300,34 @@ html, body {
 .hide {
     display: none;
 }
+
+.about-container{
+    background-color:#C986CC;
+}
+
+.about-header{
+    text-align: center;
+    font-size: 40px;
+    font-family: "Montserrat Bold", sans-serif;
+    padding-top: 20px;
+    color: black;
+}
+
+.divider {
+    border: none;
+    border-top: 2px solid black;
+    margin: 10px auto;
+    width: 20%;
+}
+.about-content{
+    text-align: center;
+    font-size: 30px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.npm{
+    margin-left: 42%;    
+    font-size: 30px;
+    font-family: "Montserrat", sans-serif;
+    padding-bottom: 20px;
+}
