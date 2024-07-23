@@ -389,11 +389,67 @@ app.get('/CT-homepage', function(req, res) {
 // });
 
 /*--------------------------   CT  MENU    ---------------------------*/
+// Displays the reservations in combinedReservations
+// Note: For CT, checks if 'session.user.fullName' === 'combinedCollections.reservation.name'
 app.get('/CT-View-Edit', async (req, res) => {
     try {
         if (!req.session.userId) {
             return res.status(401).send('Unauthorized');
         }
+
+        const userId = req.session.userId;
+        const user = await Users.findById(userId).lean();
+        const userName = user.fullName;
+
+        // Fetch all seat data from Andrew, Goks, and Velasco collections
+        const [andrewSeats, goksSeats, velascoSeats] = await Promise.all([
+            Andrew.find().lean(),
+            Goks.find().lean(),
+            Velasco.find().lean()
+        ]);
+
+        // Flatten the reservations data
+        const flattenReservations = (seats) => {
+            return seats.flatMap(seat => 
+                seat.reservations.map(reservation => ({
+                    seat: seat.seat,
+                    ...reservation
+                }))
+            );
+        };
+
+        // Combine and flatten all reservations
+        const combinedReservations = [
+            ...flattenReservations(andrewSeats),
+            ...flattenReservations(goksSeats),
+            ...flattenReservations(velascoSeats)
+        ];
+
+        const filteredReservations = [];
+        for (const reservation of combinedReservations) {
+            if (reservation.name === userName) {
+                filteredReservations.push(reservation); // push filtered reservations by userName to temp array 'filteredReservations'
+            }
+        }
+
+        // Render the template with the formatted data
+        res.render('CT-View-Edit', { reservations: filteredReservations });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// Displays the reservations in combinedReservations
+app.get('/LT-View-Edit', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const userId = req.session.userId;
+        const user = await Users.findById(userId).lean();
+        const userName = user.fullName;
 
         // Fetch all seat data from Andrew, Goks, and Velasco collections
         const [andrewSeats, goksSeats, velascoSeats] = await Promise.all([
@@ -428,7 +484,7 @@ app.get('/CT-View-Edit', async (req, res) => {
 });
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
-// Searches for reservation in seatCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
+// Searches for reservation in combinedReservations (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
 // Note: For LT, can delete any seat
 app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
     try {
@@ -438,10 +494,10 @@ app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
 
         const { reservationId } = req.params;
         // Find the seat that contains the reservation
-        const seatCollections = [Andrew, Goks, Velasco];
+        const combinedReservations = [Andrew, Goks, Velasco];
         let seatFound = false;
 
-        for (const SeatModel of seatCollections) {
+        for (const SeatModel of combinedReservations) {
             const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
             if (seat) {
                 // Remove the reservation
@@ -463,8 +519,8 @@ app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
     }
 });
 
-// Searches for reservation in seatCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
-// Note: For CT, checks if 'seatCollections.seat.reservedby' === 'user.session.fullName'
+// Searches for reservation in combinedCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
+// Note: For CT, checks if 'combinedCollections.seat.reservedby' === 'user.session.fullName'
 app.delete('/CT-cancel-reservation/:reservationId', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -479,9 +535,9 @@ app.delete('/CT-cancel-reservation/:reservationId', async (req, res) => {
         let seatFound = false;
 
         // Check all seat collections
-        const seatCollections = [Andrew, Goks, Velasco];
+        const combinedReservations = [Andrew, Goks, Velasco];
 
-        for (const SeatModel of seatCollections) {
+        for (const SeatModel of combinedReservations) {
             const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
             if (seat) {
                 // Find the reservation in the seat
@@ -493,7 +549,6 @@ app.delete('/CT-cancel-reservation/:reservationId', async (req, res) => {
 
                 // Check if the reservation's reservedby field matches the current user's name
                 if (reservation && reservation.reservedby === userName) {
-                    // Remove the reservation
                     seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
                     await seat.save();
                     seatFound = true;
