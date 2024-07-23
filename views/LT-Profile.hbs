@@ -80,8 +80,8 @@
         </div>
         <br><br>
         <div id="deleteaccbtn-div">
-            <a class="deleteaccbtn" onclick="showPrompt()">Delete Account</a>
-        </div>
+                <button class="deleteaccbtn" onclick="confirmDelete()">Delete Account</button>
+            </div>
     </div>
 
     <hr class="vl"> 
@@ -121,6 +121,33 @@
     </div>  
 </div>
 
+    <script>
+        function confirmDelete() {
+            if (confirm("Are you sure you want to delete your account?")) {
+                deleteAccount();
+            }
+        }
+
+        function deleteAccount() {
+            fetch('/deleteAccount', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/';
+                    } else {
+                        alert("Failed to delete account. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Failed to delete account. Please try again.");
+                });
+        }
+    </script>
 
     <!-- Hidden confirmation dialog -->
     <script src="js/prompt.js"></script>
