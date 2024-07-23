@@ -476,7 +476,7 @@ app.get('/LT-View-Edit', async (req, res) => {
         ];
 
         // Render the template with the formatted data
-        res.render('CT-View-Edit', { reservations: combinedReservations });
+        res.render('LT-View-Edit', { reservations: combinedReservations });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
