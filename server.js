@@ -296,18 +296,57 @@ const VelascosReservationModel = require('./database/models/Velasco');
 
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
-    const { fullName, email, password, title } = req.body;
+    const { fullName, email, password, confirmpassword, title } = req.body;
+    console.log('Received Data:', req.body);
 
     try { 
-        const existingEmail = await Users.findOne({ email });
-        if (existingEmail){
-            return res.status(400).json({ message: 'User Already Exists!' });
+        if (!fullName || !email || !password && title === 'Student'){
+            console.error('Missing Fields: ', { fullName, email, password });
+            return res.render('signup-student', { error: 'All fields are required!' });
+            //return res.status(400).json({ error: 'All fields are required!', redirectUrl: '/signup-student'  });
+            
         }
-
-        const newUser = new Users({ fullName, email, password, title });
-        await newUser.save();
-
-        res.status(201).json({ message:'User registered successfully!' });
+        else if (!fullName || !email || !password || !confirmpassword && title === 'Lab Technician'){
+            console.error('Missing Fields: ', { fullName, email, password });
+            return res.render('signup-labtechnician', { error: 'All fields are required!' });
+            //return res.status(400).json({ error: 'All fields are required!', redirectUrl: '/signup-labtechnician'  });
+        }
+        
+        const existingEmail = await Users.findOne({ email });
+        if (existingEmail && password===confirmpassword && title === 'Student'){
+            
+            //return res.render('signup-student', { error: 'User already exists!' });
+            return res.render('signup-student', { error: 'User already exists!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-student' });
+        }
+        else if (existingEmail && password===confirmpassword && title === 'Lab Technician'){
+            return res.render('signup-labtechnician', { error: 'User already exists!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (existingEmail && password!==confirmpassword && title === 'Student'){
+            return res.render('signup-student', { error: 'User already exists! <br> Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (existingEmail && password!==confirmpassword && title === 'Lab Technician'){
+            return res.render('signup-labtechnician', { error: 'User already exists! <br> Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (!existingEmail && password!==confirmpassword && title === 'Student'){
+            return res.render('signup-student', { error: 'Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else if (!existingEmail && password!==confirmpassword && title === 'Lab Technician'){
+            return res.render('signup-labtechnician', { error: 'Passwords do not match!' });
+            //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
+        }
+        else{
+            const newUser = new Users({ fullName, email, password, title });
+            await newUser.save();
+            return res.render('login-page', { message: 'User registered successfully!' });
+            // return res.status(201).json({ message: 'User registered successfully!', redirectUrl: '/login-page' });
+        }
+        
+        
     } catch (err) {
         console.error(err);
         res.status(500).json({ message:'Server Error!' });
@@ -335,7 +374,7 @@ app.post('/login', async (req, res) => {
         } else if (user.title === 'Student'){
             res.redirect('/CT-homepage');
         } else {
-            res.status(400).json({ message: 'Unknown role!' });
+            res.status(400).json({ error: 'Unknown role!' });
         }
     } catch(err) {
         console.error(err);
@@ -373,11 +412,11 @@ app.get('/login-page', function(req, res) {
 });
 
 app.get('/signup-student', function(req, res) {
-    res.sendFile(__dirname + '/START/signup-student.html');
+    res.render('signup-student');
 });
 
 app.get('/signup-labtechnician', function(req, res) {
-    res.sendFile(__dirname + '/START/signup-labtechnician.html');
+    res.render('signup-labtechnician');
 });
 
 app.get('/CT-homepage', function(req, res) {
