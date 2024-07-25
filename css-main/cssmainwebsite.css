@@ -301,15 +301,16 @@ html, body {
     display: none;
 }
 
-.about-container{
-    background-color:#C986CC;
+.npm-container {
+    background-color: #C986CC;
+    padding: 20px;
 }
 
-.about-header{
+.npm-header {
     text-align: center;
     font-size: 40px;
     font-family: "Montserrat Bold", sans-serif;
-    padding-top: 20px;
+    padding-top: 10px;
     color: black;
 }
 
@@ -319,15 +320,30 @@ html, body {
     margin: 10px auto;
     width: 20%;
 }
-.about-content{
-    text-align: center;
-    font-size: 30px;
-    font-family: "Montserrat", sans-serif;
+
+.npm-box-container {
+    display: flex;
+    justify-content: center; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+    margin: 0 auto; 
 }
 
-.npm{
-    margin-left: 42%;    
+.white-box {
+    background-color: white;
+    opacity: 70%;
+    border-radius: 30px;
+    width: 35%; /* Adjust width as needed */
+    margin: 20px 0; /* Vertical margin for spacing */
+    padding: 20px;
+}
+
+.npm {
     font-size: 30px;
     font-family: "Montserrat", sans-serif;
-    padding-bottom: 20px;
+    padding-left: 70px;
+}
+
+.npm li {
+    margin: 5px 0;
 }
