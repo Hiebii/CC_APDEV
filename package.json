@@ -29,10 +29,10 @@
   "license": "ISC",
   "keywords": [],
   "devDependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "16.4.5"
   },
   "engines": {
-    "node": "^20.16.0"
+    "node": "20.16.0"
   },
   "description": ""
 }
