@@ -437,11 +437,6 @@ app.get('/LT-View-Edit', async (req, res) => {
         res.status(500).send('An error occurred');
     }
 });
-/*--------------------------   EDIT RESERVATION    ---------------------------*/
-app.get('/CT-View-Edit_edit-reservation', (req, res) =>{
-    //res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
-    res.render('CT-View-Edit_edit-reservation');
-});
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
 // Searches for reservation in combinedReservations (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
