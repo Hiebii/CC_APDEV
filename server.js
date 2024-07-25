@@ -1,28 +1,32 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/tinkerlab')
+const {dbURL} = require('./config');
+
+mongoose.connect(dbURL);
+
+const { envPort, sessionKey } = require('./config');
 
 /* Initialize express */
 const express = require('express');
 const session = require('express-session');
 const fileUpload = require('express-fileupload')
 const app = express();
-const port = 3000; 
+const port = envPort || 9090; 
 
 /* Initialize our post */
-const Users = require("./database/models/Users")
-const Andrew = require("./database/models/Andrew")
-const Goks = require("./database/models/Goks")
-const Velasco = require("./database/models/Velasco")
+const Users = require("./database/models/Users");
+const Andrew = require("./database/models/Andrew");
+const Goks = require("./database/models/Goks");
+const Velasco = require("./database/models/Velasco");
 const path = require('path') 
 
-app.use(express.json()) 
+app.use(express.json()); 
 app.use(express.urlencoded( {extended: true})); 
-app.use(express.static('public')) 
-app.use(fileUpload())
+app.use(express.static('public')); 
+app.use(fileUpload());
 
 // Configure session middleware
 app.use(session({
-    secret: 'tinkerlab',
+    secret: sessionKey,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
@@ -36,20 +40,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname));
 
-//Dont mind this one
-/*const session = require('express-session');
-const cookieParser = require('cookie-parser');*/
-/*
-app.get('/tinkerlab', (req, res) => {
-    res.json({mssg: "welcomee to the api"})
-})
-
-app.get('/content', async(req,res) => {
-    const posts = await Post.find({})
-    console.log(posts)
-    res.render('content',{posts})
-})
-*/
 
 app.get('/Andrew', async (req, res) => {
     try {
@@ -219,80 +209,6 @@ app.post('/addReservation', async (req, res) => {
         return res.status(500).send('An error occurred while adding reservation');
     }
 });
-
-/*
-// Example endpoint for handling reservations
-app.post('/reserve', async (req, res) => {
-    const { dateofreservation, timeofreservation, seatNames, Collection } = req.body;
-
-    // Validate Collection and determine Roomname
-    let Roomname;
-    switch (Collection) {
-        case 'CT-Reservation_Andrew':
-            Roomname = "AG101";
-            break;
-        case 'CT-Reservation_Goks':
-            Roomname = "GK101";
-            break;
-        case 'CT-Reservation_Velascos':
-            Roomname = "VL101";
-            break;
-        default:
-            return res.status(400).send('Invalid Collection');
-    }
-
-    try {
-        // Example of a function to get model for the given Collection
-        const ReservationModel = getModelForCollection(Collection);
-
-        // Iterate over each seatName to save reservations
-        for (const seatName of seatNames) {
-            const newReservation = {
-                name: 'Fredrick Tario',
-                value: 1,
-                anonymous: 1,
-                dateofrequest: new Date().toISOString().split('T')[0],
-                dateofreservation,
-                timeofrequest: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                timeofreservation,
-                reservedby: 'Fredrick Tario'
-            };
-
-            // Update or create reservation for the seat
-            await ReservationModel.updateOne(
-                { seat: seatName },
-                { $push: { reservations: newReservation } },
-                { upsert: true } // Creates a new document if seatName doesn't exist
-            );
-        }
-
-        res.status(201).send('Reservations created successfully');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server error');
-    }
-});
-
-// Example function to get appropriate model for the Collection
-function getModelForCollection(Collection) {
-    // Example implementation based on your logic
-    switch (Collection) {
-        case 'CT-Reservation_Andrew':
-            return AndrewReservationModel; // Replace with your actual model
-        case 'CT-Reservation_Goks':
-            return GoksReservationModel; // Replace with your actual model
-        case 'CT-Reservation_Velascos':
-            return VelascosReservationModel; // Replace with your actual model
-        default:
-            throw new Error('Invalid Collection');
-    }
-}
-
-// Example reservation models (replace with your actual Mongoose models)
-const AndrewReservationModel = require('./database/models/Andrew');
-const GoksReservationModel = require('./database/models/Goks');
-const VelascosReservationModel = require('./database/models/Velasco');
-*/
 
 /*-----------------------      SIGNUP      --------------------------*/ 
 app.post('/signup', async (req, res) => {
