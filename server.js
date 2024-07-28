@@ -684,7 +684,7 @@ app.post('/CT-Profile_edit', async (req, res) => {
     }
 });
 
-/*-----------------------   Profile Search/View   --------------------------*/
+/*-----------------------  CT Profile Search/View   --------------------------*/
 // Fetches and renders user's profile based on their userId
 app.get('/CT-Profile_view-only', async (req, res) => {
     try {
@@ -693,6 +693,8 @@ app.get('/CT-Profile_view-only', async (req, res) => {
         }
 
         const user = await Users.findById(req.query.userId).lean();
+        const userName = user.fullName;
+
         if (!user) {
             // Error Handling: redirects to same URL page w/ an error query from search.js 
             const currentUrl = req.headers.referer; // Use referer header to get the current URL
@@ -701,7 +703,27 @@ app.get('/CT-Profile_view-only', async (req, res) => {
             return res.redirect(url.href); 
         }
 
-        res.render('CT-Profile_view-only', { user });
+        // Fetch and add lab property to reservations from each collection
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
+        );
+
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
+        );
+
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
+        );
+
+        // Combine all reservations
+        const allReservations = [
+            ...andrewReservations,
+            ...goksReservations,
+            ...velascoReservations,
+        ];
+
+        res.render('CT-Profile_view-only', { user, reservations: allReservations });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -755,7 +777,6 @@ app.get('/users-for-search', async (req, res) => {
         res.status(500).send('An error occurred');
     }
 });
-
 
 // CT-Reservations
 app.get('/CT-Reservation_Goks', function(req, res) {
@@ -1239,6 +1260,97 @@ app.post('/LT-Profile_edit', async (req, res) => {
     }
 });
 
+/*-----------------------  LT Profile Search/View   --------------------------*/
+// Fetches and renders user's profile based on their userId
+app.get('/LT-Profile_view-only', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+
+        const user = await Users.findById(req.query.userId).lean();
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href); 
+        }
+
+        // Fetch and add lab property to reservations from each collection
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
+        );
+
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
+        );
+
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
+        );
+
+        // Combine all reservations
+        const allReservations = [
+            ...andrewReservations,
+            ...goksReservations,
+            ...velascoReservations,
+        ];
+
+        res.render('LT-Profile_view-only', { user, reservations: allReservations });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
+
+// Searches a user by name. if found, redirect to user's profile page, otherwise, redirects to same page w/ error alert.
+// Note: the 'name' URL is passed to /search sending a GET request ('search?name=Mari%20Santos'), and extracts the 'name' query parameter from the URL
+app.get('/search2', async (req, res) => {
+    const name = req.query.name.trim().toLowerCase();   // 'name' is trimmed and assigned to 'const name'
+
+    try {
+        // Fetch all users and search a match w/ user.fullName
+        const allusers = await Users.find({}).lean();
+        const user = allusers.find(user => user.fullName.toLowerCase() === name); 
+        
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href); 
+        }
+        // Redirect to profile page with the found user's _id
+        res.redirect(`/LT-Profile_view-only?userId=${user._id}`);
+    } catch (error) {
+        console.error('Error searching for user:', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+// Fetches all the users, except the current user in the session.
+app.get('/users-for-search2', async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).send('Unauthorized');
+        }
+        const currentUserId = req.session.userId;
+        const user = await Users.find({ _id: { $ne: currentUserId } }).lean();
+        if (!user) {
+            // Error Handling: redirects to same URL page w/ an error query from search.js 
+            const currentUrl = req.headers.referer; // Use referer header to get the current URL
+            const url = new URL(currentUrl, `http://${req.headers.host}`);
+            url.searchParams.set('error', 'UserNotFound');
+            return res.redirect(url.href);
+        }
+
+        res.json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred');
+    }
+});
 
 app.get('/LAndrew', async (req, res) => {
     try {
