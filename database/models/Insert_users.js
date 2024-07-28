@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Users = require('./Users'); // Ensure the path is correct
 
-mongoose.connect('mongodb://localhost:27017/tinkerlab', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://johnfredricktario:password_12@tinkerlab.mbh0jj9.mongodb.net/Tinkerlab?retryWrites=true&w=majority&appName=Tinkerlab');
 
 // run this in cmd to put the data on mongodb (e.g node Insert_users.js)
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Velasco = require('./Velasco'); // Ensure the path is correct
 
-mongoose.connect('mongodb://localhost:27017/tinkerlab', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://johnfredricktario:password_12@tinkerlab.mbh0jj9.mongodb.net/Tinkerlab?retryWrites=true&w=majority&appName=Tinkerlab');
 
 // run this in cmd (e.g node Insert_velasco.js)
 const sampleVelasco = [ {
@@ -12,8 +12,8 @@ const sampleVelasco = [ {
       name: "Mari Santos",
       value: 1,
       anonymous: 0,
-      dateofrequest: "2024-10-01",
-      dateofreservation: "2024-10-02",
+      dateofrequest: "2024-08-01",
+      dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
       timeofreservation: "7:30AM-8:00AM",
       reservedby: "Mari Santos"
@@ -27,8 +27,8 @@ const sampleVelasco = [ {
       name: "Carlos Bautista",
       value: 1,
       anonymous: 0,
-      dateofrequest: "2024-10-01",
-      dateofreservation: "2024-10-02",
+      dateofrequest: "2024-08-01",
+      dateofreservation: "2024-08-02",
       timeofrequest: "9:00 AM",
       timeofreservation: "7:30AM-8:00AM",
       reservedby: "Carlos Bautista"
@@ -42,10 +42,10 @@ const sampleVelasco = [ {
       name: "Andres Hidalgo",
       value: 1,
       anonymous: 0,
-      dateofrequest: "2024-10-01",
-      dateofreservation: "2024-10-02",
+      dateofrequest: "2024-08-01",
+      dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
+      timeofreservation: "9:30AM-08:00AM",
       reservedby: "Andres Hidalgo"
     }
   ]
@@ -57,10 +57,10 @@ const sampleVelasco = [ {
       name: "Stephen Go",
       value: 1,
       anonymous: 1,
-      dateofrequest: "2024-10-01",
-      dateofreservation: "2024-10-02",
+      dateofrequest: "2024-08-01",
+      dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
+      timeofreservation: "9:30AM-08:00AM",
       reservedby: "Stephen Go"
     }
   ]
@@ -72,10 +72,10 @@ const sampleVelasco = [ {
       name: "Japeth Aguilar",
       value: 1,
       anonymous: 1,
-      dateofrequest: "2024-10-01",
-      dateofreservation: "2024-10-02",
+      dateofrequest: "2024-08-01",
+      dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
+      timeofreservation: "9:30AM-08:00AM",
       reservedby: "Japeth Aguilar"
     }
   ]
@@ -87,10 +87,10 @@ const sampleVelasco = [ {
       name: "Marie Espiritu",
       value: 1,
       anonymous: 1,
-      dateofrequest: "2024-10-01",
-      dateofreservation: "2024-10-02",
+      dateofrequest: "2024-08-01",
+      dateofreservation: "2024-08-02",
       timeofrequest: "10:00 AM",
-      timeofreservation: "10:00AM-10:30AM",
+      timeofreservation: "10:00AM-08:30AM",
       reservedby: "Marie Espiritu"
     }
   ]
@@ -102,10 +102,10 @@ const sampleVelasco = [ {
       name: "Claudette Escobar",
       value: 1,
       anonymous: 1,
-      dateofrequest: "2024-10-01",
-      dateofreservation: "2024-10-02",
+      dateofrequest: "2024-08-01",
+      dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "10:00AM-10:30AM",
+      timeofreservation: "10:00AM-08:30AM",
       reservedby: "Claudette Escobar"
     }
   ]
@@ -117,8 +117,8 @@ const sampleVelasco = [ {
       name: "Mari Santos",
       value: 1,
       anonymous: 0,
-      dateofrequest: "2024-10-04",
-      dateofreservation: "2024-10-05",
+      dateofrequest: "2024-08-04",
+      dateofreservation: "2024-08-04",
       timeofrequest: "8:00 AM",
       timeofreservation: "7:30AM-8:00AM",
       reservedby: "Mari Santos"
@@ -132,8 +132,8 @@ const sampleVelasco = [ {
       name: "Carlos Bautista",
       value: 1,
       anonymous: 0,
-      dateofrequest: "2024-10-04",
-      dateofreservation: "2024-10-05",
+      dateofrequest: "2024-08-04",
+      dateofreservation: "2024-08-04",
       timeofrequest: "9:00 AM",
       timeofreservation: "7:30AM-8:00AM",
       reservedby: "Carlos Bautista"
@@ -147,314 +147,74 @@ const sampleVelasco = [ {
       name: "Andres Hidalgo",
       value: 1,
       anonymous: 0,
-      dateofrequest: "2024-10-04",
-      dateofreservation: "2024-10-05",
+      dateofrequest: "2024-08-04",
+      dateofreservation: "2024-08-04",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
+      timeofreservation: "9:30AM-08:00AM",
       reservedby: "Andres Hidalgo"
     }
   ]
 },
 {
-  seat: "VL11",
-  reservations: [
-    {
-      name: "Stephen Go",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-04",
-      dateofreservation: "2024-10-05",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
-      reservedby: "Stephen Go"
-    }
-  ]
+  seat: "VL11"
 },
 {
-  seat: "VL12",
-  reservations: [
-    {
-      name: "Japeth Aguilar",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-04",
-      dateofreservation: "2024-10-05",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
-      reservedby: "Japeth Aguilar"
-    }
-  ]
+  seat: "VL12"
 },
 {
-  seat: "VL13",
-  reservations: [
-    {
-      name: "Marie Espiritu",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-04",
-      dateofreservation: "2024-10-05",
-      timeofrequest: "10:00 AM",
-      timeofreservation: "10:00AM-10:30AM",
-      reservedby: "Marie Espiritu"
-    }
-  ]
+  seat: "VL13"
 },
 {
-  seat: "VL14",
-  reservations: [
-    {
-      name: "Claudette Escobar",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-04",
-      dateofreservation: "2024-10-05",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "10:00AM-10:30AM",
-      reservedby: "Claudette Escobar"
-    }
-  ]
+  seat: "VL14"
 },
 {
-  seat: "VL15",
-  reservations: [
-    {
-      name: "Mari Santos",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-10-15",
-      dateofreservation: "2024-10-16",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "7:30AM-8:00AM",
-      reservedby: "Mari Santos"
-    }
-  ]
+  seat: "VL15"
 },
 {
-  seat: "VL16",
-  reservations: [
-    {
-      name: "Carlos Bautista",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-10-15",
-      dateofreservation: "2024-10-16",
-      timeofrequest: "9:00 AM",
-      timeofreservation: "7:30AM-8:00AM",
-      reservedby: "Carlos Bautista"
-    }
-  ]
+  seat: "VL16"
 },
 {
-  seat: "VL17",
-  reservations: [
-    {
-      name: "Andres Hidalgo",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-10-15",
-      dateofreservation: "2024-10-16",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
-      reservedby: "Andres Hidalgo"
-    }
-  ]
+  seat: "VL17"
 },
 {
-  seat: "VL18",
-  reservations: [
-    {
-      name: "Stephen Go",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-15",
-      dateofreservation: "2024-10-16",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
-      reservedby: "Stephen Go"
-    }
-  ]
+  seat: "VL18"
 },
 {
-  seat: "VL19",
-  reservations: [
-    {
-      name: "Japeth Aguilar",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-15",
-      dateofreservation: "2024-10-16",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-10:00AM",
-      reservedby: "Japeth Aguilar"
-    }
-  ]
+  seat: "VL19"
 },
 {
-  seat: "VL20",
-  reservations: [
-    {
-      name: "Marie Espiritu",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-15",
-      dateofreservation: "2024-10-16",
-      timeofrequest: "10:00 AM",
-      timeofreservation: "10:00AM-10:30AM",
-      reservedby: "Marie Espiritu"
-    }
-  ]
+  seat: "VL20"
 },
 {
-  seat: "VL21",
-  reservations: [
-    {
-      name: "Claudette Escobar",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-10-15",
-      dateofreservation: "2024-10-16",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "10:00AM-10:30AM",
-      reservedby: "Claudette Escobar"
-    }
-  ]
+  seat: "VL21"
 },
 {
-    seat: "VL22",
-    reservations: [
-      {
-        name: "Carlos Bautista",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-15",
-        dateofreservation: "2024-10-18",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Irina Solarez"
-      }
-    ]
-  },
-  {
-    seat: "VL23",
-    reservations: [
-      {
-        name: "Carlos Bautista",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-15",
-        dateofreservation: "2024-10-19",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Irina Solzarez"
-      }
-    ]
-  },
-  {
-    seat: "VL24",
-    reservations: [
-      {
-        name: "Andres Hidalgo",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-15",
-        dateofreservation: "2024-10-18",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Irish Solarez"
-      }
-    ]
-  },
-  {
-    seat: "VL25",
-    reservations: [
-      {
-        name: "Stephen Go",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-15",
-        dateofreservation: "2024-10-18",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Irish Solarez"
-      }
-    ]
-  },
-  {
-    seat: "VL26",
-    reservations: [
-      {
-        name: "Japeth Aguilar",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-15",
-        dateofreservation: "2024-10-18",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Irish Solarez"
-      }
-    ]
-  },
-  {
-    seat: "VL27",
-    reservations: [
-      {
-        name: "Marie Espiritu",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-15",
-        dateofreservation: "2024-10-18",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Eli Lopez"
-      }
-    ]
-  },
-  {
-    seat: "VL28",
-    reservations: [
-      {
-        name: "Claudette Escobar",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-17",
-        dateofreservation: "2024-10-22",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Eli Lopez"
-      }
-    ]
-  },
-  {
-    seat: "VL29",
-    reservations: [
-      {
-        name: "Claudette Escobar",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-17",
-        dateofreservation: "2024-10-23",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Eli Lopez"
-      }
-    ]
-  },
-  {
-    seat: "VL30",
-    reservations: [
-      {
-        name: "Claudette Escobar",
-        value: 1,
-        anonymous: 1,
-        dateofrequest: "2024-10-17",
-        dateofreservation: "2024-10-24",
-        timeofrequest: "8:00 AM",
-        timeofreservation: "10:00AM-10:30AM",
-        reservedby: "Eli Lopez"
-      }
-    ]
-  }
+  seat: "VL22"
+},
+{
+  seat: "VL23"
+},
+{
+  seat: "VL24"
+},
+{
+  seat: "VL25"
+},
+{
+  seat: "VL26"
+},
+{
+  seat: "VL27"
+},
+{
+  seat: "VL28"
+},
+{
+  seat: "VL29"
+},
+{
+  seat: "VL30"
+}
 
 
 ];
