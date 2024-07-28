@@ -12,27 +12,27 @@
     </head>
 
     <body>
-        <div class="header">
+       <div class="header">
             <img class="imglogo" src="images/tinkerlablogo.png">
         </div>
         <div class="taskbar">
           <div class="btndivider">
-            <a href="/CT-homepage">
+            <a href="/LT-homepage">
                 <button class="btndesign" id="homebtn">Home</button>
             </a>
           </div>
           <div class="btndivider">
-              <a href="/Andrew">
+              <a href="/LAndrew">
               <button class="btndesign" id="reservationbtn">Reservation</button>
             </a>
           </div>
           <div class="btndivider">
-              <a href="/CT-View-Edit">
+              <a href="/LT-View-Edit">
               <button class="btndesign" id="vieweditbtn">View/Edit</button>
               </a>
           </div>
           <div class="btndivider">
-            <a href="/CT-Profile">
+            <a href="/LT-Profile">
               <button class="btndesign" id="profilebtn">Profile</button>
             </a>
         </div>
@@ -51,9 +51,9 @@
               <p class = "sort-text">COMPUTER LAB:</p>
               <div class="custom-select-wrapper">
                   <select id="lab-dropdown" class="lab-dropdown">
-                    <option value="VL101">VL101</option>
-                    <option value="AG101">AG101</option>
                     <option value="GK101">GK101</option>
+                    <option value="AG101">AG101</option>
+                    <option value="VL101">VL101</option>
                 </select>
               </div>
           </div>
@@ -80,7 +80,6 @@
           <script src="js-main/CT-Reservation_DateRestrict.js"></script>
           <div class = "date-button">
               <p class = "sort-text">DATE:</p>
-              <form id="dateForm" action="/Velasco" method="GET">
             <input type="date" class="date-input" id="dateInput" name="date">
             <!-- Hidden input to store selected time -->
             <input type="hidden" id="selectedTime" name="time">
@@ -102,12 +101,12 @@
            <tbody>
              {{#each data}}
         <tr>
-            <td>VL101</td> <!-- This is static; consider changing it dynamically if needed -->
+            <td>GK101</td> <!-- This is static; consider changing it dynamically if needed -->
             <td>{{this.time}}</td>
             <td>{{this.date}}</td>
             <td>{{this.availableSeats}}</td>
             <td>
-                <button class="go-button"><a href="/Velasco">Go</a></button>
+                <button class="go-button"><a href="/LGoks">Go</a></button>
             </td>
         </tr>
         {{/each}}
@@ -160,7 +159,7 @@
                 console.log("Search Data:", searchData);
 
                 try {
-                    const response = await fetch('/getSearch', {
+                    const response = await fetch('/LgetSearch', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

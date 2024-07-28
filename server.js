@@ -756,41 +756,6 @@ app.get('/users-for-search', async (req, res) => {
     }
 });
 
-/* Example of serving a static page and handling dynamic content separately
-app.get('/CT-Profile_view-only_Liam', async (req, res) => {
-    // Handle static file serving
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
-
-    // Handle dynamic content (assuming profile ID is passed in URL or query)
-    const userId = req.params.id;
-    try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        // Render the profile page with user data
-        res.render('profile', { user }); // Assuming 'profile' is your Handlebars template
-    } catch (error) {
-        console.error('Error fetching user profile:', error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-// Example of handling search and redirect
-app.get('/search', async (req, res) => {
-    const name = req.query.name; // Get the name from query parameters
-    try {
-        const user = await User.findOne({ name }); // Query the database for the user
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        // Redirect to profile page with the found user data
-        res.redirect(`/CT-Profile_view-only_Liam/${user._id}`); // Redirect to the user's profile using their ID
-    } catch (error) {
-        console.error('Error searching for user:', error);
-        res.status(500).send('Internal server error');
-    }
-});*/
 
 // CT-Reservations
 app.get('/CT-Reservation_Goks', function(req, res) {
@@ -977,11 +942,21 @@ app.post('/getSearch', async (req, res) => {
                     ]);
 
                     // Map the results to include the available seats for each date-time combination
-                    const data = goksResults.map(result => ({
-                    date: result._id.dateofreservation,
-                    time: result._id.timeofreservation,
-                    availableSeats: 30 - result.total
-                    }));
+                    // If no results found, create default data
+                    if (goksResults.length === 0) {
+                        data = [{
+                        date: dateofreservation || 'default date',
+                        time: timeofreservation || 'default time',
+                        availableSeats: 30
+                        }];
+                    } else {
+                        // Map the results to include the available seats for each date-time combination
+                        data = goksResults.map(result => ({
+                        date: result._id.dateofreservation,
+                        time: result._id.timeofreservation,
+                        availableSeats: 30 - result.total
+                        }));
+                    }
 
                     // If no specific date or time is selected, add all possible options
                     if (!dateofreservation && !timeofreservation) {
@@ -1071,11 +1046,21 @@ app.post('/getSearch', async (req, res) => {
                     ]);
 
                     // Map the results to include the available seats for each date-time combination
-                    const data = goksResults.map(result => ({
-                    date: result._id.dateofreservation,
-                    time: result._id.timeofreservation,
-                    availableSeats: 30 - result.total
-                    }));
+                    // If no results found, create default data
+                    if (goksResults.length === 0) {
+                        data = [{
+                        date: dateofreservation || 'default date',
+                        time: timeofreservation || 'default time',
+                        availableSeats: 30
+                        }];
+                    } else {
+                        // Map the results to include the available seats for each date-time combination
+                        data = goksResults.map(result => ({
+                        date: result._id.dateofreservation,
+                        time: result._id.timeofreservation,
+                        availableSeats: 30 - result.total
+                        }));
+                    }
 
                     // If no specific date or time is selected, add all possible options
                     if (!dateofreservation && !timeofreservation) {
@@ -1137,28 +1122,6 @@ app.post('/getSearch', async (req, res) => {
         res.status(500).send('An error occurred');
     }
 });
-
-function generateDates() {
-    const dates = [];
-    const today = new Date();
-    for (let i = 0; i <= 7; i++) {
-      let date = new Date(today);
-      date.setDate(today.getDate() + i);
-      dates.push(date.toISOString().split('T')[0]); // Return date in YYYY-MM-DD format
-    }
-    return dates;
-  }
-  
-  function generateTimes() {
-    return [
-      "7:30AM-8:00AM", "8:00AM-8:30AM", "8:30AM-9:00AM", "9:00AM-9:30AM",
-      "9:30AM-10:00AM", "10:00AM-10:30AM", "10:30AM-11:00AM", "11:00AM-11:30AM",
-      "11:30AM-12:00PM", "12:00PM-12:30PM"
-    ];
-  }
-  
-
-
 
 app.get('/CT-Profile_view-only_Liam', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
@@ -1352,18 +1315,378 @@ app.get('/LVelasco', async (req, res) => {
 
 
 // LT-Reservations
-app.get('/LT-Reservation_search-goks', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
-});
 
+// CT Reservation Search// CT Reservation Search
 app.get('/LT-Reservation_search-goks', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
+    const data = req.session.searchResults;
+    res.render('LT-Reservation_search-goks', { data });
 });
 
 app.get('/LT-Reservation_search-andrew', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Reservation_search-andrew.html');
+    const data = req.session.searchResults;
+    if (!data) {
+        return res.status(404).send('No search results found');
+    }
+    res.render('LT-Reservation_search-andrew', { data });
 });
 
+app.get('/LT-Reservation_search-velasco', function(req, res) {
+    const data = req.session.searchResults;
+    if (!data) {
+        return res.status(404).send('No search results found');
+    }
+    res.render('LT-Reservation_search-velasco', { data });
+});
+
+
+app.post('/LgetSearch', async (req, res) => {
+    try {
+        const { dblab, dateofreservation, timeofreservation } = req.body;
+        let data;
+
+
+        switch (dblab) {
+            case "Goks":
+                    try {
+                        // Build the match query dynamically
+                        let matchQuery = {};
+                        let allDates, allTimes;
+
+                        if (dateofreservation && timeofreservation) {
+                        // Both date and time are provided
+                        matchQuery["reservations.dateofreservation"] = dateofreservation;
+                        matchQuery["reservations.timeofreservation"] = timeofreservation;
+                        } else if (dateofreservation) {
+                        // Only date is provided
+                        matchQuery["reservations.dateofreservation"] = dateofreservation;
+                        matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
+                        } else if (timeofreservation) {
+                        // Only time is provided
+                        matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
+                        matchQuery["reservations.timeofreservation"] = timeofreservation;
+                        }
+
+                        // Aggregation for Goks
+                        const goksResults = await Goks.aggregate([
+                        { $unwind: "$reservations" },
+                        { $match: matchQuery },
+                        { $group: {
+                            _id: {
+                                dateofreservation: "$reservations.dateofreservation",
+                                timeofreservation: "$reservations.timeofreservation"
+                            },
+                            total: { $sum: 1 }
+                            }
+                        },
+                        { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
+                        ]);
+
+                        // Map the results to include the available seats for each date-time combination
+                        // If no results found, create default data
+                        if (goksResults.length === 0) {
+                            data = [{
+                            date: dateofreservation || 'default date',
+                            time: timeofreservation || 'default time',
+                            availableSeats: 30
+                            }];
+                        } else {
+                            // Map the results to include the available seats for each date-time combination
+                            data = goksResults.map(result => ({
+                            date: result._id.dateofreservation,
+                            time: result._id.timeofreservation,
+                            availableSeats: 30 - result.total
+                            }));
+                        }
+
+                        // If no specific date or time is selected, add all possible options
+                        if (!dateofreservation && !timeofreservation) {
+                        allDates = generateDates(); // Returns dates from today up to 7 days
+                        allTimes = generateTimes(); // Returns a list of all time slots
+
+                        allDates.forEach(d => {
+                            allTimes.forEach(t => {
+                            if (!data.find(item => item.date === d && item.time === t)) {
+                                data.push({
+                                date: d,
+                                time: t,
+                                availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                });
+                            }
+                            });
+                        });
+                        } else if (!dateofreservation) {
+                        // If no date is provided, add all times for the given time slots
+                        allDates = generateDates(); // Returns dates from today up to 7 days
+
+                        allDates.forEach(d => {
+                            if (!data.find(item => item.date === d && item.time === timeofreservation)) {
+                            data.push({
+                                date: d,
+                                time: timeofreservation,
+                                availableSeats: 30 // Assuming 30 seats are available if no reservations
+                            });
+                            }
+                        });
+                        } else if (!timeofreservation) {
+                        // If no time is provided, add all time slots for the given dates
+                        allTimes = generateTimes(); // Returns a list of all time slots
+
+                        allTimes.forEach(t => {
+                            if (!data.find(item => item.date === dateofreservation && item.time === t)) {
+                            data.push({
+                                date: dateofreservation,
+                                time: t,
+                                availableSeats: 30 // Assuming 30 seats are available if no reservations
+                            });
+                            }
+                        });
+                        }
+
+                        req.session.searchResults = data;
+                        res.json({ data, redirectUrl: '/LT-Reservation_search-goks' });
+                    } catch (error) {
+                        console.error('Error:', error);
+                        res.status(500).send('An error occurred');
+                    }
+                    break;
+
+            
+
+            case "Andrews":
+                try {
+                    // Build the match query dynamically
+                    let matchQuery = {};
+                    let allDates, allTimes;
+
+                    if (dateofreservation && timeofreservation) {
+                    // Both date and time are provided
+                    matchQuery["reservations.dateofreservation"] = dateofreservation;
+                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                    } else if (dateofreservation) {
+                    // Only date is provided
+                    matchQuery["reservations.dateofreservation"] = dateofreservation;
+                    matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
+                    } else if (timeofreservation) {
+                    // Only time is provided
+                    matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
+                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                    }
+
+                    // Aggregation for Goks
+                    const goksResults = await Andrew.aggregate([
+                    { $unwind: "$reservations" },
+                    { $match: matchQuery },
+                    { $group: {
+                        _id: {
+                            dateofreservation: "$reservations.dateofreservation",
+                            timeofreservation: "$reservations.timeofreservation"
+                        },
+                        total: { $sum: 1 }
+                        }
+                    },
+                    { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
+                    ]);
+
+                    // Map the results to include the available seats for each date-time combination
+                    // If no results found, create default data
+                    if (goksResults.length === 0) {
+                        data = [{
+                        date: dateofreservation || 'default date',
+                        time: timeofreservation || 'default time',
+                        availableSeats: 30
+                        }];
+                    } else {
+                        // Map the results to include the available seats for each date-time combination
+                        data = goksResults.map(result => ({
+                        date: result._id.dateofreservation,
+                        time: result._id.timeofreservation,
+                        availableSeats: 30 - result.total
+                        }));
+                    }
+
+                    // If no specific date or time is selected, add all possible options
+                    if (!dateofreservation && !timeofreservation) {
+                    allDates = generateDates(); // Returns dates from today up to 7 days
+                    allTimes = generateTimes(); // Returns a list of all time slots
+
+                    allDates.forEach(d => {
+                        allTimes.forEach(t => {
+                        if (!data.find(item => item.date === d && item.time === t)) {
+                            data.push({
+                            date: d,
+                            time: t,
+                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                            });
+                        }
+                        });
+                    });
+                    } else if (!dateofreservation) {
+                    // If no date is provided, add all times for the given time slots
+                    allDates = generateDates(); // Returns dates from today up to 7 days
+
+                    allDates.forEach(d => {
+                        if (!data.find(item => item.date === d && item.time === timeofreservation)) {
+                        data.push({
+                            date: d,
+                            time: timeofreservation,
+                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        });
+                        }
+                    });
+                    } else if (!timeofreservation) {
+                    // If no time is provided, add all time slots for the given dates
+                    allTimes = generateTimes(); // Returns a list of all time slots
+
+                    allTimes.forEach(t => {
+                        if (!data.find(item => item.date === dateofreservation && item.time === t)) {
+                        data.push({
+                            date: dateofreservation,
+                            time: t,
+                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        });
+                        }
+                    });
+                    }
+
+                    req.session.searchResults = data;
+                    res.json({ data, redirectUrl: '/LT-Reservation_search-andrew' });
+                } catch (error) {
+                    console.error('Error:', error);
+                    res.status(500).send('An error occurred');
+                }
+                break;
+
+            case "Velascos":
+                try {
+                    // Build the match query dynamically
+                    let matchQuery = {};
+                    let allDates, allTimes;
+
+                    if (dateofreservation && timeofreservation) {
+                    // Both date and time are provided
+                    matchQuery["reservations.dateofreservation"] = dateofreservation;
+                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                    } else if (dateofreservation) {
+                    // Only date is provided
+                    matchQuery["reservations.dateofreservation"] = dateofreservation;
+                    matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
+                    } else if (timeofreservation) {
+                    // Only time is provided
+                    matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
+                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                    }
+
+                    // Aggregation for Goks
+                    const goksResults = await Velasco.aggregate([
+                    { $unwind: "$reservations" },
+                    { $match: matchQuery },
+                    { $group: {
+                        _id: {
+                            dateofreservation: "$reservations.dateofreservation",
+                            timeofreservation: "$reservations.timeofreservation"
+                        },
+                        total: { $sum: 1 }
+                        }
+                    },
+                    { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
+                    ]);
+
+                    // Map the results to include the available seats for each date-time combination
+                    // If no results found, create default data
+                    if (goksResults.length === 0) {
+                        data = [{
+                        date: dateofreservation || 'default date',
+                        time: timeofreservation || 'default time',
+                        availableSeats: 30
+                        }];
+                    } else {
+                        // Map the results to include the available seats for each date-time combination
+                        data = goksResults.map(result => ({
+                        date: result._id.dateofreservation,
+                        time: result._id.timeofreservation,
+                        availableSeats: 30 - result.total
+                        }));
+                    }
+
+                    // If no specific date or time is selected, add all possible options
+                    if (!dateofreservation && !timeofreservation) {
+                    allDates = generateDates(); // Returns dates from today up to 7 days
+                    allTimes = generateTimes(); // Returns a list of all time slots
+
+                    allDates.forEach(d => {
+                        allTimes.forEach(t => {
+                        if (!data.find(item => item.date === d && item.time === t)) {
+                            data.push({
+                            date: d,
+                            time: t,
+                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                            });
+                        }
+                        });
+                    });
+                    } else if (!dateofreservation) {
+                    // If no date is provided, add all times for the given time slots
+                    allDates = generateDates(); // Returns dates from today up to 7 days
+
+                    allDates.forEach(d => {
+                        if (!data.find(item => item.date === d && item.time === timeofreservation)) {
+                        data.push({
+                            date: d,
+                            time: timeofreservation,
+                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        });
+                        }
+                    });
+                    } else if (!timeofreservation) {
+                    // If no time is provided, add all time slots for the given dates
+                    allTimes = generateTimes(); // Returns a list of all time slots
+
+                    allTimes.forEach(t => {
+                        if (!data.find(item => item.date === dateofreservation && item.time === t)) {
+                        data.push({
+                            date: dateofreservation,
+                            time: t,
+                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        });
+                        }
+                    });
+                    }
+
+                    req.session.searchResults = data;
+                    res.json({ data, redirectUrl: '/LT-Reservation_search-velasco' });
+                } catch (error) {
+                    console.error('Error:', error);
+                    res.status(500).send('An error occurred');
+                }
+                break;
+
+            default:
+                res.status(400).send('Invalid lab specified');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+function generateDates() {
+    const dates = [];
+    const today = new Date();
+    for (let i = 0; i <= 7; i++) {
+      let date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push(date.toISOString().split('T')[0]); // Return date in YYYY-MM-DD format
+    }
+    return dates;
+  }
+  
+  function generateTimes() {
+    return [
+      "7:30AM-8:00AM", "8:00AM-8:30AM", "8:30AM-9:00AM", "9:00AM-9:30AM",
+      "9:30AM-10:00AM", "10:00AM-10:30AM", "10:30AM-11:00AM", "11:00AM-11:30AM",
+      "11:30AM-12:00PM", "12:00PM-12:30PM"
+    ];
+  }
 
 
 // POST route to receive reservation data
