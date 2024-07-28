@@ -45,7 +45,7 @@ const sampleVelasco = [ {
       dateofrequest: "2024-08-01",
       dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-08:00AM",
+      timeofreservation: "7:30AM-08:00AM",
       reservedby: "Andres Hidalgo"
     }
   ]
@@ -60,7 +60,7 @@ const sampleVelasco = [ {
       dateofrequest: "2024-08-01",
       dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-08:00AM",
+      timeofreservation: "7:30AM-08:00AM",
       reservedby: "Stephen Go"
     }
   ]
@@ -75,7 +75,7 @@ const sampleVelasco = [ {
       dateofrequest: "2024-08-01",
       dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-08:00AM",
+      timeofreservation: "7:30AM-08:00AM",
       reservedby: "Japeth Aguilar"
     }
   ]
@@ -90,7 +90,7 @@ const sampleVelasco = [ {
       dateofrequest: "2024-08-01",
       dateofreservation: "2024-08-02",
       timeofrequest: "10:00 AM",
-      timeofreservation: "10:00AM-08:30AM",
+      timeofreservation: "10:30AM-11:00AM",
       reservedby: "Marie Espiritu"
     }
   ]
@@ -105,7 +105,7 @@ const sampleVelasco = [ {
       dateofrequest: "2024-08-01",
       dateofreservation: "2024-08-02",
       timeofrequest: "8:00 AM",
-      timeofreservation: "10:00AM-08:30AM",
+      timeofreservation: "10:30AM-11:00AM",
       reservedby: "Claudette Escobar"
     }
   ]
@@ -120,7 +120,7 @@ const sampleVelasco = [ {
       dateofrequest: "2024-08-04",
       dateofreservation: "2024-08-04",
       timeofrequest: "8:00 AM",
-      timeofreservation: "7:30AM-8:00AM",
+      timeofreservation: "10:30AM-11:00AM",
       reservedby: "Mari Santos"
     }
   ]
@@ -150,7 +150,7 @@ const sampleVelasco = [ {
       dateofrequest: "2024-08-04",
       dateofreservation: "2024-08-04",
       timeofrequest: "8:00 AM",
-      timeofreservation: "9:30AM-08:00AM",
+      timeofreservation: "10:30AM-11:00AM",
       reservedby: "Andres Hidalgo"
     }
   ]
