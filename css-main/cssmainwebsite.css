@@ -264,13 +264,14 @@ html, body {
     border-radius: 40px;
     border: 2px solid #000;
     display: none;
-    z-index: 1;
+    z-index: 5;
 }
 
 .suggestion-card {
     background-color: #fff;  
     font-size: 25px;
     border-collapse: collapse;
+    z-index: 5;
 }
 
 .card {
@@ -280,16 +281,19 @@ html, body {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
+    z-index: 5;
 }
 
 .card:hover{
     background: #efefef;   
     padding-left: 10px;
     transition: 0.3s; 
+    z-index: 5;
 }
 
 .searchdivider:focus-within .suggestions-div {
     display: block;
+    z-index: 5;
 }
 
 .clearlink {
