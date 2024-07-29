@@ -73,7 +73,7 @@
         </div>
         <script>
             const colorBgContainer = document.querySelectorAll(".textbox-login");
-            event. preventDefault(); //This is so the default form submission is not there.
+          
             colorBgContainer.forEach(input =>{
                 input.addEventListener('focus', function(){
                     const textContainer = input.closest('.textcontainer-login');
@@ -91,9 +91,7 @@
             const disabledButton = document.querySelector(".buttons-menu[disabled]");
 
             disabledButton.classList.add('buttons-menu-disabled');
-            
-            document.getElementById('loginForm').onsubmit = async (event) => {
-                event.preventDefault();
+            /*document.getElementById('loginForm').onsubmit = async (event) => {
                 const formData = new FormData(event.target);
                 try {
                     const response = await fetch('/login', {
@@ -111,26 +109,7 @@
                     console.error('Error during login: ', error);
                     alert('Server error, please try again!');
                 }
-            };
-
-            /*document.getElementById('login-button').addEventListener('click', function(){
-                const emailCheck = document.getElementById('login-email').value.trim();
-                const emailDomain = "@dlsu.edu.ph";
-
-                if (emailCheck.includes('_') && emailCheck.endsWith(emailDomain)){
-                    window.location.href='/CT-homepage';
-                }
-                else if (emailCheck.includes('.') && emailCheck.endsWith(emailDomain)){
-                    window.location.href='/LT-homepage';
-                }
-                else{
-                    alert('Invalid email and password! Please double check.');  
-                }
-            }); */
-            
-
-            
-           
+            };*/
         </script>
     </body>
     

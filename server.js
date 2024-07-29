@@ -400,11 +400,7 @@ app.get('/signup-initial', function(req, res) {
 });
 
 app.get('/CT-Reservation_search_view-only', function(req, res) {
-    res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
-});
-
-app.get('/CT-Reservation_search_view-only', function(req, res) {
-    res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
+   res.render('CT-View-Edit-search-view-only');
 });
 
 app.get('/login-page', function(req, res) {
@@ -522,9 +518,24 @@ app.get('/LT-View-Edit', async (req, res) => {
     }
 });
 /*--------------------------   EDIT RESERVATION    ---------------------------*/
-app.post('/CT-View-Edit_edit-reservation/:{{this._id}}', (req, res) =>{
+app.get('/CT-View-Edit_edit-reservation/:id', async (req, res) =>{
     //res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
-    res.render('CT-View-Edit_edit-reservation');
+
+    try {
+        const userId = req.session.userId; // Assuming userId is stored in session
+        const reservationId = req.params.id;
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+
+        // Render the reservation details page with user and reservationData
+        res.render('CT-View-Edit_reservation-details', {user});
+
+      
+    }catch(err){
+        console.error(err);
+        res.status(500).send('An error occurred!!');
+    }
 });
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
