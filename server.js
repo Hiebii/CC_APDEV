@@ -1144,14 +1144,6 @@ app.post('/getSearch', async (req, res) => {
     }
 });
 
-app.get('/CT-Profile_view-only_Liam', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
-});
-
-app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
-});
-
 /*-----------------------      LT      --------------------------*/ 
 // LT-Menu Bar
 app.get('/LT-homepage', function(req, res) {
@@ -1898,11 +1890,6 @@ app.post('/LaddReservation', async (req, res) => {
         console.error('Error in adding reservation:', err);
         return res.status(500).send('An error occurred while adding reservation');
     }
-});
-
-// Profile
-app.get('/LT-Profile_view-only_Liam', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
 
 // Handle form submission and respond with a success message
