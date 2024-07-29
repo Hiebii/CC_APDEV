@@ -77,11 +77,9 @@
 
 .disabled-searchinput{
     cursor:not-allowed;
-    background:#292929;
 }
 .disabled-searchbtn{
     cursor:not-allowed;
-    background:#292929;
 }
 .searchinput[type=text]:focus{
     border:none;

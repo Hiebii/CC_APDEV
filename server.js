@@ -316,8 +316,8 @@ app.get('/signup-initial', function(req, res) {
 });
 
 app.get('/CT-Reservation_search_view-only', function(req, res) {
-    res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
-});
+    res.render('CT-View-Edit-search-view-only');
+ });
 
 app.get('/CT-Reservation_search_view-only', function(req, res) {
     res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
