@@ -52,6 +52,7 @@ window.addEventListener("load", () => {
   
       //print current date and time to the DOM
       document.getElementById("date-time").innerHTML = dateTime;
+      document.getElementById("current-timestamp").innerHTML = today.toISOString();
       setTimeout(clock, 1000);
     }
   });

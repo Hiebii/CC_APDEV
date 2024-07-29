@@ -778,8 +778,6 @@ app.get('/LT-View-Edit', async (req, res) => {
 });
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
-// Searches for reservation in combinedReservations (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
-// Note: For LT, can delete any seat
 app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -787,18 +785,59 @@ app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
         }
 
         const { reservationId } = req.params;
-        // Find the seat that contains the reservation
+        const { currentTime } = req.body;
+        const currentTimeConst = new Date(currentTime);
+        console.log(`Current Time: ${currentTimeConst}`);
+
         const combinedReservations = [Andrew, Goks, Velasco];
         let seatFound = false;
 
         for (const SeatModel of combinedReservations) {
             const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
             if (seat) {
-                // Remove the reservation
-                seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
-                await seat.save();
-                seatFound = true;
-                break;
+                const reservation = seat.reservations.find(res => res._id.toString() === reservationId);
+                if (reservation) {
+
+                    const reservationDate = reservation.dateofreservation;
+                    const reservationTimeRange = reservation.timeofreservation;
+
+                    // use split() func to split the string of the 'timeofreservation' (11:00PM-11:30PM) into an array of 2,, [0] to access first part of the splitted string 
+                    const reservationStartTime = reservationTimeRange.split('-')[0];
+
+                    // split date format: 2024-07-29
+                    const dateParts = reservationDate.split('-');
+                    const year = parseInt(dateParts[0]);
+                    const month = parseInt(dateParts[1]) - 1; // months starts at 0
+                    const day = parseInt(dateParts[2]);
+
+                    // split time format: 10:30AM
+                    const timeParts = reservationStartTime.match(/(\d+):(\d+)(AM|PM)/i); // i for case insensitivity
+                    const hour = parseInt(timeParts[1]);
+                    const minute = parseInt(timeParts[2]);
+                    const period = timeParts[3].toUpperCase();
+
+                    // fix hour to 24 hour format
+                    let hourConverted;
+                    if (period === 'PM' && hour !== 12) {
+                        hourConverted = hour + 12;
+                    } else if (period === 'AM' && hour === 12) {
+                        hourConverted = 0;
+                    } else {
+                        hourConverted = hour;
+                    }
+                    
+                    const reservationDateTime = new Date(year, month, day, hourConverted, minute);
+                    const timeDifference = (currentTimeConst - reservationDateTime) / 1000 / 60; // miliseconds -> seconds -> minutes
+
+                    if (timeDifference >= 10) {
+                        seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
+                        await seat.save();
+                        seatFound = true;
+                        break;
+                    } else {
+                        return res.status(403).send('Reservation can only be canceled after 10 minutes of the reservation time');
+                    }
+                }
             }
         }
 
@@ -808,7 +847,7 @@ app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
             res.status(404).send('Reservation not found');
         }
     } catch (err) {
-        console.error(err);
+        console.error('An error occurred:', err);
         res.status(500).send('An error occurred');
     }
 });
