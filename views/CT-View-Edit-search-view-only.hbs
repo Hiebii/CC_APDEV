@@ -10,28 +10,6 @@
   <link rel="icon" href="images/icon.png">
   <script src="../js-main/search.js"></script>
   <title>tinkerlab.</title>
-  <script>
-    // script to assign computer lab cells based on their seat number
-    document.addEventListener('DOMContentLoaded', () => {
-      const compLabCells = document.querySelectorAll('.comp-lab');
-
-      compLabCells.forEach(cell => {
-        const seatNumber = cell.getAttribute('data-seat');
-
-        // If statement to match seat no. value to its room
-        let lab;
-        if (seatNumber.startsWith('A')) {
-          lab = 'AG101';
-        } else if (seatNumber.startsWith('G')) {
-          lab = 'GK101';
-        } else if (seatNumber.startsWith('V')) {
-          lab = 'VL101';
-        }
-        // Insert value of computer lab cells accordingly
-        cell.textContent = lab;
-      });
-    });
-  </script>
 </head>
 
 <body>
@@ -63,67 +41,142 @@
             </div>
   </div>
 
-  <div class="sort-container">
-    <div class="lab-button">
-      <p class="sort-text">COMPUTER LAB:</p>
-      <div class="custom-select-wrapper">
-        <select class="lab-dropdown table-filter" data-col-index="2">
-          <option value="all">All</option>
-          <!--  options populated by filter.js -->
-        </select>
-      </div>
+     <div class="lab-button">
+            <p class="sort-text">COMPUTER LAB:</p>
+            <div class="custom-select-wrapper">
+                <select id="lab-dropdown" class="lab-dropdown">
+                    <option value="GK101">GK101</option>
+                    <option value="AG101">AG101</option>
+                    <option value="VL101">VL101</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="time-button">
+            <p class="sort-text">TIME:</p>
+            <div class="custom-select-wrapper">
+                <select id="time-dropdown" class="time-dropdown" name="time">
+                    <option class="choices" value="7:30AM-8:00AM">7:30AM - 8:00AM</option>
+                    <option class="choices" value="8:00AM-8:30AM">8:00AM - 8:30AM</option>
+                    <option class="choices" value="8:30AM-9:00AM">8:30AM - 9:00AM</option>
+                    <option class="choices" value="9:00AM-9:30AM">9:00AM - 9:30AM</option>
+                    <option class="choices" value="9:30AM-10:00AM">9:30AM - 10:00AM</option>
+                    <option class="choices" value="10:00AM-10:30AM">10:00AM - 10:30AM</option>
+                    <option class="choices" value="10:30AM-11:00AM">10:30AM - 11:00AM</option>
+                    <option class="choices" value="11:00AM-11:30AM">11:00AM - 11:30AM</option>
+                    <option class="choices" value="11:30AM-12:00PM">11:30AM - 12:00PM</option>
+                    <option class="choices" value="12:00PM-12:30PM">12:00PM - 12:30PM</option>
+                    <option class="choices" value="">----</option>
+                </select>
+            </div>
+        </div>
+
+        <script src="js-main/CT-Reservation_DateRestrict.js"></script>
+        <div class="date-button">
+            <p class="sort-text">DATE:</p>
+            <form id="dateForm" action="/Velasco" method="GET">
+                <input type="date" class="date-input" id="dateInput" name="date">
+                <!-- Hidden input to store selected time -->
+                <input type="hidden" id="selectedTime" name="time">
+            </form>
+        </div>
     </div>
 
-    <div class="time-button"> 
-      <p class="sort-text">TIME:</p>
-      <div class="custom-select-wrapper">
-        <select class="time-dropdown table-filter" data-col-index="6">
-          <option value="default" selected="selected" disabled>All</option>
-    
-          <!--  options populated by filter.js -->
-        </select>
-      </div>
+    <div class="tablediv">
+        <table>
+            <thead>
+                <tr>
+                    <th>Computer Lab</th>
+                    <th>Time</th>
+                    <th>Date</th>
+                    <th>Available Seats</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <td>{{this.dblab}}</td> <!-- This is static; consider changing it dynamically if needed -->
+                    <td>{{this.time}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.availableSeats}}</td>
+                    <td>
+                        <button class="go-button"><a href="/Velasco">Go</a></button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div class="button-container">
+        <button class="purple-button" id="search-button">Search</button>
     </div>
 
-    <div class="date-button">
-      <p class="sort-text">DATE:</p>
-      <input type="date" class="date-input table-filter" data-col-index="5" disabled>
-    </div>
-  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchButton = document.getElementById('search-button');
+            const labDropdown = document.getElementById('lab-dropdown');
+            const dateInput = document.getElementById('dateInput');
+            const timeDropdown = document.getElementById('time-dropdown');
 
-  <div class="tablediv">
-    <table id="reservations-table">
-      <thead>
-        <tr>
-          <th>Seat No.</th>
-          <th>Computer Lab</th>
-          <th>Date of Request</th>
-          <th>Time of Request</th>
-          <th>Date of Reservation</th>
-          <th>Time of Reservation</th>
-          <th>Reserved By</th>
-          <th> </th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each reservations}}
-        <tr data-reservations-id="{{this._id}}">
-          <td>{{this.seat}}</td>
-          <td class="comp-lab" data-seat="{{this.seat}}"></td>
-          <td>{{this.dateofrequest}}</td>
-          <td>{{this.timeofrequest}}</td>
-          <td>{{this.dateofreservation}}</td>
-          <td>{{this.timeofreservation}}</td>
-          <td>{{this.reservedby}}</td>
-          <td>
-            <button class="edit-button" disabled><a href="/CT-View-Edit_edit-reservation/{{this._id}}">Edit</a></button>
-            <button class="cancel-button" onclick="findAndCancelData('{{this._id}}')" disabled>Cancel</button>
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+            searchButton.addEventListener('click', async function () {
+                const selectedLab = labDropdown.value;
+                const dateofreservation = dateInput.value;
+                const timeofreservation = timeDropdown.value;
 
+                let lab, dblab;
+
+                switch (selectedLab) {
+                    case "GK101":
+                        lab = "GK101";
+                        dblab = "Goks";
+                        break;
+                    case "AG101":
+                        lab = "AG101";
+                        dblab = "Andrews";
+                        break;
+                    case "VL101":
+                        lab = "VL101";
+                        dblab = "Velascos";
+                        break;
+                    default:
+                        alert('Please select a valid lab.');
+                        return;
+                }
+
+                const searchData = {
+                    lab,
+                    dblab,
+                    dateofreservation,
+                    timeofreservation
+                };
+
+                console.log("Search Data:", searchData);
+
+                try {
+                    const response = await fetch('/VgetSearch', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(searchData)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        // Redirect based on the response URL
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        const errorMessage = await response.text();
+                        alert('An error occurred: ' + errorMessage);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                }
+            });
+        });
+    </script>
   </div>
   <div class="button-container">
     <button class="purple-button"><a href="/">Return to Login Page</a></button>
@@ -131,37 +184,7 @@
 
   <!--  Filter script -->
   <script src="../js-main/filter.js"></script>
-  <!-- Clock -->
-  <script src="js/clock.js"></script>
-  <div id="clock">
-    <h1 id="date-time"></h1>
-  </div>
-
-  <!-- Cancel Reservation script  -->
-  <script>
-    async function findAndCancelData(reservationId) {
-      try {
-        const response = await fetch(`/CT-cancel-reservation/${reservationId}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          alert('Reservation canceled successfully');
-          // Remove the row from the table
-          document.querySelector(`tr[data-reservation-id="${reservationId}"]`).remove();
-
-        } else {
-          const errorText = await response.text();
-          alert(`Failed to cancel reservation: ${errorText}`);
-        }
-      } catch (err) {
-        console.error('Error:', err);
-      }
-    }
-  </script>
+ 
 
   <!-- Hidden confirmation dialog -->
   <script src="js/prompt.js"></script>
@@ -238,10 +261,10 @@
             button.addEventListener('click', leadToLogin);
         });*/
 
-        const purpleBtn = document.querySelectorAll('.purple-button');
+        /*const purpleBtn = document.querySelectorAll('.purple-button');
         purpleBtn.forEach(button=>{
             button.addEventListener('click', leadToLogin);
-        })
+        })*/
         
   </script>
 </footer>
