@@ -6,18 +6,18 @@ const express = require('express');
 const session = require('express-session');
 const fileUpload = require('express-fileupload')
 const app = express();
-const port = 3000; 
+const port = 3000;
 
 /* Initialize our post */
 const Users = require("./database/models/Users")
 const Andrew = require("./database/models/Andrew")
 const Goks = require("./database/models/Goks")
 const Velasco = require("./database/models/Velasco")
-const path = require('path') 
+const path = require('path')
 
-app.use(express.json()) 
-app.use(express.urlencoded( {extended: true})); 
-app.use(express.static('public')) 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'))
 app.use(fileUpload())
 
 // Configure session middleware
@@ -30,7 +30,7 @@ app.use(session({
 
 //handlebar
 var hbs = require('hbs')
-app.set('view engine','hbs');
+app.set('view engine', 'hbs');
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -92,7 +92,7 @@ app.get('/Goks', async (req, res) => {
 
         const goks6 = await Goks.aggregate([{ $match: { seat: { $in: ['GK26', 'GK27', 'GK28', 'GK29', 'GK30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        res.render('CT-Reservation_Goks', { goks , goks2, goks3, goks4, goks5, goks6 });
+        res.render('CT-Reservation_Goks', { goks, goks2, goks3, goks4, goks5, goks6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -116,8 +116,8 @@ app.get('/Velasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        
-        res.render('CT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
+
+        res.render('CT-Reservation_Velasco', { velasco, velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -146,7 +146,7 @@ app.get('/CT-Reservation_reservation-details', async (req, res) => {
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
 
         // Render the reservation details page with user and reservationData
-        res.render('CT-Reservation_reservation-details', {user, reservationData});
+        res.render('CT-Reservation_reservation-details', { user, reservationData });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -159,12 +159,12 @@ app.post('/CT-Reservation_success', (req, res) => {
     res.status(200).send('Reservation data received');
 });
 
-app.get('/CT-Reservation_success', function(req, res) {
+app.get('/CT-Reservation_success', function (req, res) {
     res.render('CT-Reservation_success', data);
 });
 
-app.get('/addReservation', function(req, res) {
-    res.render('CT-Reservation_success',reservationData);
+app.get('/addReservation', function (req, res) {
+    res.render('CT-Reservation_success', reservationData);
 });
 
 app.post('/addReservation', async (req, res) => {
@@ -294,95 +294,95 @@ const GoksReservationModel = require('./database/models/Goks');
 const VelascosReservationModel = require('./database/models/Velasco');
 */
 
-/*-----------------------      SIGNUP      --------------------------*/ 
+/*-----------------------      SIGNUP      --------------------------*/
 app.post('/signup', async (req, res) => {
     const { fullName, email, password, confirmpassword, title } = req.body;
     console.log('Received Data:', req.body);
 
-    try { 
-        if (!fullName || !email || !password && title === 'Student'){
+    try {
+        if (!fullName || !email || !password && title === 'Student') {
             console.error('Missing Fields: ', { fullName, email, password });
             return res.render('signup-student', { error: 'All fields are required!' });
             //return res.status(400).json({ error: 'All fields are required!', redirectUrl: '/signup-student'  });
-            
+
         }
-        else if (!fullName || !email || !password || !confirmpassword && title === 'Lab Technician'){
+        else if (!fullName || !email || !password || !confirmpassword && title === 'Lab Technician') {
             console.error('Missing Fields: ', { fullName, email, password });
             return res.render('signup-labtechnician', { error: 'All fields are required!' });
             //return res.status(400).json({ error: 'All fields are required!', redirectUrl: '/signup-labtechnician'  });
         }
-        
+
         const existingEmail = await Users.findOne({ email });
-        if (existingEmail && password===confirmpassword && title === 'Student'){
-            
+        if (existingEmail && password === confirmpassword && title === 'Student') {
+
             //return res.render('signup-student', { error: 'User already exists!' });
             return res.render('signup-student', { error: 'User already exists!' });
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-student' });
         }
-        else if (existingEmail && password===confirmpassword && title === 'Lab Technician'){
+        else if (existingEmail && password === confirmpassword && title === 'Lab Technician') {
             return res.render('signup-labtechnician', { error: 'User already exists!' });
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
-        else if (existingEmail && password!==confirmpassword && title === 'Student'){
+        else if (existingEmail && password !== confirmpassword && title === 'Student') {
             return res.render('signup-student', { error: 'User already exists! <br> Passwords do not match!' });
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
-        else if (existingEmail && password!==confirmpassword && title === 'Lab Technician'){
+        else if (existingEmail && password !== confirmpassword && title === 'Lab Technician') {
             return res.render('signup-labtechnician', { error: 'User already exists! <br> Passwords do not match!' });
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
-        else if (!existingEmail && password!==confirmpassword && title === 'Student'){
+        else if (!existingEmail && password !== confirmpassword && title === 'Student') {
             return res.render('signup-student', { error: 'Passwords do not match!' });
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
-        else if (!existingEmail && password!==confirmpassword && title === 'Lab Technician'){
+        else if (!existingEmail && password !== confirmpassword && title === 'Lab Technician') {
             return res.render('signup-labtechnician', { error: 'Passwords do not match!' });
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
-        else{
+        else {
             const newUser = new Users({ fullName, email, password, title });
             await newUser.save();
             return res.render('login-page', { message: 'User registered successfully!' });
             // return res.status(201).json({ message: 'User registered successfully!', redirectUrl: '/login-page' });
         }
-        
-        
+
+
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message:'Server Error!' });
+        res.status(500).json({ message: 'Server Error!' });
     }
 });
 
-/*-----------------------      LOGIN      --------------------------*/ 
+/*-----------------------      LOGIN      --------------------------*/
 app.post('/login', async (req, res) => {
-    const { email, password }  = req.body;
+    const { email, password } = req.body;
 
     try {
         const user = await Users.findOne({ email });
-        if (!user){
+        if (!user) {
             return res.render('login-page', { error: 'User does not exist!' });
         }
 
-        if (user.password !== password){
+        if (user.password !== password) {
             return res.render('login-page', { error: 'Invalid Password!' });
         }
 
         req.session.userId = user._id; // Store user ID in session
 
-        if (user.title === 'Lab Technician'){
+        if (user.title === 'Lab Technician') {
             res.redirect('/LT-homepage');
-        } else if (user.title === 'Student'){
+        } else if (user.title === 'Student') {
             res.redirect('/CT-homepage');
         } else {
             res.status(400).json({ error: 'Unknown role!' });
         }
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         res.status(500).send('Server Error!');
     }
 });
 
-/*-----------------------      ROUTES      --------------------------*/ 
+/*-----------------------      ROUTES      --------------------------*/
 // Serve the /login-page.html file at the root route
 /*app.get('/', function(req, res) {
     res.sendFile(__dirname + '/views/login-page.hbs');
@@ -390,36 +390,36 @@ app.post('/login', async (req, res) => {
 
 //Login Start Route
 
-app.get('/', (req, res) =>{
+app.get('/', (req, res) => {
     res.render('login-page');
 });
 
 //Login & Sign Up Page
-app.get('/signup-initial', function(req, res) {
+app.get('/signup-initial', function (req, res) {
     res.sendFile(__dirname + '/START/signup-initial.html');
 });
 
-app.get('/CT-Reservation_search_view-only', function(req, res) {
+app.get('/CT-Reservation_search_view-only', function (req, res) {
     res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
 });
 
-app.get('/CT-Reservation_search_view-only', function(req, res) {
+app.get('/CT-Reservation_search_view-only', function (req, res) {
     res.sendFile(__dirname + '/START/CT-Reservation_search_view-only.html');
 });
 
-app.get('/login-page', function(req, res) {
+app.get('/login-page', function (req, res) {
     res.render('login-page');
 });
 
-app.get('/signup-student', function(req, res) {
+app.get('/signup-student', function (req, res) {
     res.render('signup-student');
 });
 
-app.get('/signup-labtechnician', function(req, res) {
+app.get('/signup-labtechnician', function (req, res) {
     res.render('signup-labtechnician');
 });
 
-app.get('/CT-homepage', function(req, res) {
+app.get('/CT-homepage', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
 });
 
@@ -449,7 +449,7 @@ app.get('/CT-View-Edit', async (req, res) => {
 
         // Flatten the reservations data
         const flattenReservations = (seats) => {
-            return seats.flatMap(seat => 
+            return seats.flatMap(seat =>
                 seat.reservations.map(reservation => ({
                     seat: seat.seat,
                     ...reservation
@@ -499,7 +499,7 @@ app.get('/LT-View-Edit', async (req, res) => {
 
         // Flatten the reservations data
         const flattenReservations = (seats) => {
-            return seats.flatMap(seat => 
+            return seats.flatMap(seat =>
                 seat.reservations.map(reservation => ({
                     seat: seat.seat,
                     ...reservation
@@ -522,14 +522,12 @@ app.get('/LT-View-Edit', async (req, res) => {
     }
 });
 /*--------------------------   EDIT RESERVATION    ---------------------------*/
-app.get('/CT-View-Edit_edit-reservation', (req, res) =>{
+app.get('/CT-View-Edit_edit-reservation', (req, res) => {
     //res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
     res.render('CT-View-Edit_edit-reservation');
 });
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
-// Searches for reservation in seatCollections (combined 3 collections) and deletes it; the URL parameter 'reservationId' is passed to this method 
-// Note: For LT, can delete any seat
 app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -537,18 +535,59 @@ app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
         }
 
         const { reservationId } = req.params;
-        // Find the seat that contains the reservation
-        const seatCollections = [Andrew, Goks, Velasco];
+        const { currentTime } = req.body;
+        const currentTimeConst = new Date(currentTime);
+        console.log(`Current Time: ${currentTimeConst}`);
+
+        const combinedReservations = [Andrew, Goks, Velasco];
         let seatFound = false;
 
-        for (const SeatModel of seatCollections) {
+        for (const SeatModel of combinedReservations) {
             const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
             if (seat) {
-                // Remove the reservation
-                seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
-                await seat.save();
-                seatFound = true;
-                break;
+                const reservation = seat.reservations.find(res => res._id.toString() === reservationId);
+                if (reservation) {
+
+                    const reservationDate = reservation.dateofreservation;
+                    const reservationTimeRange = reservation.timeofreservation;
+
+                    // use split() func to split the string of the 'timeofreservation' (11:00PM-11:30PM) into an array of 2,, [0] to access first part of the splitted string 
+                    const reservationStartTime = reservationTimeRange.split('-')[0];
+
+                    // split date format: 2024-07-29
+                    const dateParts = reservationDate.split('-');
+                    const year = parseInt(dateParts[0]);
+                    const month = parseInt(dateParts[1]) - 1; // months starts at 0
+                    const day = parseInt(dateParts[2]);
+
+                    // split time format: 10:30AM
+                    const timeParts = reservationStartTime.match(/(\d+):(\d+)(AM|PM)/i); // i for case insensitivity
+                    const hour = parseInt(timeParts[1]);
+                    const minute = parseInt(timeParts[2]);
+                    const period = timeParts[3].toUpperCase();
+
+                    // fix hour to 24 hour format
+                    let hourConverted;
+                    if (period === 'PM' && hour !== 12) {
+                        hourConverted = hour + 12;
+                    } else if (period === 'AM' && hour === 12) {
+                        hourConverted = 0;
+                    } else {
+                        hourConverted = hour;
+                    }
+                    
+                    const reservationDateTime = new Date(year, month, day, hourConverted, minute);
+                    const timeDifference = (currentTimeConst - reservationDateTime) / 1000 / 60; // miliseconds -> seconds -> minutes
+
+                    if (timeDifference >= 10) {
+                        seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
+                        await seat.save();
+                        seatFound = true;
+                        break;
+                    } else {
+                        return res.status(403).send('Reservation can only be canceled after 10 minutes of the reservation time');
+                    }
+                }
             }
         }
 
@@ -558,7 +597,7 @@ app.delete('/LT-cancel-reservation/:reservationId', async (req, res) => {
             res.status(404).send('Reservation not found');
         }
     } catch (err) {
-        console.error(err);
+        console.error('An error occurred:', err);
         res.status(500).send('An error occurred');
     }
 });
@@ -637,7 +676,7 @@ app.get('/CT-View-Edit_reservation-details', async (req, res) => {
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
 
         // Render the reservation details page with user and reservationData
-        res.render('CT-View-Edit_reservation-details', {user, reservationData});
+        res.render('CT-View-Edit_reservation-details', { user, reservationData });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -651,10 +690,10 @@ app.post('/CT-View-Edit_success-edit', (req, res) => {
     res.status(200).send('Reservation data received');
 });
 
-app.get('/CT-View-Edit_success-edit', function(req, res) {
+app.get('/CT-View-Edit_success-edit', function (req, res) {
     res.render('CT-View-Edit_success-edit', data);
 });
-/*-----------------------      CT PROFILE      --------------------------*/ 
+/*-----------------------      CT PROFILE      --------------------------*/
 app.get('/CT-Profile', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -667,15 +706,15 @@ app.get('/CT-Profile', async (req, res) => {
         }
 
         // Fetch and add lab property to reservations from each collection
-        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc =>
             doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
         );
 
-        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc =>
             doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
         );
 
-        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc =>
             doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
         );
 
@@ -720,7 +759,7 @@ app.delete('/deleteAccount', async (req, res) => {
     }
 });
 
-/*-----------------------    CT PROFILE EDIT   --------------------------*/ 
+/*-----------------------    CT PROFILE EDIT   --------------------------*/
 app.get('/CT-Profile_edit', async (req, res) => {
     try {
         const userId = req.session.userId; // Assuming userId is stored in session
@@ -763,7 +802,7 @@ app.post('/CT-Profile_edit', async (req, res) => {
                 await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
 
                 console.log('File uploaded and user updated successfully');
-                res.redirect('/CT-Profile'); 
+                res.redirect('/CT-Profile');
             });
         } else {
             res.redirect('/CT-Profile'); // Redirect to profile page if no file upload
@@ -788,7 +827,7 @@ app.get('/CT-Profile_view-only', async (req, res) => {
             const currentUrl = req.headers.referer; // Use referer header to get the current URL
             const url = new URL(currentUrl, `http://${req.headers.host}`);
             url.searchParams.set('error', 'UserNotFound');
-            return res.redirect(url.href); 
+            return res.redirect(url.href);
         }
 
         res.render('CT-Profile_view-only', { user });
@@ -806,14 +845,14 @@ app.get('/search', async (req, res) => {
     try {
         // Fetch all users and search a match w/ user.fullName
         const allusers = await Users.find({}).lean();
-        const user = allusers.find(user => user.fullName.toLowerCase() === name); 
-        
+        const user = allusers.find(user => user.fullName.toLowerCase() === name);
+
         if (!user) {
             // Error Handling: redirects to same URL page w/ an error query from search.js 
             const currentUrl = req.headers.referer; // Use referer header to get the current URL
             const url = new URL(currentUrl, `http://${req.headers.host}`);
             url.searchParams.set('error', 'UserNotFound');
-            return res.redirect(url.href); 
+            return res.redirect(url.href);
         }
         // Redirect to profile page with the found user's _id
         res.redirect(`/CT-Profile_view-only?userId=${user._id}`);
@@ -883,25 +922,25 @@ app.get('/search', async (req, res) => {
 });*/
 
 // CT-Reservations
-app.get('/CT-Reservation_Goks', function(req, res) {
+app.get('/CT-Reservation_Goks', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Goks.html');
 });
 
-app.get('/CT-Reservation_Velasco', function(req, res) {
+app.get('/CT-Reservation_Velasco', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Velasco.html');
 });
 
-app.get('/CT-Reservation_Andrew', function(req, res) {
+app.get('/CT-Reservation_Andrew', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Reservation_Andrew.html');
 });
 
 // CT Reservation Search
-app.get('/CT-Reservation_search-goks', function(req, res) {
+app.get('/CT-Reservation_search-goks', function (req, res) {
     const data = req.session.searchResults;
     res.render('CT-Reservation_search-goks', { data });
 });
 
-app.get('/CT-Reservation_search-andrew', function(req, res) {
+app.get('/CT-Reservation_search-andrew', function (req, res) {
     const data = req.session.searchResults;
     if (!data) {
         return res.status(404).send('No search results found');
@@ -909,7 +948,7 @@ app.get('/CT-Reservation_search-andrew', function(req, res) {
     res.render('CT-Reservation_search-andrew', { data });
 });
 
-app.get('/CT-Reservation_search-velasco', function(req, res) {
+app.get('/CT-Reservation_search-velasco', function (req, res) {
     const data = req.session.searchResults;
     if (!data) {
         return res.status(404).send('No search results found');
@@ -926,110 +965,111 @@ app.post('/getSearch', async (req, res) => {
 
         switch (dblab) {
             case "Goks":
-                    try {
-                        // Build the match query dynamically
-                        let matchQuery = {};
-                        let allDates, allTimes;
+                try {
+                    // Build the match query dynamically
+                    let matchQuery = {};
+                    let allDates, allTimes;
 
-                        if (dateofreservation && timeofreservation) {
+                    if (dateofreservation && timeofreservation) {
                         // Both date and time are provided
                         matchQuery["reservations.dateofreservation"] = dateofreservation;
                         matchQuery["reservations.timeofreservation"] = timeofreservation;
-                        } else if (dateofreservation) {
+                    } else if (dateofreservation) {
                         // Only date is provided
                         matchQuery["reservations.dateofreservation"] = dateofreservation;
                         matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
-                        } else if (timeofreservation) {
+                    } else if (timeofreservation) {
                         // Only time is provided
                         matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
                         matchQuery["reservations.timeofreservation"] = timeofreservation;
-                        }
+                    }
 
-                        // Aggregation for Goks
-                        const goksResults = await Goks.aggregate([
+                    // Aggregation for Goks
+                    const goksResults = await Goks.aggregate([
                         { $unwind: "$reservations" },
                         { $match: matchQuery },
-                        { $group: {
-                            _id: {
-                                dateofreservation: "$reservations.dateofreservation",
-                                timeofreservation: "$reservations.timeofreservation"
-                            },
-                            total: { $sum: 1 }
+                        {
+                            $group: {
+                                _id: {
+                                    dateofreservation: "$reservations.dateofreservation",
+                                    timeofreservation: "$reservations.timeofreservation"
+                                },
+                                total: { $sum: 1 }
                             }
                         },
                         { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
-                        ]);
+                    ]);
 
-                        // Map the results to include the available seats for each date-time combination
-                        // If no results found, create default data
-                        if (goksResults.length === 0) {
-                            data = [{
+                    // Map the results to include the available seats for each date-time combination
+                    // If no results found, create default data
+                    if (goksResults.length === 0) {
+                        data = [{
                             date: dateofreservation || 'default date',
                             time: timeofreservation || 'default time',
                             availableSeats: 30
-                            }];
-                        } else {
-                            // Map the results to include the available seats for each date-time combination
-                            data = goksResults.map(result => ({
+                        }];
+                    } else {
+                        // Map the results to include the available seats for each date-time combination
+                        data = goksResults.map(result => ({
                             date: result._id.dateofreservation,
                             time: result._id.timeofreservation,
                             availableSeats: 30 - result.total
-                            }));
-                        }
+                        }));
+                    }
 
-                        // If no specific date or time is selected, add all possible options
-                        if (!dateofreservation && !timeofreservation) {
+                    // If no specific date or time is selected, add all possible options
+                    if (!dateofreservation && !timeofreservation) {
                         allDates = generateDates(); // Returns dates from today up to 7 days
                         allTimes = generateTimes(); // Returns a list of all time slots
 
                         allDates.forEach(d => {
                             allTimes.forEach(t => {
-                            if (!data.find(item => item.date === d && item.time === t)) {
-                                data.push({
-                                date: d,
-                                time: t,
-                                availableSeats: 30 // Assuming 30 seats are available if no reservations
-                                });
-                            }
+                                if (!data.find(item => item.date === d && item.time === t)) {
+                                    data.push({
+                                        date: d,
+                                        time: t,
+                                        availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                    });
+                                }
                             });
                         });
-                        } else if (!dateofreservation) {
+                    } else if (!dateofreservation) {
                         // If no date is provided, add all times for the given time slots
                         allDates = generateDates(); // Returns dates from today up to 7 days
 
                         allDates.forEach(d => {
                             if (!data.find(item => item.date === d && item.time === timeofreservation)) {
-                            data.push({
-                                date: d,
-                                time: timeofreservation,
-                                availableSeats: 30 // Assuming 30 seats are available if no reservations
-                            });
+                                data.push({
+                                    date: d,
+                                    time: timeofreservation,
+                                    availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                });
                             }
                         });
-                        } else if (!timeofreservation) {
+                    } else if (!timeofreservation) {
                         // If no time is provided, add all time slots for the given dates
                         allTimes = generateTimes(); // Returns a list of all time slots
 
                         allTimes.forEach(t => {
                             if (!data.find(item => item.date === dateofreservation && item.time === t)) {
-                            data.push({
-                                date: dateofreservation,
-                                time: t,
-                                availableSeats: 30 // Assuming 30 seats are available if no reservations
-                            });
+                                data.push({
+                                    date: dateofreservation,
+                                    time: t,
+                                    availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                });
                             }
                         });
-                        }
-
-                        req.session.searchResults = data;
-                        res.json({ data, redirectUrl: '/CT-Reservation_search-goks' });
-                    } catch (error) {
-                        console.error('Error:', error);
-                        res.status(500).send('An error occurred');
                     }
-                    break;
 
-            
+                    req.session.searchResults = data;
+                    res.json({ data, redirectUrl: '/CT-Reservation_search-goks' });
+                } catch (error) {
+                    console.error('Error:', error);
+                    res.status(500).send('An error occurred');
+                }
+                break;
+
+
 
             case "Andrews":
                 try {
@@ -1038,83 +1078,84 @@ app.post('/getSearch', async (req, res) => {
                     let allDates, allTimes;
 
                     if (dateofreservation && timeofreservation) {
-                    // Both date and time are provided
-                    matchQuery["reservations.dateofreservation"] = dateofreservation;
-                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                        // Both date and time are provided
+                        matchQuery["reservations.dateofreservation"] = dateofreservation;
+                        matchQuery["reservations.timeofreservation"] = timeofreservation;
                     } else if (dateofreservation) {
-                    // Only date is provided
-                    matchQuery["reservations.dateofreservation"] = dateofreservation;
-                    matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
+                        // Only date is provided
+                        matchQuery["reservations.dateofreservation"] = dateofreservation;
+                        matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
                     } else if (timeofreservation) {
-                    // Only time is provided
-                    matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
-                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                        // Only time is provided
+                        matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
+                        matchQuery["reservations.timeofreservation"] = timeofreservation;
                     }
 
                     // Aggregation for Goks
                     const goksResults = await Andrew.aggregate([
-                    { $unwind: "$reservations" },
-                    { $match: matchQuery },
-                    { $group: {
-                        _id: {
-                            dateofreservation: "$reservations.dateofreservation",
-                            timeofreservation: "$reservations.timeofreservation"
+                        { $unwind: "$reservations" },
+                        { $match: matchQuery },
+                        {
+                            $group: {
+                                _id: {
+                                    dateofreservation: "$reservations.dateofreservation",
+                                    timeofreservation: "$reservations.timeofreservation"
+                                },
+                                total: { $sum: 1 }
+                            }
                         },
-                        total: { $sum: 1 }
-                        }
-                    },
-                    { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
+                        { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
                     ]);
 
                     // Map the results to include the available seats for each date-time combination
                     const data = goksResults.map(result => ({
-                    date: result._id.dateofreservation,
-                    time: result._id.timeofreservation,
-                    availableSeats: 30 - result.total
+                        date: result._id.dateofreservation,
+                        time: result._id.timeofreservation,
+                        availableSeats: 30 - result.total
                     }));
 
                     // If no specific date or time is selected, add all possible options
                     if (!dateofreservation && !timeofreservation) {
-                    allDates = generateDates(); // Returns dates from today up to 7 days
-                    allTimes = generateTimes(); // Returns a list of all time slots
+                        allDates = generateDates(); // Returns dates from today up to 7 days
+                        allTimes = generateTimes(); // Returns a list of all time slots
 
-                    allDates.forEach(d => {
-                        allTimes.forEach(t => {
-                        if (!data.find(item => item.date === d && item.time === t)) {
-                            data.push({
-                            date: d,
-                            time: t,
-                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        allDates.forEach(d => {
+                            allTimes.forEach(t => {
+                                if (!data.find(item => item.date === d && item.time === t)) {
+                                    data.push({
+                                        date: d,
+                                        time: t,
+                                        availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                    });
+                                }
                             });
-                        }
                         });
-                    });
                     } else if (!dateofreservation) {
-                    // If no date is provided, add all times for the given time slots
-                    allDates = generateDates(); // Returns dates from today up to 7 days
+                        // If no date is provided, add all times for the given time slots
+                        allDates = generateDates(); // Returns dates from today up to 7 days
 
-                    allDates.forEach(d => {
-                        if (!data.find(item => item.date === d && item.time === timeofreservation)) {
-                        data.push({
-                            date: d,
-                            time: timeofreservation,
-                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        allDates.forEach(d => {
+                            if (!data.find(item => item.date === d && item.time === timeofreservation)) {
+                                data.push({
+                                    date: d,
+                                    time: timeofreservation,
+                                    availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                });
+                            }
                         });
-                        }
-                    });
                     } else if (!timeofreservation) {
-                    // If no time is provided, add all time slots for the given dates
-                    allTimes = generateTimes(); // Returns a list of all time slots
+                        // If no time is provided, add all time slots for the given dates
+                        allTimes = generateTimes(); // Returns a list of all time slots
 
-                    allTimes.forEach(t => {
-                        if (!data.find(item => item.date === dateofreservation && item.time === t)) {
-                        data.push({
-                            date: dateofreservation,
-                            time: t,
-                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        allTimes.forEach(t => {
+                            if (!data.find(item => item.date === dateofreservation && item.time === t)) {
+                                data.push({
+                                    date: dateofreservation,
+                                    time: t,
+                                    availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                });
+                            }
                         });
-                        }
-                    });
                     }
 
                     req.session.searchResults = data;
@@ -1132,83 +1173,84 @@ app.post('/getSearch', async (req, res) => {
                     let allDates, allTimes;
 
                     if (dateofreservation && timeofreservation) {
-                    // Both date and time are provided
-                    matchQuery["reservations.dateofreservation"] = dateofreservation;
-                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                        // Both date and time are provided
+                        matchQuery["reservations.dateofreservation"] = dateofreservation;
+                        matchQuery["reservations.timeofreservation"] = timeofreservation;
                     } else if (dateofreservation) {
-                    // Only date is provided
-                    matchQuery["reservations.dateofreservation"] = dateofreservation;
-                    matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
+                        // Only date is provided
+                        matchQuery["reservations.dateofreservation"] = dateofreservation;
+                        matchQuery["reservations.timeofreservation"] = { $exists: true }; // Match all times on this date
                     } else if (timeofreservation) {
-                    // Only time is provided
-                    matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
-                    matchQuery["reservations.timeofreservation"] = timeofreservation;
+                        // Only time is provided
+                        matchQuery["reservations.dateofreservation"] = { $exists: true }; // Match all dates for this time
+                        matchQuery["reservations.timeofreservation"] = timeofreservation;
                     }
 
                     // Aggregation for Goks
                     const goksResults = await Velasco.aggregate([
-                    { $unwind: "$reservations" },
-                    { $match: matchQuery },
-                    { $group: {
-                        _id: {
-                            dateofreservation: "$reservations.dateofreservation",
-                            timeofreservation: "$reservations.timeofreservation"
+                        { $unwind: "$reservations" },
+                        { $match: matchQuery },
+                        {
+                            $group: {
+                                _id: {
+                                    dateofreservation: "$reservations.dateofreservation",
+                                    timeofreservation: "$reservations.timeofreservation"
+                                },
+                                total: { $sum: 1 }
+                            }
                         },
-                        total: { $sum: 1 }
-                        }
-                    },
-                    { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
+                        { $sort: { "_id.dateofreservation": 1, "_id.timeofreservation": 1 } }
                     ]);
 
                     // Map the results to include the available seats for each date-time combination
                     const data = goksResults.map(result => ({
-                    date: result._id.dateofreservation,
-                    time: result._id.timeofreservation,
-                    availableSeats: 30 - result.total
+                        date: result._id.dateofreservation,
+                        time: result._id.timeofreservation,
+                        availableSeats: 30 - result.total
                     }));
 
                     // If no specific date or time is selected, add all possible options
                     if (!dateofreservation && !timeofreservation) {
-                    allDates = generateDates(); // Returns dates from today up to 7 days
-                    allTimes = generateTimes(); // Returns a list of all time slots
+                        allDates = generateDates(); // Returns dates from today up to 7 days
+                        allTimes = generateTimes(); // Returns a list of all time slots
 
-                    allDates.forEach(d => {
-                        allTimes.forEach(t => {
-                        if (!data.find(item => item.date === d && item.time === t)) {
-                            data.push({
-                            date: d,
-                            time: t,
-                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        allDates.forEach(d => {
+                            allTimes.forEach(t => {
+                                if (!data.find(item => item.date === d && item.time === t)) {
+                                    data.push({
+                                        date: d,
+                                        time: t,
+                                        availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                    });
+                                }
                             });
-                        }
                         });
-                    });
                     } else if (!dateofreservation) {
-                    // If no date is provided, add all times for the given time slots
-                    allDates = generateDates(); // Returns dates from today up to 7 days
+                        // If no date is provided, add all times for the given time slots
+                        allDates = generateDates(); // Returns dates from today up to 7 days
 
-                    allDates.forEach(d => {
-                        if (!data.find(item => item.date === d && item.time === timeofreservation)) {
-                        data.push({
-                            date: d,
-                            time: timeofreservation,
-                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        allDates.forEach(d => {
+                            if (!data.find(item => item.date === d && item.time === timeofreservation)) {
+                                data.push({
+                                    date: d,
+                                    time: timeofreservation,
+                                    availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                });
+                            }
                         });
-                        }
-                    });
                     } else if (!timeofreservation) {
-                    // If no time is provided, add all time slots for the given dates
-                    allTimes = generateTimes(); // Returns a list of all time slots
+                        // If no time is provided, add all time slots for the given dates
+                        allTimes = generateTimes(); // Returns a list of all time slots
 
-                    allTimes.forEach(t => {
-                        if (!data.find(item => item.date === dateofreservation && item.time === t)) {
-                        data.push({
-                            date: dateofreservation,
-                            time: t,
-                            availableSeats: 30 // Assuming 30 seats are available if no reservations
+                        allTimes.forEach(t => {
+                            if (!data.find(item => item.date === dateofreservation && item.time === t)) {
+                                data.push({
+                                    date: dateofreservation,
+                                    time: t,
+                                    availableSeats: 30 // Assuming 30 seats are available if no reservations
+                                });
+                            }
                         });
-                        }
-                    });
                     }
 
                     req.session.searchResults = data;
@@ -1232,47 +1274,47 @@ function generateDates() {
     const dates = [];
     const today = new Date();
     for (let i = 0; i <= 7; i++) {
-      let date = new Date(today);
-      date.setDate(today.getDate() + i);
-      dates.push(date.toISOString().split('T')[0]); // Return date in YYYY-MM-DD format
+        let date = new Date(today);
+        date.setDate(today.getDate() + i);
+        dates.push(date.toISOString().split('T')[0]); // Return date in YYYY-MM-DD format
     }
     return dates;
-  }
-  
-  function generateTimes() {
+}
+
+function generateTimes() {
     return [
-      "7:30AM-8:00AM", "8:00AM-8:30AM", "8:30AM-9:00AM", "9:00AM-9:30AM",
-      "9:30AM-10:00AM", "10:00AM-10:30AM", "10:30AM-11:00AM", "11:00AM-11:30AM",
-      "11:30AM-12:00PM", "12:00PM-12:30PM"
+        "7:30AM-8:00AM", "8:00AM-8:30AM", "8:30AM-9:00AM", "9:00AM-9:30AM",
+        "9:30AM-10:00AM", "10:00AM-10:30AM", "10:30AM-11:00AM", "11:00AM-11:30AM",
+        "11:30AM-12:00PM", "12:00PM-12:30PM"
     ];
-  }
-  
+}
 
 
 
-app.get('/CT-Profile_view-only_Liam', function(req, res) {
+
+app.get('/CT-Profile_view-only_Liam', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Liam.html');
 });
 
-app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
+app.get('/CT-Profile_view-only_Benjamin', function (req, res) {
     res.sendFile(__dirname + '/CT/CT-Profile_view-only_Benjamin.html');
 });
 
-/*-----------------------      LT      --------------------------*/ 
+/*-----------------------      LT      --------------------------*/
 // LT-Menu Bar
-app.get('/LT-homepage', function(req, res) {
+app.get('/LT-homepage', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-homepage.html');
 });
 
-app.get('/LT-Reservation_Goks', function(req, res) {
+app.get('/LT-Reservation_Goks', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_Goks.html');
 });
 
-app.get('/LT-View-Edit', function(req, res) {
+app.get('/LT-View-Edit', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-View-Edit.html');
 });
 
-/*-----------------------      LT PROFILE      --------------------------*/ 
+/*-----------------------      LT PROFILE      --------------------------*/
 app.get('/LT-Profile', async (req, res) => {
     try {
         if (!req.session.userId) {
@@ -1285,15 +1327,15 @@ app.get('/LT-Profile', async (req, res) => {
         }
 
         // Fetch and add lab property to reservations from each collection
-        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc =>
             doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
         );
 
-        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc =>
             doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
         );
 
-        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc =>
             doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
         );
 
@@ -1312,7 +1354,7 @@ app.get('/LT-Profile', async (req, res) => {
     }
 });
 
-/*-----------------------    LT PROFILE EDIT   --------------------------*/ 
+/*-----------------------    LT PROFILE EDIT   --------------------------*/
 app.get('/LT-Profile_edit', async (req, res) => {
     try {
         const userId = req.session.userId; // Assuming userId is stored in session
@@ -1355,7 +1397,7 @@ app.post('/LT-Profile_edit', async (req, res) => {
                 await Users.findByIdAndUpdate(userId, { profilePhoto: '/images/' + profilePhoto.name });
 
                 console.log('File uploaded and user updated successfully');
-                res.redirect('/LT-Profile'); 
+                res.redirect('/LT-Profile');
             });
         } else {
             res.redirect('/LT-Profile'); // Redirect to profile page if no file upload
@@ -1408,7 +1450,7 @@ app.get('/LGoks', async (req, res) => {
 
         const goks6 = await Goks.aggregate([{ $match: { seat: { $in: ['GK26', 'GK27', 'GK28', 'GK29', 'GK30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        res.render('LT-Reservation_Goks', { goks , goks2, goks3, goks4, goks5, goks6 });
+        res.render('LT-Reservation_Goks', { goks, goks2, goks3, goks4, goks5, goks6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -1432,8 +1474,8 @@ app.get('/LVelasco', async (req, res) => {
 
         const velasco6 = await Velasco.aggregate([{ $match: { seat: { $in: ['VL26', 'VL27', 'VL28', 'VL29', 'VL30'] } } }, { $project: { seat: 1, reservations: { $filter: { input: "$reservations", as: "reservation", cond: { $and: [{ $eq: ["$$reservation.dateofreservation", date] }, { $eq: ["$$reservation.timeofreservation", time] }] } } } } }, { $group: { _id: "$seat", reservations: { $push: "$reservations" } } }, { $sort: { _id: 1 } }]);
         // Render your Handlebars template with the data
-        
-        res.render('LT-Reservation_Velasco', { velasco , velasco2, velasco3, velasco4, velasco5, velasco6 });
+
+        res.render('LT-Reservation_Velasco', { velasco, velasco2, velasco3, velasco4, velasco5, velasco6 });
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred');
@@ -1442,15 +1484,15 @@ app.get('/LVelasco', async (req, res) => {
 
 
 // LT-Reservations
-app.get('/LT-Reservation_search-goks', function(req, res) {
+app.get('/LT-Reservation_search-goks', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
 });
 
-app.get('/LT-Reservation_search-goks', function(req, res) {
+app.get('/LT-Reservation_search-goks', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-goks.html');
 });
 
-app.get('/LT-Reservation_search-andrew', function(req, res) {
+app.get('/LT-Reservation_search-andrew', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Reservation_search-andrew.html');
 });
 
@@ -1479,7 +1521,7 @@ app.get('/LT-Reservation_reservation-details', async (req, res) => {
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
 
         // Render the reservation details page with user and reservationData
-        res.render('LT-Reservation_reservation-details', {user, reservationData});
+        res.render('LT-Reservation_reservation-details', { user, reservationData });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred');
@@ -1493,13 +1535,13 @@ app.post('/LT-Reservation_success', (req, res) => {
     res.status(200).send('Reservation data received');
 });
 
-app.get('/LT-Reservation_success', function(req, res) {
+app.get('/LT-Reservation_success', function (req, res) {
     res.render('LT-Reservation_success', data);
 });
 
 
-app.get('/LaddReservation', function(req, res) {
-    res.render('LT-Reservation_success',reservationData);
+app.get('/LaddReservation', function (req, res) {
+    res.render('LT-Reservation_success', reservationData);
 });
 
 app.post('/LaddReservation', async (req, res) => {
@@ -1556,12 +1598,12 @@ app.post('/LaddReservation', async (req, res) => {
 });
 
 // Profile
-app.get('/LT-Profile_view-only_Liam', function(req, res) {
+app.get('/LT-Profile_view-only_Liam', function (req, res) {
     res.sendFile(__dirname + '/LT/LT-Profile_view-only_Liam.html');
 });
 
 // Handle form submission and respond with a success message
-app.post('/submit-student-data', function(req, res) {
+app.post('/submit-student-data', function (req, res) {
     var name = req.body.firstName + ' ' + req.body.lastName;
     res.send(name + ' Submitted Successfully');
 });

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
   <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
@@ -60,20 +61,20 @@
       </a>
     </div>
     <form id="searchForm" action="/search" method="GET" autocomplete="off">
-            <div class="searchdivider">
-                <div class="searchfield">
-                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
-                    <button class="searchbutton" type="submit">
-                        <img src="images/searchglass.png" class="imgbtn" alt="Search">
-                    </button>
-                </div>
-                <div class="suggestions-div">
-                    <div class="suggestion-card">
-                        <!--  a href cards of users will be inserted here -->
-                    </div>
-                </div>
-            </div>
-        </form>
+      <div class="searchdivider">
+        <div class="searchfield">
+          <input class="searchinput" type="text" name="name" placeholder="Search..." required>
+          <button class="searchbutton" type="submit">
+            <img src="images/searchglass.png" class="imgbtn" alt="Search">
+          </button>
+        </div>
+        <div class="suggestions-div">
+          <div class="suggestion-card">
+            <!--  a href cards of users will be inserted here -->
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="sort-container">
@@ -147,24 +148,26 @@
   <script src="js/clock.js"></script>
   <div id="clock">
     <h1 id="date-time"></h1>
+    <div id="current-timestamp" style="display: none;"></div>
   </div>
 
   <!-- Cancel Reservation script  -->
   <script>
     async function findAndCancelData(reservationId) {
       try {
+        const currentTimestamp = document.getElementById("current-timestamp").innerText;
+        
         const response = await fetch(`/LT-cancel-reservation/${reservationId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({ currentTime: currentTimestamp })
         });
 
         if (response.ok) {
           alert('Reservation canceled successfully');
-          // Remove the row from the table
           document.querySelector(`tr[data-reservation-id="${reservationId}"]`).remove();
-
         } else {
           const errorText = await response.text();
           alert(`Failed to cancel reservation: ${errorText}`);
@@ -219,4 +222,5 @@
     </div>
   </div>
 </footer>
+
 </html>
