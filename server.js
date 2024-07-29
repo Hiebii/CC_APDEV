@@ -615,14 +615,30 @@ app.delete('/deleteAccount', async (req, res) => {
         if (!user) {
             return res.status(404).send({ message: 'User not found' });
         }
-        // Destroy session after deleting the account
+
+        const userName = user.fullName;
+
+        const deleteReservationsByUserName = async (collection, labName) => {
+            const seats = await collection.find({ 'reservations.name': userName }).lean();
+
+            for (const seat of seats) {
+                const updatedReservations = seat.reservations.filter(res => res.name !== userName);
+
+                await collection.updateOne({ _id: seat._id }, { reservations: updatedReservations });
+            }
+        };
+
+        await deleteReservationsByUserName(Andrew, 'AG101');
+        await deleteReservationsByUserName(Goks, 'GK101');
+        await deleteReservationsByUserName(Velasco, 'VL101');
+
         req.session.destroy(err => {
             if (err) {
                 console.error('Error destroying session:', err);
                 return res.status(500).send({ message: 'Failed to delete account' });
             }
 
-            res.status(200).send({ message: 'Account deleted successfully' });
+            res.status(200).send({ message: 'Account and reservations deleted successfully' });
         });
     } catch (error) {
         console.error('Error deleting account:', error);
