@@ -522,7 +522,7 @@ app.get('/LT-View-Edit', async (req, res) => {
     }
 });
 /*--------------------------   EDIT RESERVATION    ---------------------------*/
-app.get('/CT-View-Edit_edit-reservation', (req, res) =>{
+app.post('/CT-View-Edit_edit-reservation/:{{this._id}}', (req, res) =>{
     //res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
     res.render('CT-View-Edit_edit-reservation');
 });
