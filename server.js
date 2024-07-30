@@ -518,20 +518,40 @@ app.get('/LT-View-Edit', async (req, res) => {
     }
 });
 /*--------------------------   EDIT RESERVATION    ---------------------------*/
-app.get('/CT-View-Edit_edit-reservation/:id', async (req, res) =>{
+app.get('/CT-View-Edit_edit-reservation/:reservationId', async (req, res) =>{
     //res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
 
     try {
+        
         const userId = req.session.userId; // Assuming userId is stored in session
-        const reservationId = req.params.id;
 
         // Fetch user data
         const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+        const { reservationId } = req.params;
+        let reservationDetails = null;
+        
+        const seatCollections = [Andrew, Goks, Velasco];
 
+        for (const SeatModel of seatCollections){
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId});
+            if (seat){
+                const reservation = seat.reservations.id(reservationId);
+                if (reservation){
+
+                    reservationDetails = {
+                        seatNames: seat.seat,
+                        lab: SeatModel.modelName,
+                        ...reservation.toObject()
+
+                    };
+                }
+            }
+        }
+        console.log(reservationDetails);
+        if (reservationDetails){
         // Render the reservation details page with user and reservationData
-        res.render('CT-View-Edit_reservation-details', {user});
-
-      
+        res.render('CT-View-Edit_edit-reservation', {user, reservationData: reservationDetails});
+        }
     }catch(err){
         console.error(err);
         res.status(500).send('An error occurred!!');

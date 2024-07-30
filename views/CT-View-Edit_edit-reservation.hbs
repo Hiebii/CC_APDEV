@@ -6,11 +6,11 @@
     <title>tinkerlab.</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css-main/cssmainwebsite.css">
-    <link rel="stylesheet" href="../css-main/CT_LT-Main.css">
-    <link rel="stylesheet" href="../css-main/CT-Reservation-details.css">
-    <link rel="icon" href="../images/icon.png">
-    <script src="../js-main/search.js"></script>
+    <link rel="stylesheet" href="/css-main/cssmainwebsite.css">
+    <link rel="stylesheet" href="/css-main/CT_LT-Main.css">
+    <link rel="stylesheet" href="/css-main/CT-Reservation-details.css">
+    <link rel="icon" href="/images/icon.png">
+    <script src="/js-main/search.js"></script>
     <script>
     // JavaScript for submitting form data
     function collectAndSendData() {
@@ -91,23 +91,40 @@
         </form>
     </nav>
     <main>
-        <div class="title-1">RESERVATION DETAILS</div>
+        <div class="title-1">EDIT RESERVATION</div>
         <div class="outer-box">
-            <ul class="details">
-                <li><span class="bold">Name:</span> {{user.fullName}} </li>
-                <li><input type="checkbox" id="anonymousCheckbox"> <span>Anonymous</span></li>
-                <li><span class="bold">Computer Lab:</span> {{ reservationData.lab }}</li>
-                <li><span class="bold">Seat No.:</span> {{ reservationData.seatNames }}</li>
-                <li><span class="bold">Date of Request:</span> {{ reservationData.dateofrequest }}</li>
-                <li><span class="bold">Time of Request:</span> {{ reservationData.timeofrequest }}</li>
-                <li><span class="bold">Date of Reservation:</span> {{ reservationData.dateofreservation }}</li>
-                <li><span class="bold">Time of Reservation:</span> {{ reservationData.timeofreservation }}</li>
-            </ul> 
+            <form action ="/CT-View-Edit_edit-reservation/{{reservationData._id}}" method = "POST"></form>
+                <input type ="hidden" name ="dblab" value = " {{ reservationData.room }}">
+                <ul class="details">
+                    <li><span class="bold">Name:</span> <input type ="text" value="{{user.fullName}}"> </li>
+                    <li><input type="checkbox" id="anonymousCheckbox"> <span>Anonymous</span></li>
+                    <li><span class="bold">Computer Lab:</span> {{ reservationData.lab }}</li>
+                    <li><span class="bold">Seat No.:</span> <input type ="text" value="{{ reservationData.seatNames }}"> </li>
+                    <!---<li><span class="bold">Date of Request:</span> {{ reservationData.dateofrequest }} </li>-->
+                    <!---<li><span class="bold">Time of Request:</span> {{ reservationData.timeofrequest }} </li>-->
+                    <li><span class="bold">Date of Reservation:</span> <input type ="date" value="{{ reservationData.dateofreservation }}"> </li>
+                    
+                    <li><span class="bold">Time of Reservation:</span> 
+                    <select id="time-dropdown" class="time-dropdown" name="time" value="{{ reservationData.timeofreservation }}"> 
+                    <option class="choices" value="7:30AM-8:00AM">7:30AM - 8:00AM</option>
+                    <option class="choices" value="8:00AM-8:30AM">8:00AM - 8:30AM</option>
+                    <option class="choices" value="8:30AM-9:00AM">8:30AM - 9:00AM</option>
+                    <option class="choices" value="9:00AM-9:30AM">9:00AM - 9:30AM</option>
+                    <option class="choices" value="9:30AM-10:00AM">9:30AM - 10:00AM</option>
+                    <option class="choices" value="10:00AM-10:30AM">10:00AM - 10:30AM</option>
+                    <option class="choices" value="10:30AM-11:00AM">10:30AM - 11:00AM</option>
+                    <option class="choices" value="11:00AM-11:30AM">11:00AM - 11:30AM</option>
+                    <option class="choices" value="11:30AM-12:00PM">11:30AM - 12:00PM</option>
+                    <option class="choices" value="12:00PM-12:30PM">12:00PM - 12:30PM</option>
+                    <option class="choices" value=""></option></li>
+                    </select>
+                </ul> 
         </div>
-        <div class="button-container">
-            <button class="back-button" onclick="history.back()">Back</button>
-            <button class="purple-button" onclick="showPrompt()">Submit</button>
-        </div>
+            <div class="button-container">
+                <button class="back-button" onclick="history.back()">Back</button>
+                <button class="purple-button" onclick="showPrompt()">Submit</button>
+            </div>
+            </form>
     </main>
     <script src="js/prompt.js"></script>
     <div id="dialog-1" class="dialog-1">
