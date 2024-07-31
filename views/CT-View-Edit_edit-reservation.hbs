@@ -14,21 +14,24 @@
     <script>
     // JavaScript for submitting form data
     function collectAndSendData() {
-        const fullName = "{{user.fullName}}"; // Assuming user.fullName is a variable accessible here
+        //const fullName = document.getElementById('fullName').value;
+        const fullName = "{{user.fullName}}";  //Assuming user.fullName is a variable accessible here
         const isAnonymous = document.getElementById('anonymousCheckbox').checked ? 1 : 0;
         const isAnonyname = isAnonymous ? "Yes" : "No";
+        const dblab = document.getElementById('dblab').value;
+
 
         const data = {
             fullName: fullName,
             anonymous: isAnonymous,
             anonyname: isAnonyname,
-            dblab: "Andrew", // Assuming this value is static or from another source
+            dblab: "{{ reservationData.lab }}", // Assuming this value is static or from another source
             lab: "{{ reservationData.lab }}", 
-            seatNames: "{{ reservationData.seatNames }}", 
+            seatNames: [document.getElementById('seatDropdown').value],
             dateofrequest: "{{ reservationData.dateofrequest }}", 
             timeofrequest: "{{ reservationData.timeofrequest }}", 
-            dateofreservation: "{{ reservationData.dateofreservation }}", 
-            timeofreservation: "{{ reservationData.timeofreservation }}" 
+            dateofreservation: document.getElementById('selectedDate').value, 
+            timeofreservation: document.getElementById('time-dropdown').value 
         };
 
         fetch('/CT-View-Edit_success-edit', {
@@ -42,7 +45,7 @@
             if (response.ok) {
                 window.location.href = '/CT-View-Edit_success-edit'; // Redirect to confirmation page
             } else {
-                console.error('Failed to send data');
+                console.error('Failed to send data');;
             }
         })
         .catch(error => console.error('Error:', error));
@@ -94,18 +97,24 @@
         <div class="title-1">EDIT RESERVATION</div>
         <div class="outer-box">
             <form action ="/CT-View-Edit_edit-reservation/{{reservationData._id}}" method = "POST"></form>
-                <input type ="hidden" name ="dblab" value = " {{ reservationData.room }}">
+                <input type ="hidden" id="dblab" value="{{ reservationData.room }}">
                 <ul class="details">
-                    <li><span class="bold">Name:</span> <input type ="text" value="{{user.fullName}}"> </li>
+                    <li><span class="bold">Name:</span> {{user.fullName}} </li>
                     <li><input type="checkbox" id="anonymousCheckbox"> <span>Anonymous</span></li>
                     <li><span class="bold">Computer Lab:</span> {{ reservationData.lab }}</li>
-                    <li><span class="bold">Seat No.:</span> <input type ="text" value="{{ reservationData.seatNames }}"> </li>
+                    <li><span class="bold">Seat No.:</span> 
+                        <select id="seatDropdown" name="seat" class="time-dropdown" >
+                            {{#each seatOptions}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}} </li>
+                        </select>
+                    <!---<li><span class="bold">Seat No.:</span> <input type ="text" value="{{ reservationData.seatNames }}"> </li>-->
                     <!---<li><span class="bold">Date of Request:</span> {{ reservationData.dateofrequest }} </li>-->
                     <!---<li><span class="bold">Time of Request:</span> {{ reservationData.timeofrequest }} </li>-->
-                    <li><span class="bold">Date of Reservation:</span> <input type ="date" value="{{ reservationData.dateofreservation }}"> </li>
+                    <li><span class="bold">Date of Reservation:</span> <input type ="date" value="{{ reservationData.dateofreservation }}" id="selectedDate"> </li>
                     
                     <li><span class="bold">Time of Reservation:</span> 
-                    <select id="time-dropdown" class="time-dropdown" name="time" value="{{ reservationData.timeofreservation }}"> 
+                    <select id="time-dropdown" class="time-dropdown" name="timeofreservation" value="{{ reservationData.timeofreservation }}"> 
                     <option class="choices" value="7:30AM-8:00AM">7:30AM - 8:00AM</option>
                     <option class="choices" value="8:00AM-8:30AM">8:00AM - 8:30AM</option>
                     <option class="choices" value="8:30AM-9:00AM">8:30AM - 9:00AM</option>
@@ -122,7 +131,7 @@
         </div>
             <div class="button-container">
                 <button class="back-button" onclick="history.back()">Back</button>
-                <button class="purple-button" onclick="showPrompt()">Submit</button>
+                <button class="purple-button" onclick="collectAndSendData()">Submit</button>
             </div>
             </form>
     </main>

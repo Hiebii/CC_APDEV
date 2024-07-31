@@ -547,15 +547,42 @@ app.get('/CT-View-Edit_edit-reservation/:reservationId', async (req, res) =>{
                 }
             }
         }
+
+        let seatOptions = [];
+
+        if (reservationDetails.lab == "Goks"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `GK${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Andrew"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `A${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Velasco"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `VL${String(i+1).padStart(2,'0')}`);
+        }
         console.log(reservationDetails);
         if (reservationDetails){
         // Render the reservation details page with user and reservationData
-        res.render('CT-View-Edit_edit-reservation', {user, reservationData: reservationDetails});
+        res.render('CT-View-Edit_edit-reservation', {user, reservationData: reservationDetails, seatOptions});
         }
     }catch(err){
         console.error(err);
         res.status(500).send('An error occurred!!');
     }
+});
+
+app.post('/editReservation', async (req, res) => {
+    const data = req.body;
+    console.log(data);
+});
+
+app.post('/CT-View-Edit_success-edit', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
+
+app.get('/CT-View-Edit_success-edit', function(req, res) {
+    console.log(data);
+    res.render('CT-View-Edit_success-edit', data);
 });
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
