@@ -37,7 +37,9 @@
                         </div> 
                     </div> 
                     <div class="container">
-
+                         {{#if message}}
+                              <div class="success-text">{{error}}</div>
+                        {{/if}}
                         {{#if error}}
                               <div class="error-text">{{error}}</div>
                         {{/if}}
@@ -58,11 +60,12 @@
                                     <input type="password" class="textbox-login" id="login-password" name="password" placeholder="Password">
                                 </div>                    
                                 <input type="submit" id="login-button" class="submitbutton" value="LOGIN"> 
-                                </form> 
+                                
                             </div>
                             <div class="contents-bottom">
-                            <input type="checkbox" class="checkboxCCS">Remember me
+                            <input type="checkbox" name="rememberMe" class="checkboxCCS">Remember me
                             </div>
+                        </form> 
                     </div>
 
                 </div>

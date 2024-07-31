@@ -5,6 +5,7 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 const express = require('express');
 const session = require('express-session');
 const fileUpload = require('express-fileupload')
+const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000; 
 
@@ -340,7 +341,10 @@ app.post('/signup', async (req, res) => {
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
         else{
-            const newUser = new Users({ fullName, email, password, title });
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password,saltRounds);
+
+            const newUser = new Users({ fullName, email, password: hashedPassword, title });
             await newUser.save();
             return res.render('login-page', { message: 'User registered successfully!' });
             // return res.status(201).json({ message: 'User registered successfully!', redirectUrl: '/login-page' });
@@ -355,19 +359,29 @@ app.post('/signup', async (req, res) => {
 
 /*-----------------------      LOGIN      --------------------------*/ 
 app.post('/login', async (req, res) => {
-    const { email, password }  = req.body;
+    const { email, password, rememberMe }  = req.body;
 
     try {
         const user = await Users.findOne({ email });
         if (!user){
             return res.render('login-page', { error: 'User does not exist!' });
         }
-
-        if (user.password !== password){
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch){
             return res.render('login-page', { error: 'Invalid Password!' });
         }
+        
+        /*if (user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password!' });
+        }*/
 
         req.session.userId = user._id; // Store user ID in session
+    
+        if (rememberMe){
+            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // This is around 30 days
+        } else {
+            req.session.cookie.expires = false;
+        }
 
         if (user.title === 'Lab Technician'){
             res.redirect('/LT-homepage');
