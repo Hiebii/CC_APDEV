@@ -703,11 +703,83 @@ app.get('/LT-View-Edit_edit-reservation/:reservationId', async (req, res) =>{
         res.status(500).send('An error occurred!!');
     }
 });
-
+/*
 app.post('/editReservation', async (req, res) => {
     const data = req.body;
     console.log(data);
+});*/
+app.post('/CT_Edit-Reservation/:reservationId', async (req, res) => {
+    const data = req.body;
+    console.log('Request body:', req.body);
+    const { reservationId } = req.params;
+    console.log('Reservation ID:', req.params.reservationId);
+
+    if (!Array.isArray(data.seatNames) || data.seatNames.length !== 1) {
+        return res.status(400).send('seatNames should be an array with one seat name');
+    }
+
+    try {
+        const newSeatName = data.seatNames[0];
+        const seatCollections = [Andrew, Goks, Velasco];
+        let reservationFound = false;
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                const reservation = seat.reservations.id(reservationId);
+
+                if (reservation) {
+                    // Remove the original reservation
+                    seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
+                    await seat.save();
+
+                    // Add new reservation
+                    const filter = { seat: newSeatName };
+                    const update = {
+                        $push: {
+                            reservations: {
+                                name: data.fullName,
+                                reservedby: data.fullName,
+                                anonymous: data.anonymous,
+                                dateofrequest: data.dateofrequest,
+                                timeofrequest: data.timeofrequest,
+                                dateofreservation: data.dateofreservation,
+                                timeofreservation: data.timeofreservation,
+                                value: 1
+                            }
+                        }
+                    };
+
+                    let updatePromise;
+                    if (data.dblab === "Andrew") {
+                        updatePromise = Andrew.findOneAndUpdate(filter, update, { new: true });
+                    } else if (data.dblab === "Goks") {
+                        updatePromise = Goks.findOneAndUpdate(filter, update, { new: true });
+                    } else if (data.dblab === "Velasco") {
+                        updatePromise = Velasco.findOneAndUpdate(filter, update, { new: true });
+                    } else {
+                        throw new Error(`Unsupported dblab value: ${data.dblab}`);
+                    }
+
+                    await updatePromise;
+                    reservationFound = true;
+                    break;
+                }
+            }
+        }
+
+        if (reservationFound) {
+            res.status(200).send('Reservation edited successfully');
+        } else {
+            res.status(404).send('Original reservation not found');
+        }
+    } catch (err) {
+        console.error('Error in editing reservation:', err);
+        res.status(500).send('An error occurred while editing the reservation');
+    }
 });
+
+
 
 // CT View Edit Success
 app.post('/CT-View-Edit_success-edit', (req, res) => {

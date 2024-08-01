@@ -34,7 +34,7 @@
             timeofreservation: document.getElementById('time-dropdown').value 
         };
 
-        fetch('/CT-View-Edit_success-edit', {
+        fetch(`/CT_Edit-Reservation/{{reservationData._id}}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -96,7 +96,7 @@
     <main>
         <div class="title-1">EDIT RESERVATION</div>
         <div class="outer-box">
-            <form action ="/CT-View-Edit_edit-reservation/{{reservationData._id}}" method = "POST"></form>
+            <form action ="/CT_Edit-Reservation/{{reservationData._id}}" method = "POST"></form>
                 <input type ="hidden" id="dblab" value="{{ reservationData.room }}">
                 <ul class="details">
                     <li><span class="bold">Name:</span> {{user.fullName}} </li>
