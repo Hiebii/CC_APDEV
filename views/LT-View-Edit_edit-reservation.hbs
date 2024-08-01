@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tinkerlab.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css-main/cssmainwebsite.css">
+    <link rel="stylesheet" href="/css-main/CT_LT-Main.css">
+    <link rel="stylesheet" href="/css-main/CT-Reservation-details.css">
+    <link rel="icon" href="/images/icon.png">
+    <script src="/js-main/search.js"></script>
+    <script>
+    // JavaScript for submitting form data
+    function collectAndSendData() {
+        //const fullName = document.getElementById('fullName').value;
+        const fullName = "{{user.fullName}}";  //Assuming user.fullName is a variable accessible here
+        const isAnonymous = document.getElementById('anonymousCheckbox').checked ? 1 : 0;
+        const isAnonyname = isAnonymous ? "Yes" : "No";
+        const dblab = document.getElementById('dblab').value;
+
+
+        const data = {
+            fullName: fullName,
+            anonymous: isAnonymous,
+            anonyname: isAnonyname,
+            dblab: "{{ reservationData.lab }}", // Assuming this value is static or from another source
+            lab: "{{ reservationData.lab }}", 
+            seatNames: [document.getElementById('seatDropdown').value],
+            dateofrequest: "{{ reservationData.dateofrequest }}", 
+            timeofrequest: "{{ reservationData.timeofrequest }}", 
+            dateofreservation: document.getElementById('selectedDate').value, 
+            timeofreservation: document.getElementById('time-dropdown').value 
+        };
+
+        fetch('/LT-View-Edit_success-edit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/LT-View-Edit_success-edit'; // Redirect to confirmation page
+            } else {
+                console.error('Failed to send data');;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <img class="imglogo" src="../images/tinkerlablogo.png" alt="TinkerLab Logo">
+    </header>
+    <nav class="taskbar">
+        <div class="btndivider">
+            <a href="/CT-homepage">
+                <button class="btndesign" id="homebtn">Home</button>
+            </a>
+        </div>
+        <div class="btndivider">
+            <a href="/Andrew">
+                <button class="btndesign" id="reservationbtn">Reservation</button>
+            </a>
+        </div>
+        <div class="btndivider">
+            <a href="/CT-View-Edit">
+                <button class="btndesign" id="vieweditbtn">View/Edit</button>
+            </a>
+        </div>
+        <div class="btndivider">
+            <a href="/CT-Profile">
+                <button class="btndesign" id="profilebtn">Profile</button>
+            </a>
+        </div>
+        <form id="searchForm" action="/search" method="GET" autocomplete="off">
+            <div class="searchdivider">
+                <div class="searchfield">
+                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
+                    <button class="searchbutton" type="submit">
+                        <img src="../images/searchglass.png" class="imgbtn" alt="Search">
+                    </button>
+                </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">
+                        <!--  a href cards of users will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </nav>
+    <main>
+        <div class="title-1">EDIT RESERVATION</div>
+        <div class="outer-box">
+            <form action ="/CT-View-Edit_edit-reservation/{{reservationData._id}}" method = "POST"></form>
+                <input type ="hidden" id="dblab" value="{{ reservationData.room }}">
+                <ul class="details">
+                    <li><span class="bold">Name:</span> {{user.fullName}} </li>
+                    <li><input type="checkbox" id="anonymousCheckbox"> <span>Anonymous</span></li>
+                    <li><span class="bold">Computer Lab:</span> {{ reservationData.lab }}</li>
+                    <li><span class="bold">Seat No.:</span> 
+                        <select id="seatDropdown" name="seat" class="time-dropdown" >
+                            {{#each seatOptions}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}} </li>
+                        </select>
+                    <!---<li><span class="bold">Seat No.:</span> <input type ="text" value="{{ reservationData.seatNames }}"> </li>-->
+                    <!---<li><span class="bold">Date of Request:</span> {{ reservationData.dateofrequest }} </li>-->
+                    <!---<li><span class="bold">Time of Request:</span> {{ reservationData.timeofrequest }} </li>-->
+                    <li><span class="bold">Date of Reservation:</span> <input type ="date" value="{{ reservationData.dateofreservation }}" id="selectedDate"> </li>
+                    
+                    <li><span class="bold">Time of Reservation:</span> 
+                    <select id="time-dropdown" class="time-dropdown" name="timeofreservation" value="{{ reservationData.timeofreservation }}"> 
+                    <option class="choices" value="7:30AM-8:00AM">7:30AM - 8:00AM</option>
+                    <option class="choices" value="8:00AM-8:30AM">8:00AM - 8:30AM</option>
+                    <option class="choices" value="8:30AM-9:00AM">8:30AM - 9:00AM</option>
+                    <option class="choices" value="9:00AM-9:30AM">9:00AM - 9:30AM</option>
+                    <option class="choices" value="9:30AM-10:00AM">9:30AM - 10:00AM</option>
+                    <option class="choices" value="10:00AM-10:30AM">10:00AM - 10:30AM</option>
+                    <option class="choices" value="10:30AM-11:00AM">10:30AM - 11:00AM</option>
+                    <option class="choices" value="11:00AM-11:30AM">11:00AM - 11:30AM</option>
+                    <option class="choices" value="11:30AM-12:00PM">11:30AM - 12:00PM</option>
+                    <option class="choices" value="12:00PM-12:30PM">12:00PM - 12:30PM</option>
+                    <option class="choices" value=""></option></li>
+                    </select>
+                </ul> 
+        </div>
+            <div class="button-container">
+                <button class="back-button" onclick="history.back()">Back</button>
+                <button class="purple-button" onclick="collectAndSendData()">Submit</button>
+            </div>
+            </form>
+    </main>
+    <script src="js/prompt.js"></script>
+    <div id="dialog-1" class="dialog-1">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br>RESERVE<span class="green-text"> {{ reservationData.seatNames }} </span> SEAT?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt()">Back</button>
+            <button class="purple-button" onclick="collectAndSendData()">Confirm</button>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column-1">
+                <img class="footer-logo" src="../images/tinkerlablogo.png" alt="TinkerLab Logo">
+                <p><span class="tagline">Reserve in a Blink, then Explore and Think!</span></p>
+            </div>
+            <div class="footer-column-2">
+                <h3>About</h3>
+                <p class="footer-about">an intuitive platform that allows students to easily<br> 
+                    reserve, check availability, and manage their computer<br> 
+                    lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
+            </div>
+            <div class="footer-column-3">
+                <h3>Contact</h3>
+                <div class="contact-info">
+                    <img class="email-logo" src="../images/email-logo.png" alt="Email Logo">
+                    <a class="dlsu-email" href="mailto:charlemagne_craw@dlsu.edu.ph">charlemagne_craw@dlsu.edu.ph</a>
+                </div>
+                <div class="contact-info">
+                    <img class="email-logo" src="../images/email-logo.png" alt="Email Logo">
+                    <a class="dlsu-email" href="mailto:rafael_debelen@dlsu.edu.ph">rafael_debelen@dlsu.edu.ph</a>
+                </div>
+                <div class="contact-info">
+                    <img class="email-logo" src="../images/email-logo.png" alt="Email Logo">
+                    <a class="dlsu-email" href="mailto:monica_santiago@dlsu.edu.ph">monica_santiago@dlsu.edu.ph</a>
+                </div>
+                <div class="contact-info">
+                    <img class="email-logo" src="../images/email-logo.png" alt="Email Logo">
+                    <a class="dlsu-email" href="mailto:john_fredrick_tario@dlsu.edu.ph">john_fredrick_tario@dlsu.edu.ph</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

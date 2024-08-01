@@ -652,11 +652,64 @@ app.get('/CT-View-Edit_edit-reservation/:reservationId', async (req, res) =>{
     }
 });
 
+app.get('/LT-View-Edit_edit-reservation/:reservationId', async (req, res) =>{
+    //res.sendFile(__dirname + '/LT/LT-View-Edit_edit-reservation.html');
+
+    try {
+        
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+        const { reservationId } = req.params;
+        let reservationDetails = null;
+        
+        const seatCollections = [Andrew, Goks, Velasco];
+
+        for (const SeatModel of seatCollections){
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId});
+            if (seat){
+                const reservation = seat.reservations.id(reservationId);
+                if (reservation){
+
+                    reservationDetails = {
+                        seatNames: seat.seat,
+                        lab: SeatModel.modelName,
+                        ...reservation.toObject()
+
+                    };
+                }
+            }
+        }
+
+        let seatOptions = [];
+
+        if (reservationDetails.lab == "Goks"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `GK${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Andrew"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `A${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Velasco"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `VL${String(i+1).padStart(2,'0')}`);
+        }
+        console.log(reservationDetails);
+        if (reservationDetails){
+        // Render the reservation details page with user and reservationData
+        res.render('LT-View-Edit_edit-reservation', {user, reservationData: reservationDetails, seatOptions});
+        }
+    }catch(err){
+        console.error(err);
+        res.status(500).send('An error occurred!!');
+    }
+});
+
 app.post('/editReservation', async (req, res) => {
     const data = req.body;
     console.log(data);
 });
 
+// CT View Edit Success
 app.post('/CT-View-Edit_success-edit', (req, res) => {
     data = req.body;
     res.status(200).send('Reservation data received');
@@ -665,6 +718,17 @@ app.post('/CT-View-Edit_success-edit', (req, res) => {
 app.get('/CT-View-Edit_success-edit', function(req, res) {
     console.log(data);
     res.render('CT-View-Edit_success-edit', data);
+});
+
+// LT View Edit Success
+app.post('/LT-View-Edit_success-edit', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});
+
+app.get('/LT-View-Edit_success-edit', function(req, res) {
+    console.log(data);
+    res.render('LT-View-Edit_success-edit', data);
 });
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
@@ -1403,7 +1467,7 @@ app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
 app.get('/LT-homepage', async(req, res) => {
     try{
         const user = await Users.findById(req.session.userId).lean();
-        if (user && user.title === 'Student') {
+        if (user && user.title === 'Lab Technician') {
             res.sendFile(__dirname + '/LT/LT-homepage.html');
         } else {
             res.redirect('/'); // Redirect to login or an appropriate page
