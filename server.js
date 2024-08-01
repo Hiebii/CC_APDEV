@@ -4,7 +4,8 @@ mongoose.connect('mongodb://localhost/tinkerlab')
 /* Initialize express */
 const express = require('express');
 const session = require('express-session');
-const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000; 
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use(express.urlencoded( {extended: true})); 
 app.use(express.static('public')) 
 app.use(fileUpload())
+app.use(cookieParser());
 
 // Configure session middleware
 app.use(session({
@@ -376,13 +378,28 @@ app.post('/login', async (req, res) => {
         }*/
 
         req.session.userId = user._id; // Store user ID in session
-    
+
+        res.cookie('sessionID', req.sessionID, { maxAge: 30 * 24 * 60 * 60 * 1000});
+        res.cookie('email', user.email, { maxAge: 30 * 24 * 60 * 60 * 1000});
+        res.cookie('title', user.title, { maxAge: 30 * 24 * 60 * 60 * 1000});
+        res.cookie('password', user.password, {maxAge: 30 * 24 * 60 * 60 * 1000});
+        if (req.cookies.sessionID && req.cookies.email && req.cookies.title && req.cookies.password){
+            console.log('YES - Cookie exists');
+            console.log("Session ID:", req.cookies.sessionID);
+            console.log("Email:",req.cookies.email);
+            console.log("Title:",req.cookies.title);
+            console.log("Password:",req.cookies.password);
+        }else{
+            console.log("NO - NO SUCH COOKIES EXIST");
+        }
+      
         if (rememberMe){
             req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // This is around 30 days
         } else {
             req.session.cookie.expires = false;
         }
 
+        
         if (user.title === 'Lab Technician'){
             res.redirect('/LT-homepage');
         } else if (user.title === 'Student'){
@@ -396,6 +413,17 @@ app.post('/login', async (req, res) => {
     }
 });
 
+/*-----------------------      LOGOUT      --------------------------*/ 
+
+app.get('/logout', (req, res) =>  {
+    req.session.destroy((err)=>{
+        if (err){
+            console.error(err);
+            return res.status(500).send('Server Error!');
+        }
+        res.redirect('/');
+    });
+});
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
 /*app.get('/', function(req, res) {
@@ -403,8 +431,33 @@ app.post('/login', async (req, res) => {
 });*/
 
 //Login Start Route
-
+/*
 app.get('/', (req, res) =>{
+    res.render('login-page');
+});*/
+
+function ensureAuthenticated (req, res, next) { 
+    if (req.session.userId){
+        return next();
+    }
+    res.redirect('/');
+}
+
+app.get('/', async (req,res) => {
+    if (req.session.userId){
+        try {
+            const user = await Users.findById(req.session.userId).lean();
+            if (user){
+                if (user.title === 'Lab Technician'){
+                    res.redirect('/LT-homepage');
+                } else if (user.title === 'Student'){
+                    res.redirect('/CT-homepage');
+                }
+            }
+        }catch(err){
+            console.error(err);
+        }
+    }
     res.render('login-page');
 });
 
@@ -429,9 +482,24 @@ app.get('/signup-labtechnician', function(req, res) {
     res.render('signup-labtechnician');
 });
 
+app.get('/CT-homepage', ensureAuthenticated, async(req, res) =>{
+    try{
+        const user = await Users.findById(req.session.userId).lean();
+        if (user && user.title === 'Student') {
+            res.sendFile(__dirname + '/CT/CT-homepage.html');
+        } else {
+            res.redirect('/'); // Redirect to login or an appropriate page
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
+});
+
+/*
 app.get('/CT-homepage', function(req, res) {
     res.sendFile(__dirname + '/CT/CT-homepage.html');
-});
+});*/
 
 // app.get('/CT-View-Edit', function(req, res) {
 //     res.sendFile(__dirname + '/CT/CT-View-Edit.html');
@@ -1332,8 +1400,18 @@ app.get('/CT-Profile_view-only_Benjamin', function(req, res) {
 
 /*-----------------------      LT      --------------------------*/ 
 // LT-Menu Bar
-app.get('/LT-homepage', function(req, res) {
-    res.sendFile(__dirname + '/LT/LT-homepage.html');
+app.get('/LT-homepage', async(req, res) => {
+    try{
+        const user = await Users.findById(req.session.userId).lean();
+        if (user && user.title === 'Student') {
+            res.sendFile(__dirname + '/LT/LT-homepage.html');
+        } else {
+            res.redirect('/'); // Redirect to login or an appropriate page
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
 });
 
 app.get('/LT-Reservation_Goks', function(req, res) {

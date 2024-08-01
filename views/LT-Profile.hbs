@@ -147,6 +147,26 @@
                     alert("Failed to delete account. Please try again.");
                 });
         }
+
+         function logout(){
+            fetch('/logout', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response =>{
+                if (response.ok){
+                    window.location.href = '/';
+                }else{
+                    alert("Failed to log out, please try again.");
+                }
+            })
+            .catch(error =>{
+                console.error('Error:', error);
+                alert("Failed to log out. Please try again.");
+            });
+        }
     </script>
 
     <!-- Hidden confirmation dialog -->
@@ -175,7 +195,7 @@
         <div class="dialog-header"></div>
         <p class="prompt-text">PROCESS SUCCESSFUL.</p>
         <div class="button-container">
-            <button class="purple-button" onclick="toLoginpage()">Confirm</button>
+            <button class="purple-button" onclick="logout()">Confirm</button>
         </div>
     </div>    
     </body>
