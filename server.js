@@ -1324,16 +1324,16 @@ app.get('/CT-Profile', async (req, res) => {
         }
 
         // Fetch and add lab property to reservations from each collection
-        const andrewReservations = (await Andrew.find({ 'reservations.name': user.fullName }).lean()).flatMap(doc => 
-            doc.reservations.filter(res => res.name === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
         );
 
-        const goksReservations = (await Goks.find({ 'reservations.name': user.fullName }).lean()).flatMap(doc => 
-            doc.reservations.filter(res => res.name === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
         );
 
-        const velascoReservations = (await Velasco.find({ 'reservations.name': user.fullName }).lean()).flatMap(doc => 
-            doc.reservations.filter(res => res.name === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
         );
 
         // Combine all reservations
@@ -1467,16 +1467,16 @@ app.get('/CT-Profile_view-only', async (req, res) => {
         }
 
         // Fetch and add lab property to reservations from each collection
-        const andrewReservations = (await Andrew.find({ 'reservations.name': user.fullName }).lean()).flatMap(doc => 
-            doc.reservations.filter(res => res.name === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
+        const andrewReservations = (await Andrew.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'AG101', seat: doc.seat }))
         );
 
-        const goksReservations = (await Goks.find({ 'reservations.name': user.fullName }).lean()).flatMap(doc => 
-            doc.reservations.filter(res => res.name === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
+        const goksReservations = (await Goks.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'GK101', seat: doc.seat }))
         );
 
-        const velascoReservations = (await Velasco.find({ 'reservations.name': user.fullName }).lean()).flatMap(doc => 
-            doc.reservations.filter(res => res.name === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
+        const velascoReservations = (await Velasco.find({ 'reservations.reservedby': user.fullName }).lean()).flatMap(doc => 
+            doc.reservations.filter(res => res.reservedby === user.fullName).map(res => ({ ...res, lab: 'VL101', seat: doc.seat }))
         );
 
         // Combine all reservations
