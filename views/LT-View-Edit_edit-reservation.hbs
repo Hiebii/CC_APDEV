@@ -33,9 +33,8 @@
             dateofreservation: document.getElementById('selectedDate').value, 
             timeofreservation: document.getElementById('time-dropdown').value 
         };
-                    console.log("Data to be sent: ", data);
 
-        fetch(`/CT_Edit-Reservation/{{reservationData._id}}`, {
+        fetch(`/LT_Edit-Reservation/{{reservationData._id}}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,7 +43,7 @@
         })
         .then(response => {
             if (response.ok) {
-                window.location.href = '/CT-View-Edit_success-edit'; // Redirect to confirmation page
+                window.location.href = '/LT-View-Edit_success-edit'; // Redirect to confirmation page
             } else {
                 console.error('Failed to send data');;
             }
@@ -97,10 +96,7 @@
     <main>
         <div class="title-1">EDIT RESERVATION</div>
         <div class="outer-box">
-            {{#if error}}
-                <div class="error-text">{{error}}</div>
-            {{/if}}
-            <form action ="/CT_Edit-Reservation/{{reservationData._id}}" method = "POST"></form>
+            <form action ="/CT-View-Edit_edit-reservation/{{reservationData._id}}" method = "POST"></form>
                 <input type ="hidden" id="dblab" value="{{ reservationData.room }}">
                 <ul class="details">
                     <li><span class="bold">Name:</span> {{user.fullName}} </li>
