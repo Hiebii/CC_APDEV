@@ -5,155 +5,34 @@ mongoose.connect('mongodb+srv://johnfredricktario:password_12@tinkerlab.mbh0jj9.
 
 // run this in cmd (e.g node Insert_velasco.js)
 const sampleVelasco = [ {
-  seat: "VL01",
-  reservations: [
-    {
-      
-      name: "Mari Santos",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-08-01",
-      dateofreservation: "2024-08-02",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "7:30AM-8:00AM",
-      reservedby: "Mari Santos"
-    }
-  ]
+  seat: "VL01"
 },
 {
-  seat: "VL02",
-  reservations: [
-    {
-      name: "Carlos Bautista",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-08-01",
-      dateofreservation: "2024-08-02",
-      timeofrequest: "9:00 AM",
-      timeofreservation: "7:30AM-8:00AM",
-      reservedby: "Carlos Bautista"
-    }
-  ]
+  seat: "VL02"
 },
 {
-  seat: "VL03",
-  reservations: [
-    {
-      name: "Andres Hidalgo",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-08-01",
-      dateofreservation: "2024-08-02",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "7:30AM-08:00AM",
-      reservedby: "Andres Hidalgo"
-    }
-  ]
+  seat: "VL03"
 },
 {
-  seat: "VL04",
-  reservations: [
-    {
-      name: "Stephen Go",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-08-01",
-      dateofreservation: "2024-08-02",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "7:30AM-08:00AM",
-      reservedby: "Stephen Go"
-    }
-  ]
+  seat: "VL04"
 },
 {
-  seat: "VL05",
-  reservations: [
-    {
-      name: "Japeth Aguilar",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-08-01",
-      dateofreservation: "2024-08-02",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "7:30AM-08:00AM",
-      reservedby: "Japeth Aguilar"
-    }
-  ]
+  seat: "VL05"
 },
 {
-  seat: "VL06",
-  reservations: [
-    {
-      name: "Marie Espiritu",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-08-01",
-      dateofreservation: "2024-08-02",
-      timeofrequest: "10:00 AM",
-      timeofreservation: "10:30AM-11:00AM",
-      reservedby: "Marie Espiritu"
-    }
-  ]
+  seat: "VL06"
 },
 {
-  seat: "VL07",
-  reservations: [
-    {
-      name: "Claudette Escobar",
-      value: 1,
-      anonymous: 1,
-      dateofrequest: "2024-08-01",
-      dateofreservation: "2024-08-02",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "10:30AM-11:00AM",
-      reservedby: "Claudette Escobar"
-    }
-  ]
+  seat: "VL07"
 },
 {
-  seat: "VL08",
-  reservations: [
-    {
-      name: "Mari Santos",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-08-04",
-      dateofreservation: "2024-08-04",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "10:30AM-11:00AM",
-      reservedby: "Mari Santos"
-    }
-  ]
+  seat: "VL08"
 },
 {
-  seat: "VL09",
-  reservations: [
-    {
-      name: "Carlos Bautista",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-08-04",
-      dateofreservation: "2024-08-04",
-      timeofrequest: "9:00 AM",
-      timeofreservation: "7:30AM-8:00AM",
-      reservedby: "Carlos Bautista"
-    }
-  ]
+  seat: "VL09"
 },
 {
-  seat: "VL10",
-  reservations: [
-    {
-      name: "Andres Hidalgo",
-      value: 1,
-      anonymous: 0,
-      dateofrequest: "2024-08-04",
-      dateofreservation: "2024-08-04",
-      timeofrequest: "8:00 AM",
-      timeofreservation: "10:30AM-11:00AM",
-      reservedby: "Andres Hidalgo"
-    }
-  ]
+  seat: "VL10"
 },
 {
   seat: "VL11"
