@@ -544,7 +544,7 @@ app.get('/CT-View-Edit', async (req, res) => {
 
         const filteredReservations = [];
         for (const reservation of combinedReservations) {
-            if (reservation.name === userName) {
+            if (reservation.reservedby === userName) {
                 filteredReservations.push(reservation); // push filtered reservations by userName to temp array 'filteredReservations'
             }
         }
