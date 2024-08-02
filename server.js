@@ -230,6 +230,16 @@ app.post('/signup', async (req, res) => {
             return res.render('signup-labtechnician', { error: 'All fields are required!' });
             //return res.status(400).json({ error: 'All fields are required!', redirectUrl: '/signup-labtechnician'  });
         }
+
+        // Email validation for Students
+        if (title === 'Student' && !/^[^@]+_[^@]+@dlsu\.edu\.ph$/.test(email)) {
+            return res.render('signup-student', { error: 'Email must be in the format <br> (firstname)_(lastname)@dlsu.edu.ph' });
+        }
+
+        // Email validation for Lab Technicians
+        if (title === 'Lab Technician' && !/^[^@]+\.[^@]+@dlsu\.edu\.ph$/.test(email)) {
+            return res.render('signup-labtechnician', { error: 'Email must be in the format <br> (firstname).(lastname)@dlsu.edu.ph' });
+        }
         
         const existingEmail = await Users.findOne({ email });
         if (existingEmail && password===confirmpassword && title === 'Student'){
@@ -333,10 +343,19 @@ app.post('/login', async (req, res) => {
 
 app.get('/logout', (req, res) =>  {
     req.session.destroy((err)=>{
+        console.log('Attempting to destroy session and clear cookies...');
         if (err){
             console.error(err);
             return res.status(500).send('Server Error!');
         }
+        console.log('Session destroyed. Clearing cookies...');
+        res.clearCookie('sessionID', { path: '/' });
+        res.clearCookie('email', { path: '/' });
+        res.clearCookie('title', { path: '/' });
+        res.clearCookie('password', { path: '/' });
+        res.clearCookie('connect.sid', { path: '/' });
+
+        console.log('Cookies cleared. Redirecting...');
         res.redirect('/');
     });
 });
