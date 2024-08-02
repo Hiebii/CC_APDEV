@@ -33,6 +33,7 @@
             dateofreservation: document.getElementById('selectedDate').value, 
             timeofreservation: document.getElementById('time-dropdown').value 
         };
+                    console.log("Data to be sent: ", data);
 
         fetch(`/CT_Edit-Reservation/{{reservationData._id}}`, {
             method: 'POST',
@@ -96,6 +97,9 @@
     <main>
         <div class="title-1">EDIT RESERVATION</div>
         <div class="outer-box">
+            {{#if error}}
+                <div class="error-text">{{error}}</div>
+            {{/if}}
             <form action ="/CT_Edit-Reservation/{{reservationData._id}}" method = "POST"></form>
                 <input type ="hidden" id="dblab" value="{{ reservationData.room }}">
                 <ul class="details">

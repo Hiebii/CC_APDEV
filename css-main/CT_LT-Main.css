@@ -343,3 +343,10 @@ td {
     color: #B27409;
     text-align: center;
 }
+
+.error-text{
+    font-family: "Inter", sans-serif;
+    font-size:40px;
+    text-align:center;
+    color:red;
+}

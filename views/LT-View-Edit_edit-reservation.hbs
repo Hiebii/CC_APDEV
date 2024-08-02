@@ -34,7 +34,7 @@
             timeofreservation: document.getElementById('time-dropdown').value 
         };
 
-        fetch('/LT-View-Edit_success-edit', {
+        fetch(`/LT_Edit-Reservation/{{reservationData._id}}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
