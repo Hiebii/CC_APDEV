@@ -417,10 +417,19 @@ app.post('/login', async (req, res) => {
 
 app.get('/logout', (req, res) =>  {
     req.session.destroy((err)=>{
+        console.log('Attempting to destroy session and clear cookies...');
         if (err){
             console.error(err);
             return res.status(500).send('Server Error!');
         }
+        console.log('Session destroyed. Clearing cookies...');
+        res.clearCookie('sessionID', { path: '/' });
+        res.clearCookie('email', { path: '/' });
+        res.clearCookie('title', { path: '/' });
+        res.clearCookie('password', { path: '/' });
+        res.clearCookie('connect.sid', { path: '/' });
+
+        console.log('Cookies cleared. Redirecting...');
         res.redirect('/');
     });
 });
