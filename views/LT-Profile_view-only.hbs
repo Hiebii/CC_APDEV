@@ -1,5 +1,6 @@
-   <head>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap" rel="stylesheet">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,200&display=swap"
+        rel="stylesheet">
     <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
     <link rel="stylesheet" href="css-main/cssmainwebsite.css">
     <link rel="stylesheet" href="css-main/cssprofilepage.css">
@@ -7,8 +8,9 @@
     <link rel="icon" href="images/icon.png">
     <script src="../js-main/search2.js"></script>
     <title>tinkerlab.</title>
-   </head> 
-   <body>
+</head>
+
+<body>
 
     <!-- tinkerlab logo header -->
     <div class="header">
@@ -24,23 +26,23 @@
         </div>
         <div class="btndivider">
             <a href="/LAndrew">
-            <button class="btndesign" id="reservationbtn">Reservation</button>
-           </a>
+                <button class="btndesign" id="reservationbtn">Reservation</button>
+            </a>
         </div>
         <div class="btndivider">
             <a href="/LT-View-Edit">
-            <button class="btndesign" id="vieweditbtn">View/Edit</button>
+                <button class="btndesign" id="vieweditbtn">View/Edit</button>
             </a>
         </div>
-        <div class="btndivider">     
-            <a href ="/LT-Profile">
+        <div class="btndivider">
+            <a href="/LT-Profile">
                 <button class="btndesign" id="profilebtn">Profile</button>
             </a>
-                <div class="dropdown">
-                    <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
-                </div>
+            <div class="dropdown">
+                <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
+            </div>
         </div>
-        
+
         <form id="searchForm" action="/search2" method="GET" autocomplete="off">
             <div class="searchdivider">
                 <div class="searchfield">
@@ -57,71 +59,101 @@
             </div>
         </form>
 
-       
-    </div>
-<!-- profile body -->
-<div class="profilediv">
 
-    <!-- left profile side -->
-    <div class="profilediv1">
-        <div id="photo-div">
-            <div class="profileborder">
-                <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
+    </div>
+    <!-- profile body -->
+    <div class="profilediv">
+
+        <!-- left profile side -->
+        <div class="profilediv1">
+            <div id="photo-div">
+                <div class="profileborder">
+                    <img class="profilephoto" src="{{user.profilePhoto}}" id="profilePhoto">
+                </div>
+            </div>
+            <br>
+            <div id="role-div">
+                <h1 class="role">{{user.title}}</h1>
             </div>
         </div>
-        <br>
-        <div id="role-div">
-            <h1 class="role">{{user.title}}</h1>
+
+        <hr class="vl">
+
+        <!-- right profile side -->
+        <div class="profilediv2">
+            <h2 class="profileheader">{{user.fullName}}</h2>
+            <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
+
+            <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
+            <div class="scheddiv">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seat No.</th>
+                            <th>Computer Lab</th>
+                            <th>Date of Request</th>
+                            <th>Time of Request</th>
+                            <th>Date of Reservation</th>
+                            <th>Time of Reservation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each reservations}}
+                        <tr>
+                            <td>{{this.seat}}</td>
+                            <td>{{this.lab}}</td>
+                            <td>{{this.dateofrequest}}</td>
+                            <td>{{this.timeofrequest}}</td>
+                            <td>{{this.dateofreservation}}</td>
+                            <td>{{this.timeofreservation}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <hr class="vl"> 
-
-    <!-- right profile side -->
-    <div class="profilediv2">
-        <h2 class="profileheader">{{user.fullName}}</h2>
-        <textarea readonly class="profiledesc" rows="7" cols="80">{{user.description}}</textarea>
-
-        <h2 id="reservationheader">LIST OF RESERVATIONS</h2>
-        <div class="scheddiv">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Seat No.</th>
-                        <th>Computer Lab</th>
-                        <th>Date of Request</th>
-                        <th>Time of Request</th>
-                        <th>Date of Reservation</th>
-                        <th>Time of Reservation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each reservations}}
-                    <tr>
-                        <td>{{this.seat}}</td>
-                        <td>{{this.lab}}</td>
-                        <td>{{this.dateofrequest}}</td>
-                        <td>{{this.timeofrequest}}</td>
-                        <td>{{this.dateofreservation}}</td>
-                        <td>{{this.timeofreservation}}</td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+    <!-- Hidden confirmation dialog -->
+    <script src="js/prompt.js"></script>
+    <div id="dialog-1" class="dialog-1">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">DELETE ACCOUNT</span>?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt()">Back</button>
+            <button class="purple-button" onclick="showPrompt3()">Confirm</button>
         </div>
-    </div>  
-</div>   
-    </body>
-   <footer>
+    </div>
+
+    <script src="js/prompt.js"></script>
+    <div id="dialog-2" class="dialog-2">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt2()">Back</button>
+            <button class="purple-button" onclick="showPrompt3()">Confirm</button>
+        </div>
+    </div>
+
+    <script src="js/prompt.js"></script>
+    <div id="dialog-3" class="dialog-3">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">PROCESS SUCCESSFUL.</p>
+        <div class="button-container">
+            <button class="purple-button" onclick="logout()">Confirm</button>
+        </div>
+    </div>
+</body>
+<footer>
     <div class="footer-container">
         <div class="footer-column-1">
             <img class="footer-logo" src="images/tinkerlablogo.png">
-            <p><span class = "tagline">Reserve in a Blink, then Explore and Think!</span></p>
+            <p><span class="tagline">Reserve in a Blink, then Explore and Think!</span></p>
         </div>
         <div class="footer-column-2">
             <h3>About</h3>
-            <p class = "footer-about">an intuitive platform that allows students to easily<br> 
-                reserve, check availability, and manage their computer<br> 
+            <p class="footer-about">an intuitive platform that allows students to easily<br>
+                reserve, check availability, and manage their computer<br>
                 lab seats, ensuring hassle-free access for projects,<br>studying, and creative work.</p>
         </div>
         <div class="footer-column-3">
@@ -145,4 +177,5 @@
         </div>
     </div>
 </footer>
+
 </html>

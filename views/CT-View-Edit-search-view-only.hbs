@@ -31,14 +31,21 @@
     <div class="btndivider">
         <button class="btndesign" id="profilebtn" disabled>Profile</button>
     </div>
+           <form id="searchForm" action="/search" method="GET" autocomplete="off">
             <div class="searchdivider">
                 <div class="searchfield">
-                    <input class="searchinput" type="text" name="name" placeholder="Search..." disabled>
+                    <input class="searchinput" type="text" name="name" placeholder="Search..." required>
                     <button class="searchbutton" type="submit">
                         <img src="images/searchglass.png" class="imgbtn" alt="Search">
                     </button>
                 </div>
+                <div class="suggestions-div">
+                    <div class="suggestion-card">
+                        <!--  a href cards of users will be inserted here -->
+                    </div>
+                </div>
             </div>
+        </form>
   </div>
 
      <div class="lab-button">
@@ -101,7 +108,7 @@
                     <td>{{this.date}}</td>
                     <td>{{this.availableSeats}}</td>
                     <td>
-                        <button class="go-button"><a href="/Velasco">Go</a></button>
+                        <!--<button class="go-button"><a href="/Velasco">Go</a></button>-->
                     </td>
                 </tr>
                 {{/each}}
