@@ -289,6 +289,7 @@ app.post('/signup', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { email, password, rememberMe }  = req.body;
 
+    const rememberMeValue = rememberMe === 'true';
     try {
         const user = await Users.findOne({ email });
         if (!user){
@@ -298,6 +299,7 @@ app.post('/login', async (req, res) => {
         if (!isMatch){
             return res.render('login-page', { error: 'Invalid Password!' });
         }
+
         
         /*if (user.password !== password){
             return res.render('login-page', { error: 'Invalid Password!' });
@@ -309,14 +311,22 @@ app.post('/login', async (req, res) => {
         res.cookie('email', user.email, { maxAge: 30 * 24 * 60 * 60 * 1000});
         res.cookie('title', user.title, { maxAge: 30 * 24 * 60 * 60 * 1000});
         res.cookie('password', user.password, {maxAge: 30 * 24 * 60 * 60 * 1000});
+        res.cookie('rememberMe', rememberMeValue, { maxAge: 30 * 24 * 60 * 60 * 1000})
         if (req.cookies.sessionID && req.cookies.email && req.cookies.title && req.cookies.password){
             console.log('YES - Cookie exists');
+            console.log("Session ID:", req.cookies.sessionID);
+            console.log("Email:", req.cookies.email);
+            console.log("Title:", req.cookies.title);
+            console.log("Password:", req.cookies.password);
+            console.log("Remember Me:", req.cookies.rememberMe);
+
+        }else{
+            console.log("NO - NO SUCH COOKIES EXIST");
             console.log("Session ID:", req.cookies.sessionID);
             console.log("Email:",req.cookies.email);
             console.log("Title:",req.cookies.title);
             console.log("Password:",req.cookies.password);
-        }else{
-            console.log("NO - NO SUCH COOKIES EXIST");
+            console.log("Remember Me:",req.cookies.rememberMe);
         }
       
         if (rememberMe){
@@ -350,13 +360,23 @@ app.get('/logout', (req, res) =>  {
         }
         console.log('Session destroyed. Clearing cookies...');
         res.clearCookie('sessionID', { path: '/' });
-        res.clearCookie('email', { path: '/' });
-        res.clearCookie('title', { path: '/' });
-        res.clearCookie('password', { path: '/' });
-        res.clearCookie('connect.sid', { path: '/' });
-
-        console.log('Cookies cleared. Redirecting...');
-        res.redirect('/');
+        if(req.cookies.rememberMe === 'false'){
+            res.clearCookie('email', { path: '/' });
+            res.clearCookie('title', { path: '/' });
+            res.clearCookie('password', { path: '/' });
+            res.clearCookie('connect.sid', { path: '/' });
+    
+            console.log('Cookies cleared. Redirecting...');
+            res.redirect('/');
+        }else{
+            res.clearCookie('title', { path: '/' });
+            res.clearCookie('password', { path: '/' });
+            res.clearCookie('connect.sid', { path: '/' });
+    
+            console.log('Cookies cleared. Redirecting...');
+            res.redirect('/');
+        }
+       
     });
 });
 
@@ -390,7 +410,7 @@ app.get('/', async (req,res) => {
             console.error(err);
         }
     }
-    res.render('login-page');
+    res.render('login-page', {email: req.cookies.email});
 });
 
 //Login & Sign Up Page

@@ -50,7 +50,7 @@
                                 <form action ="/login" method="POST">
                                 <div class="textcontainer-login">
                                     <img src="images/email-icon.png" class="texticon-email-login">
-                                    <input type="text" class="textbox-login" id="login-email" name="email" placeholder="Email Address">
+                                    <input type="text" class="textbox-login" id="login-email" name="email" value="{{email}}" placeholder="Email Address">
                                 </div>   
 
                                 <div class="textcontainer-login">
@@ -58,10 +58,11 @@
                                     <input type="password" class="textbox-login" id="login-password" name="password" placeholder="Password">
                                 </div>                    
                                 <input type="submit" id="login-button" class="submitbutton" value="LOGIN"> 
-                                </form> 
+                                
                             </div>
                             <div class="contents-bottom">
-                            <input type="checkbox" class="checkboxCCS">Remember me
+                            <input type="checkbox" class="checkboxCCS" name="rememberMe" value="true" {{#if rememberMe}}checked{{/if}}>Remember me
+                            </form> 
                             </div>
                     </div>
 
