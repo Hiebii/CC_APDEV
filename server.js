@@ -1279,8 +1279,8 @@ app.delete('/CT-cancel-reservation/:reservationId', async (req, res) => {
                 // console.log(`User's name: ${userName}`);
                 // console.log(`Reservation's reservedby: ${reservation.reservedby}`);
 
-                // Check if the reservation's reservedby field matches the current user's name
-                if (reservation && reservation.reservedby === userName) {
+                // Check if the reservation's name field matches the current user's name
+                if (reservation && reservation.name === userName) {
                     seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
                     await seat.save();
                     seatFound = true;
