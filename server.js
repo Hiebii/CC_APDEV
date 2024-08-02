@@ -8,7 +8,9 @@ const { envPort, sessionKey } = require('./config');
 /* Initialize express */
 const express = require('express');
 const session = require('express-session');
-const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+const bcrypt = require('bcrypt');
 const app = express();
 const port = envPort || 9090; 
 
@@ -256,7 +258,10 @@ app.post('/signup', async (req, res) => {
             //return res.status(400).json({ error: 'User already exists!', redirectUrl: '/signup-labtechnician' });
         }
         else{
-            const newUser = new Users({ fullName, email, password, title });
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password,saltRounds);
+
+            const newUser = new Users({ fullName, email, password: hashedPassword, title });
             await newUser.save();
             return res.render('login-page', { message: 'User registered successfully!' });
             // return res.status(201).json({ message: 'User registered successfully!', redirectUrl: '/login-page' });
@@ -271,20 +276,45 @@ app.post('/signup', async (req, res) => {
 
 /*-----------------------      LOGIN      --------------------------*/ 
 app.post('/login', async (req, res) => {
-    const { email, password }  = req.body;
+    const { email, password, rememberMe }  = req.body;
 
     try {
         const user = await Users.findOne({ email });
         if (!user){
             return res.render('login-page', { error: 'User does not exist!' });
         }
-
-        if (user.password !== password){
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch){
             return res.render('login-page', { error: 'Invalid Password!' });
         }
+        
+        /*if (user.password !== password){
+            return res.render('login-page', { error: 'Invalid Password!' });
+        }*/
 
         req.session.userId = user._id; // Store user ID in session
 
+        res.cookie('sessionID', req.sessionID, { maxAge: 30 * 24 * 60 * 60 * 1000});
+        res.cookie('email', user.email, { maxAge: 30 * 24 * 60 * 60 * 1000});
+        res.cookie('title', user.title, { maxAge: 30 * 24 * 60 * 60 * 1000});
+        res.cookie('password', user.password, {maxAge: 30 * 24 * 60 * 60 * 1000});
+        if (req.cookies.sessionID && req.cookies.email && req.cookies.title && req.cookies.password){
+            console.log('YES - Cookie exists');
+            console.log("Session ID:", req.cookies.sessionID);
+            console.log("Email:",req.cookies.email);
+            console.log("Title:",req.cookies.title);
+            console.log("Password:",req.cookies.password);
+        }else{
+            console.log("NO - NO SUCH COOKIES EXIST");
+        }
+      
+        if (rememberMe){
+            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // This is around 30 days
+        } else {
+            req.session.cookie.expires = false;
+        }
+
+        
         if (user.title === 'Lab Technician'){
             res.redirect('/LT-homepage');
         } else if (user.title === 'Student'){
@@ -298,6 +328,18 @@ app.post('/login', async (req, res) => {
     }
 });
 
+/*-----------------------      LOGOUT      --------------------------*/ 
+
+app.get('/logout', (req, res) =>  {
+    req.session.destroy((err)=>{
+        if (err){
+            console.error(err);
+            return res.status(500).send('Server Error!');
+        }
+        res.redirect('/');
+    });
+});
+
 /*-----------------------      ROUTES      --------------------------*/ 
 // Serve the /login-page.html file at the root route
 /*app.get('/', function(req, res) {
@@ -306,7 +348,28 @@ app.post('/login', async (req, res) => {
 
 //Login Start Route
 
-app.get('/', (req, res) =>{
+function ensureAuthenticated (req, res, next) { 
+    if (req.session.userId){
+        return next();
+    }
+    res.redirect('/');
+}
+
+app.get('/', async (req,res) => {
+    if (req.session.userId){
+        try {
+            const user = await Users.findById(req.session.userId).lean();
+            if (user){
+                if (user.title === 'Lab Technician'){
+                    res.redirect('/LT-homepage');
+                } else if (user.title === 'Student'){
+                    res.redirect('/CT-homepage');
+                }
+            }
+        }catch(err){
+            console.error(err);
+        }
+    }
     res.render('login-page');
 });
 
@@ -677,10 +740,19 @@ app.get('/signup-labtechnician', function(req, res) {
     res.render('signup-labtechnician');
 });
 
-app.get('/CT-homepage', function(req, res) {
-    res.sendFile(__dirname + '/CT/CT-homepage.html');
+app.get('/CT-homepage', ensureAuthenticated, async(req, res) =>{
+    try{
+        const user = await Users.findById(req.session.userId).lean();
+        if (user && user.title === 'Student') {
+            res.sendFile(__dirname + '/CT/CT-homepage.html');
+        } else {
+            res.redirect('/'); // Redirect to login or an appropriate page
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error!');
+    }
 });
-
 
 /*--------------------------   CT  MENU    ---------------------------*/
 // Displays the reservations in combinedReservations
@@ -775,6 +847,313 @@ app.get('/LT-View-Edit', async (req, res) => {
         console.error(err);
         res.status(500).send('An error occurred');
     }
+});
+
+/*--------------------------   EDIT RESERVATION    ---------------------------*/
+app.get('/CT-View-Edit_edit-reservation/:reservationId', async (req, res) =>{
+    //res.sendFile(__dirname + '/CT/CT-View-Edit_edit-reservation.html');
+
+    try {
+        
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+        const { reservationId } = req.params;
+        let reservationDetails = null;
+        
+        const seatCollections = [Andrew, Goks, Velasco];
+
+        for (const SeatModel of seatCollections){
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId});
+            if (seat){
+                const reservation = seat.reservations.id(reservationId);
+                if (reservation){
+
+                    reservationDetails = {
+                        seatNames: seat.seat,
+                        lab: SeatModel.modelName,
+                        ...reservation.toObject()
+
+                    };
+                }
+            }
+        }
+
+        let seatOptions = [];
+
+        if (reservationDetails.lab == "Goks"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `GK${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Andrew"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `A${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Velasco"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `VL${String(i+1).padStart(2,'0')}`);
+        }
+        console.log(reservationDetails);
+        if (reservationDetails){
+        // Render the reservation details page with user and reservationData
+        res.render('CT-View-Edit_edit-reservation', {user, reservationData: reservationDetails, seatOptions});
+        }
+    }catch(err){
+        console.error(err);
+        res.status(500).send('An error occurred!!');
+    }
+});
+
+app.get('/LT-View-Edit_edit-reservation/:reservationId', async (req, res) =>{
+    //res.sendFile(__dirname + '/LT/LT-View-Edit_edit-reservation.html');
+
+    try {
+        
+        const userId = req.session.userId; // Assuming userId is stored in session
+
+        // Fetch user data
+        const user = await Users.findById(userId).lean(); // Assuming Users is your user model
+        const { reservationId } = req.params;
+        let reservationDetails = null;
+        
+        const seatCollections = [Andrew, Goks, Velasco];
+
+        for (const SeatModel of seatCollections){
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId});
+            if (seat){
+                const reservation = seat.reservations.id(reservationId);
+                if (reservation){
+
+                    reservationDetails = {
+                        seatNames: seat.seat,
+                        lab: SeatModel.modelName,
+                        ...reservation.toObject()
+
+                    };
+                }
+            }
+        }
+
+        let seatOptions = [];
+
+        if (reservationDetails.lab == "Goks"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `GK${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Andrew"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `A${String(i+1).padStart(2,'0')}`);
+        }
+        else if (reservationDetails.lab == "Velasco"){
+            seatOptions = Array.from({ length: 30 }, (_, i) => `VL${String(i+1).padStart(2,'0')}`);
+        }
+        console.log(reservationDetails);
+        if (reservationDetails){
+        // Render the reservation details page with user and reservationData
+        res.render('LT-View-Edit_edit-reservation', {user, reservationData: reservationDetails, seatOptions});
+        }
+    }catch(err){
+        console.error(err);
+        res.status(500).send('An error occurred!!');
+    }
+});
+/*
+app.post('/editReservation', async (req, res) => {
+    const data = req.body;
+    console.log(data);
+});*/
+app.post('/CT_Edit-Reservation/:reservationId', async (req, res) => {
+    const data = req.body;
+    console.log('Request body:', req.body);
+    const { reservationId } = req.params;
+    console.log('Reservation ID:', req.params.reservationId);
+
+    if (!Array.isArray(data.seatNames) || data.seatNames.length !== 1) {
+        return res.status(400).send('seatNames should be an array with one seat name');
+    }
+
+    try {
+        const newSeatName = data.seatNames[0];
+        const seatCollections = [Andrew, Goks, Velasco];
+        let reservationFound = false;
+        let isSeatAvailable = true;
+
+        let originalReservation = null;
+        let originalSeat = null;
+
+//Updating
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                const reservation = seat.reservations.id(reservationId);
+
+                if (reservation) {
+                    // Remove the original reservation
+                    seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
+                    await seat.save();
+
+                    // Add new reservation
+                    const filter = { seat: newSeatName };
+                    const update = {
+                        $push: {
+                            reservations: {
+                                name: data.fullName,
+                                reservedby: data.fullName,
+                                anonymous: data.anonymous,
+                                dateofrequest: data.dateofrequest,
+                                timeofrequest: data.timeofrequest,
+                                dateofreservation: data.dateofreservation,
+                                timeofreservation: data.timeofreservation,
+                                value: 1
+                            }
+                        }
+                    };
+
+                    let updatePromise;
+                    if (data.dblab === "Andrew") {
+                        updatePromise = Andrew.findOneAndUpdate(filter, update, { new: true });
+                    } else if (data.dblab === "Goks") {
+                        updatePromise = Goks.findOneAndUpdate(filter, update, { new: true });
+                    } else if (data.dblab === "Velasco") {
+                        updatePromise = Velasco.findOneAndUpdate(filter, update, { new: true });
+                    } else {
+                        throw new Error(`Unsupported dblab value: ${data.dblab}`);
+                    }
+
+                    await updatePromise;
+                    reservationFound = true;
+
+                    req.session.editSuccessData = {
+                        seatNames:newSeatName,
+                        lab:data.dblab,
+                        ...data
+                    };
+
+                    break;
+                }
+            }
+        }
+
+        if (reservationFound) {
+           // res.status(200).send('Reservation edited successfully');
+           res.redirect('/CT-View-Edit_success-edit');
+
+        } else {
+            res.status(404).send('Original reservation not found');
+        }
+    } catch (err) {
+        console.error('Error in editing reservation:', err);
+        res.status(500).send('An error occurred while editing the reservation');
+    }
+});
+
+app.post('/LT_Edit-Reservation/:reservationId', async (req, res) => {
+    const data = req.body;
+    console.log('Request body:', req.body);
+    const { reservationId } = req.params;
+    console.log('Reservation ID:', req.params.reservationId);
+
+    if (!Array.isArray(data.seatNames) || data.seatNames.length !== 1) {
+        return res.status(400).send('seatNames should be an array with one seat name');
+    }
+
+    try {
+        const newSeatName = data.seatNames[0];
+        const seatCollections = [Andrew, Goks, Velasco];
+        let reservationFound = false;
+        let isSeatAvailable = true;
+
+        let originalReservation = null;
+        let originalSeat = null;
+
+//Updating
+
+        for (const SeatModel of seatCollections) {
+            const seat = await SeatModel.findOne({ 'reservations._id': reservationId });
+            if (seat) {
+                const reservation = seat.reservations.id(reservationId);
+
+                if (reservation) {
+                    // Remove the original reservation
+                    seat.reservations = seat.reservations.filter(res => res._id.toString() !== reservationId);
+                    await seat.save();
+
+                    // Add new reservation
+                    const filter = { seat: newSeatName };
+                    const update = {
+                        $push: {
+                            reservations: {
+                                name: data.fullName,
+                                reservedby: data.fullName,
+                                anonymous: data.anonymous,
+                                dateofrequest: data.dateofrequest,
+                                timeofrequest: data.timeofrequest,
+                                dateofreservation: data.dateofreservation,
+                                timeofreservation: data.timeofreservation,
+                                value: 1
+                            }
+                        }
+                    };
+
+                    let updatePromise;
+                    if (data.dblab === "Andrew") {
+                        updatePromise = Andrew.findOneAndUpdate(filter, update, { new: true });
+                    } else if (data.dblab === "Goks") {
+                        updatePromise = Goks.findOneAndUpdate(filter, update, { new: true });
+                    } else if (data.dblab === "Velasco") {
+                        updatePromise = Velasco.findOneAndUpdate(filter, update, { new: true });
+                    } else {
+                        throw new Error(`Unsupported dblab value: ${data.dblab}`);
+                    }
+
+                    await updatePromise;
+                    reservationFound = true;
+
+                    req.session.editSuccessData = {
+                        seatNames:newSeatName,
+                        lab:data.dblab,
+                        ...data
+                    };
+
+                    break;
+                }
+            }
+        }
+
+        if (reservationFound) {
+           // res.status(200).send('Reservation edited successfully');
+           res.redirect('/LT-View-Edit_success-edit');
+
+        } else {
+            res.status(404).send('Original reservation not found');
+        }
+    } catch (err) {
+        console.error('Error in editing reservation:', err);
+        res.status(500).send('An error occurred while editing the reservation');
+    }
+});
+
+
+
+// CT View Edit Success
+/*
+app.post('/CT-View-Edit_success-edit', (req, res) => {
+    data = req.body;
+    res.status(200).send('Reservation data received');
+});*/
+
+app.get('/CT-View-Edit_success-edit', function(req, res) {
+    const data = req.session.editSuccessData || {};
+    res.render('CT-View-Edit_success-edit', data);
+});
+
+// LT View Edit Success
+/*
+app.post('/LT-View-Edit_success-edit', (req, res) => {
+    data = req.body;
+    res.render('LT-View-Edit_success-edit', data);
+});*/
+
+app.get('/LT-View-Edit_success-edit', function(req, res) {
+    const data = req.session.editSuccessData || {};
+    res.render('LT-View-Edit_success-edit', data);
 });
 
 /*--------------------------   CANCEL RESERVATION    ---------------------------*/
@@ -932,16 +1311,6 @@ app.get('/CT-View-Edit_reservation-details', async (req, res) => {
     }
 });
 
-
-
-app.post('/CT-View-Edit_success-edit', (req, res) => {
-    data = req.body;
-    res.status(200).send('Reservation data received');
-});
-
-app.get('/CT-View-Edit_success-edit', function(req, res) {
-    res.render('CT-View-Edit_success-edit', data);
-});
 /*-----------------------      CT PROFILE      --------------------------*/ 
 app.get('/CT-Profile', async (req, res) => {
     try {
