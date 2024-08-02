@@ -15,7 +15,7 @@
     // JavaScript for submitting form data
     function collectAndSendData() {
         //const fullName = document.getElementById('fullName').value;
-        const fullName = "{{user.fullName}}";  //Assuming user.fullName is a variable accessible here
+        const fullName = "{{reservationData.name}}";  //Assuming user.fullName is a variable accessible here
         const isAnonymous = document.getElementById('anonymousCheckbox').checked ? 1 : 0;
         const isAnonyname = isAnonymous ? "Yes" : "No";
         const dblab = document.getElementById('dblab').value;
@@ -99,13 +99,13 @@
             <form action ="/CT-View-Edit_edit-reservation/{{reservationData._id}}" method = "POST"></form>
                 <input type ="hidden" id="dblab" value="{{ reservationData.room }}">
                 <ul class="details">
-                    <li><span class="bold">Name:</span> {{user.fullName}} </li>
+                    <li><span class="bold">Name:</span> {{reservationData.name}} </li>
                     <li><input type="checkbox" id="anonymousCheckbox"> <span>Anonymous</span></li>
                     <li><span class="bold">Computer Lab:</span> {{ reservationData.lab }}</li>
                     <li><span class="bold">Seat No.:</span> 
                         <select id="seatDropdown" name="seat" class="time-dropdown" >
                             {{#each seatOptions}}
-                                <option value="{{this}}">{{this}}</option>
+                                <option value="{{this}}" >{{this}}</option>
                             {{/each}} </li>
                         </select>
                     <!---<li><span class="bold">Seat No.:</span> <input type ="text" value="{{ reservationData.seatNames }}"> </li>-->
