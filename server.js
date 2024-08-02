@@ -293,7 +293,7 @@ app.post('/login', async (req, res) => {
         }*/
 
         req.session.userId = user._id; // Store user ID in session
-
+/*
         res.cookie('sessionID', req.sessionID, { maxAge: 30 * 24 * 60 * 60 * 1000});
         res.cookie('email', user.email, { maxAge: 30 * 24 * 60 * 60 * 1000});
         res.cookie('title', user.title, { maxAge: 30 * 24 * 60 * 60 * 1000});
@@ -313,7 +313,7 @@ app.post('/login', async (req, res) => {
         } else {
             req.session.cookie.expires = false;
         }
-
+*/
         
         if (user.title === 'Lab Technician'){
             res.redirect('/LT-homepage');
