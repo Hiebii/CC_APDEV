@@ -32,13 +32,13 @@
             <button class="btndesign" id="vieweditbtn">View/Edit</button>
             </a>
         </div>
-        <div class="btndivider">     
-            <a href ="/CT-Profile">
+        <div class="btndivider">
+            <a href="/CT-Profile">
                 <button class="btndesign" id="profilebtn">Profile</button>
             </a>
-                <div class="dropdown">
-                    <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
-                </div>
+            <div class="dropdown">
+                <a class="btndesign" id="logoutbtn" onclick="showPrompt2()">Logout</a>
+            </div>
         </div>
         
         <form id="searchForm" action="/search" method="GET" autocomplete="off">
@@ -112,6 +112,25 @@
     </div>  
 </div>   
     </body>
+    <!-- Hidden confirmation dialog -->
+    <script src="js/prompt.js"></script>
+    <div id="dialog-2" class="dialog-2">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">DO YOU CONFIRM TO <br><span class="red-text">LOG OUT</span>?</p>
+        <div class="button-container">
+            <button class="back-button" onclick="hidePrompt2()">Back</button>
+            <button class="purple-button" onclick="showPrompt3()">Confirm</button>
+        </div>
+    </div>
+
+    <script src="js/prompt.js"></script>
+    <div id="dialog-3" class="dialog-3">
+        <div class="dialog-header"></div>
+        <p class="prompt-text">PROCESS SUCCESSFUL.</p>
+        <div class="button-container">
+            <button class="purple-button" onclick="logout()">Go to Home</button>
+        </div>
+    </div>
    <footer>
     <div class="footer-container">
         <div class="footer-column-1">
