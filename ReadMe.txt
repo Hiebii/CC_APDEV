@@ -1,5 +1,5 @@
 <--- Read me --->
-AUTHORS: DLSU CCAPDEV: [S19 - TARIO, Fredrick : SANTIAGO, Monica : DE BELEN, Rafael Houie : CRAW, Charlemagne]
+AUTHORS: DLSU CCAPDEV: G18 [S19 - TARIO, Fredrick : SANTIAGO, Monica : DE BELEN, Rafael Houie : CRAW, Charlemagne]
 
 <--- GITHUB LINK --->
 https://github.com/Hiebii/CC_APDEV
@@ -32,4 +32,4 @@ cancel them within 10 minutes after the reserved time, and make reservations on 
 
 
 --- GITHUB LINK ---
-https://github.com/Hiebii/CC_APDEV
+https://github.com/Hiebii/CC_APDEV/tree/master
