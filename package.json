@@ -27,7 +27,8 @@
     "hbs": "^4.2.0",
     "lodash": "^4.17.21",
     "mongodb": "^6.8.0",
-    "mongoose": "^8.5.1"
+    "mongoose": "^8.5.2",
+    "node": "^20.16.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
